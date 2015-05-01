@@ -1,0 +1,12 @@
+Package: covR
+Type: Package
+Title: Tools to explore sequencing coverage in high-throughput sequencing projects
+Version: 1.0
+Date: 2015-05-01
+Author: Brian J. Knaus
+Maintainer: Brian J. Knaus <briank.lists@gmail.com>
+Description: Fast input of tabular data in text and gzip format.  Visualization of allele frequencies and coverage.
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.11.5)
+LinkingTo: Rcpp
+VignetteBuilder: knitr

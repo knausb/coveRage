@@ -1,0 +1,3 @@
+useDynLib(covR)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
