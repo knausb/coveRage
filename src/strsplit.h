@@ -13,7 +13,7 @@ class strsplit{
   public:
     //static 
 //    strsplit();
-//    void 
+//    static void 
     strsplit(std::string&, std::vector<std::string>&, char&);
 //    static void strsplit(std::string&, std::vector<std::string>&, char&);
 //  static void str_split(std::string&, std::vector<std::string>&, char&);

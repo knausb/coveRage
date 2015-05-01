@@ -43,8 +43,8 @@ Rcpp::NumericVector vcf_stats(std::string x) {
     std::vector < std::string > svec;  // Initialize vector of strings for parsed buffer.
     
     char line_split = '\n'; // Must be single quotes!
-//    strsplit mystring2;
-    strsplit::strsplit(mystring, svec, line_split);
+//    strsplit a1;
+//    strsplit::strsplit(mystring, svec, line_split);
 
     // Scroll through lines derived from the buffer.
     for(int i=0; i < svec.size() - 1; i++){
