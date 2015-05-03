@@ -5,24 +5,16 @@
 
 using namespace Rcpp;
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP covR_rcpp_hello_world() {
+// file_stats
+Rcpp::NumericVector file_stats(std::string filename, char sep, int skip);
+RcppExport SEXP covR_file_stats(SEXP filenameSEXP, SEXP sepSEXP, SEXP skipSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    __result = Rcpp::wrap(rcpp_hello_world());
-    return __result;
-END_RCPP
-}
-// vcf_stats
-Rcpp::NumericVector vcf_stats(std::string x);
-RcppExport SEXP covR_vcf_stats(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::string >::type x(xSEXP);
-    __result = Rcpp::wrap(vcf_stats(x));
+    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
+    Rcpp::traits::input_parameter< char >::type sep(sepSEXP);
+    Rcpp::traits::input_parameter< int >::type skip(skipSEXP);
+    __result = Rcpp::wrap(file_stats(filename, sep, skip));
     return __result;
 END_RCPP
 }

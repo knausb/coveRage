@@ -1,8 +1,10 @@
-#include "strsplit.h"
+#include "vcfRCommon.h"
 #include <string>
 
-//void 
-strsplit::strsplit(std::string& mystring, std::vector<std::string>& vec_o_strings, char& split){
+//static 
+//static 
+void vcfRCommon::strsplit(std::string& mystring, std::vector<std::string>& vec_o_strings, char& split){
+//void strsplit(std::string& mystring, std::vector<std::string>& vec_o_strings, char& split){
   // mystring is a string to be split on the character 'split'.
   // vec_o_strings is empty and will be pushed on to.
 
@@ -23,3 +25,5 @@ strsplit::strsplit(std::string& mystring, std::vector<std::string>& vec_o_string
   vec_o_strings.push_back(temp);
   
 }
+
+
