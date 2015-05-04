@@ -5,16 +5,44 @@
 
 using namespace Rcpp;
 
+// rcpp_hello_world
+List rcpp_hello_world();
+RcppExport SEXP covR_rcpp_hello_world() {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    __result = Rcpp::wrap(rcpp_hello_world());
+    return __result;
+END_RCPP
+}
 // file_stats
-Rcpp::NumericVector file_stats(std::string filename, char sep, int skip);
-RcppExport SEXP covR_file_stats(SEXP filenameSEXP, SEXP sepSEXP, SEXP skipSEXP) {
+Rcpp::NumericVector file_stats(std::string filename, char sep, int nrows, int skip, int verbose);
+RcppExport SEXP covR_file_stats(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
     Rcpp::traits::input_parameter< char >::type sep(sepSEXP);
+    Rcpp::traits::input_parameter< int >::type nrows(nrowsSEXP);
     Rcpp::traits::input_parameter< int >::type skip(skipSEXP);
-    __result = Rcpp::wrap(file_stats(filename, sep, skip));
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    __result = Rcpp::wrap(file_stats(filename, sep, nrows, skip, verbose));
+    return __result;
+END_RCPP
+}
+// read_matrix
+Rcpp::StringMatrix read_matrix(std::string filename, char sep, int nrows, int ncols, int skip, int verbose);
+RcppExport SEXP covR_read_matrix(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP ncolsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
+    Rcpp::traits::input_parameter< char >::type sep(sepSEXP);
+    Rcpp::traits::input_parameter< int >::type nrows(nrowsSEXP);
+    Rcpp::traits::input_parameter< int >::type ncols(ncolsSEXP);
+    Rcpp::traits::input_parameter< int >::type skip(skipSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    __result = Rcpp::wrap(read_matrix(filename, sep, nrows, ncols, skip, verbose));
     return __result;
 END_RCPP
 }
