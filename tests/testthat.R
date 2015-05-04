@@ -1,2 +1,2 @@
-library("testthat")
-test_check("covR")
+#library("testthat")
+#test_check("covR")

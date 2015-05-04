@@ -5,10 +5,33 @@ rcpp_hello_world <- function() {
     .Call('covR_rcpp_hello_world', PACKAGE = 'covR')
 }
 
+#' @title File input/output
+#' @name File input/output
+#' 
+#' @rdname read_matrix
+#' @aliases file_stats
+#' 
+#' @param filename name of a file
+#' @param sep character which delimits columns
+#' @param nrows number of rows to read
+#' @param skip number of rows to skip
+#' @param verbose should verbose output be generated
+#'
+#' @export
 file_stats <- function(filename, sep = '\t', nrows = -1L, skip = 0L, verbose = 1L) {
     .Call('covR_file_stats', PACKAGE = 'covR', filename, sep, nrows, skip, verbose)
 }
 
+#' @rdname read_matrix
+#' @aliases read_matrix
+#' 
+#' @param ncols number of columns for the matrix
+#' 
+#' @seealso
+#' \href{http://cran.r-project.org/web/packages/readr/index.html}{readr}
+#' \href{http://cran.r-project.org/web/packages/data.table/index.html}{data.table::fread}
+#'
+#' @export
 read_matrix <- function(filename, sep = '\t', nrows = 1L, ncols = 1L, skip = 0L, verbose = 1L) {
     .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, ncols, skip, verbose)
 }
