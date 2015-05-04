@@ -61,8 +61,10 @@ Rcpp::NumericVector file_stats( std::string filename,
     vcfRCommon::strsplit(mystring, svec, line_split);
   
     // Scroll through lines derived from the buffer.
-      for(int i=0; i < svec.size() - 1; i++){
+    for(int i=0; i < svec.size() - 0; i++){
       stats[0]++;
+      
+//      Rcpp::Rcout << svec[i] << "\n";
       
       int nrec = stats[0];
       if( nrec % nreport == 0 & verbose == 1){
@@ -99,7 +101,7 @@ Rcpp::NumericVector file_stats( std::string filename,
   // Count columns in last line.
   std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
   char col_split = sep; // Must be single quotes!
-  vcfRCommon::strsplit(svec[svec.size() - 1], column_vec, col_split);
+  vcfRCommon::strsplit(svec[svec.size() - 2], column_vec, col_split);
   stats[2] = column_vec.size();
   }
 
