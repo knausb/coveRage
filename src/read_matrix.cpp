@@ -202,7 +202,7 @@ Rcpp::StringMatrix read_matrix( std::string filename,
     split(mystring, line_split, line_vec);
   
     // Scroll through lines derived from the buffer.
-    for(int i=0; i < line_vec.size() - 2; i++){
+    for(int i=0; i < line_vec.size() - 1; i++){
       // Increment line counter
       stats[0]++;
       
