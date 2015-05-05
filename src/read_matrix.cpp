@@ -202,48 +202,48 @@ Rcpp::StringMatrix read_matrix( std::string filename,
     split(mystring, line_split, line_vec);
   
     // Scroll through lines derived from the buffer.
-      for(int i=0; i < line_vec.size() - 1; i++){
-        // Increment line counter
-        stats[0]++;
-        
-        if( stats[0] % nreport == 0 & verbose == 1){
-          Rcpp::Rcout << "\rProcessed line: " << stats[0];
-        }
+    for(int i=0; i < line_vec.size() - 2; i++){
+      // Increment line counter
+      stats[0]++;
+      
+      if( stats[0] % nreport == 0 & verbose == 1){
+        Rcpp::Rcout << "\rProcessed line: " << stats[0];
+      }
 
-        if( stats[0] >= skip + 1 ){
-          // Load line into matrix.
-          std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
-          char col_split = sep; // Must be single quotes!
-          vcfRCommon::strsplit(line_vec[i], column_vec, col_split);
-          split(line_vec[i], sep, column_vec);
+      if( stats[0] >= skip + 1 ){
+        // Load line into matrix.
+        std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
+        char col_split = sep; // Must be single quotes!
+        vcfRCommon::strsplit(line_vec[i], column_vec, col_split);
+        split(line_vec[i], sep, column_vec);
           
-          if(mymatrix.ncol() > column_vec.size()){
-            Rcerr << "Warning: more matrix rows than input elements on line: " << stats[0] << "\n";
-            Rcerr << "Using as many input elements that fit.\n";
-            for(int j = 0; j < column_vec.size(); j++){
-              mymatrix(stats[1], j) = column_vec[j];
-            }
-          } else if (mymatrix.ncol() < column_vec.size()){
-            Rcerr << "Warning: more input elements than matrix rows on line: " << stats[0] << "\n";
-            Rcerr << "Using as many input elements that fit.\n";
-            for(int j = 0; j < mymatrix.ncol(); j++){
-              mymatrix(stats[1], j) = column_vec[j];
-            }
-          } else if (mymatrix.ncol() == column_vec.size()){
-            for(int j = 0; j < mymatrix.ncol(); j++){
-              mymatrix(stats[1], j) = column_vec[j];
-            }          
+        if(mymatrix.ncol() > column_vec.size()){
+          Rcerr << "Warning: more matrix rows than input elements on line: " << stats[0] << "\n";
+          Rcerr << "Using as many input elements that fit.\n";
+          for(int j = 0; j < column_vec.size(); j++){
+            mymatrix(stats[1], j) = column_vec[j];
           }
-          stats[1]++;
-          if( nrows > 0 & stats[1] > nrows - 1 ){
-            gzclose (file);
-            if( verbose == 1){
-              Rcpp::Rcout << "\nCompleted: " << stats[0] << " lines.\n";
-            }
-            return mymatrix;
+        } else if (mymatrix.ncol() < column_vec.size()){
+          Rcerr << "Warning: more input elements than matrix rows on line: " << stats[0] << "\n";
+          Rcerr << "Using as many input elements that fit.\n";
+          for(int j = 0; j < mymatrix.ncol(); j++){
+            mymatrix(stats[1], j) = column_vec[j];
           }
+        } else if (mymatrix.ncol() == column_vec.size()){
+          for(int j = 0; j < mymatrix.ncol(); j++){
+            mymatrix(stats[1], j) = column_vec[j];
+          }          
+        }
+        stats[1]++;
+        if( nrows > 0 & stats[1] > nrows - 1 ){
+          gzclose (file);
+          if( verbose == 1){
+            Rcpp::Rcout << "\nCompleted: " << stats[0] << " lines.\n";
+          }
+          return mymatrix;
         }
       }
+    }
     // Manage the last line.
     lastline = line_vec[line_vec.size() - 1];
 
