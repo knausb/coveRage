@@ -27,6 +27,9 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
 //' @title File input/output
 //' @name File input/output
 //' 
+//' @description Fast but featureless input of tabular data in either *.txt or *.gz format.
+//' 
+//' 
 //' @rdname read_matrix
 //' @aliases file_stats
 //' 
@@ -164,8 +167,9 @@ Rcpp::StringMatrix read_matrix( std::string filename,
                                 int skip = 0,
                                 int verbose = 1) {
 
-  // Initialize return datastructure.
+  // Initialize return data structure.
   Rcpp::StringMatrix mymatrix(nrows, ncols);
+  Rcpp::IntegerVector stats(3); // Helper.
   
   // Open the file stream.
   gzFile file;
@@ -178,8 +182,8 @@ Rcpp::StringMatrix read_matrix( std::string filename,
  
    // Scroll through buffer.
   std::string lastline = "";
-  int nline = 0;
-  int rownum = 0;
+//  int nline = 0;
+//  int rownum = 0;
   while (1) {
     Rcpp::checkUserInterrupt();
     int err;
@@ -192,31 +196,56 @@ Rcpp::StringMatrix read_matrix( std::string filename,
     std::string mystring(reinterpret_cast<char*>(buffer));  // Recast buffer from char to string.
     mystring = lastline + mystring;
 
-    std::vector < std::string > svec;  // Initialize vector of strings for parsed buffer.
+    std::vector < std::string > line_vec;  // Initialize vector of strings for parsed buffer.
     char line_split = '\n'; // Must be single quotes!
-    vcfRCommon::strsplit(mystring, svec, line_split);
+//    vcfRCommon::strsplit(mystring, svec, line_split);
+    split(mystring, line_split, line_vec);
   
     // Scroll through lines derived from the buffer.
-      for(int i=0; i < svec.size() - 1; i++){
-        nline++;
+      for(int i=0; i < line_vec.size() - 1; i++){
+        // Increment line counter
+        stats[0]++;
         
-        if( nline % nreport == 0 & verbose == 1){
-          Rcpp::Rcout << "\rProcessed line: " << nline;
+        if( stats[0] % nreport == 0 & verbose == 1){
+          Rcpp::Rcout << "\rProcessed line: " << stats[0];
         }
-      
-        if( nline > skip & nline <= skip + nrows){
+
+        if( stats[0] >= skip + 1 ){
           // Load line into matrix.
           std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
           char col_split = sep; // Must be single quotes!
-          vcfRCommon::strsplit(svec[i], column_vec, col_split);
-          for(int j = 0; j < mymatrix.ncol(); j++){
-            mymatrix(rownum, j) = column_vec[j];
+          vcfRCommon::strsplit(line_vec[i], column_vec, col_split);
+          split(line_vec[i], sep, column_vec);
+          
+          if(mymatrix.ncol() > column_vec.size()){
+            Rcerr << "Warning: more matrix rows than input elements on line: " << stats[0] << "\n";
+            Rcerr << "Using as many input elements that fit.\n";
+            for(int j = 0; j < column_vec.size(); j++){
+              mymatrix(stats[1], j) = column_vec[j];
+            }
+          } else if (mymatrix.ncol() < column_vec.size()){
+            Rcerr << "Warning: more input elements than matrix rows on line: " << stats[0] << "\n";
+            Rcerr << "Using as many input elements that fit.\n";
+            for(int j = 0; j < mymatrix.ncol(); j++){
+              mymatrix(stats[1], j) = column_vec[j];
+            }
+          } else if (mymatrix.ncol() == column_vec.size()){
+            for(int j = 0; j < mymatrix.ncol(); j++){
+              mymatrix(stats[1], j) = column_vec[j];
+            }          
           }
-          rownum++;
+          stats[1]++;
+          if( nrows > 0 & stats[1] > nrows - 1 ){
+            gzclose (file);
+            if( verbose == 1){
+              Rcpp::Rcout << "\nCompleted: " << stats[0] << " lines.\n";
+            }
+            return mymatrix;
+          }
         }
       }
     // Manage the last line.
-    lastline = svec[svec.size() - 1];
+    lastline = line_vec[line_vec.size() - 1];
 
     // Check for EOF or errors.
     if (bytes_read < LENGTH - 1) {
@@ -237,7 +266,7 @@ Rcpp::StringMatrix read_matrix( std::string filename,
   gzclose (file);
   
   if( verbose == 1){
-    Rcpp::Rcout << "\nCompleted: " << nline << " lines.\n";
+    Rcpp::Rcout << "\nCompleted: " << stats[0] << " lines.\n";
   }
 
   return mymatrix;

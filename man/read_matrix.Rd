@@ -31,10 +31,10 @@ read_matrix(filename, sep = "\\t", nrows = 1L, ncols = 1L, skip = 0L,
  'Rows' is the number of rows read in.
  This is either the same as nrows or however many rows were read in after skip and before the end of the file (when less than nrows).
 
-\strong{read_matrix} does stuff.
+\strong{read_matrix} returns a matrix of strings of dimension specified by nrows and ncols.
 }
 \description{
-File input/output
+Fast but featureless input of tabular data in either *.txt or *.gz format.
 }
 \seealso{
 \href{http://cran.r-project.org/web/packages/readr/index.html}{readr}

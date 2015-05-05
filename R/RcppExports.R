@@ -8,6 +8,9 @@ rcpp_hello_world <- function() {
 #' @title File input/output
 #' @name File input/output
 #' 
+#' @description Fast but featureless input of tabular data in either *.txt or *.gz format.
+#' 
+#' 
 #' @rdname read_matrix
 #' @aliases file_stats
 #' 
