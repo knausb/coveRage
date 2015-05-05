@@ -24,14 +24,15 @@ const int nreport = 1000;
 //'
 //' @export
 // [[Rcpp::export]]
-Rcpp::NumericVector file_stats( std::string filename,
+Rcpp::IntegerVector file_stats( std::string filename,
                                 char sep = '\t',
                                 int nrows = -1,
                                 int skip = 0,
                                 int verbose = 1) {
 
   // Initialize return datastructure.
-  Rcpp::NumericVector stats(3);
+//  Rcpp::NumericVector stats(3);
+  Rcpp::IntegerVector stats(3);
   stats.names() = Rcpp::StringVector::create("Total_rows", "Rows", "Columns");
   
   // Open the file stream.
@@ -41,7 +42,7 @@ Rcpp::NumericVector file_stats( std::string filename,
     Rcpp::Rcerr << "gzopen of " << filename << " failed: " << strerror (errno) << ".\n";
     return stats;
   }
-  
+
   // Scroll through buffer.
   std::string lastline = "";
   while (1) {
@@ -49,34 +50,50 @@ Rcpp::NumericVector file_stats( std::string filename,
     int err;
     int bytes_read;
     char buffer[LENGTH];
-    
+
     bytes_read = gzread (file, buffer, LENGTH - 1);
     buffer[bytes_read] = '\0';
-
-    std::string mystring(reinterpret_cast<char*>(buffer));  // Recast buffer from char to string.
+    
+    // Recast buffer from char to string.
+    std::string mystring(reinterpret_cast<char*>(buffer));
+    
+    // Add last line to begining of new input.
     mystring = lastline + mystring;
-
-    std::vector < std::string > svec;  // Initialize vector of strings for parsed buffer.
+    
+    // Initialize vector of strings for parsed buffer.
+    // Delimit buffer with newline characters.
+    std::vector < std::string > svec;
     char line_split = '\n'; // Must be single quotes!
     vcfRCommon::strsplit(mystring, svec, line_split);
-  
+    
     // Scroll through lines derived from the buffer.
-    for(int i=0; i < svec.size() - 0; i++){
+    for(int i=0; i < svec.size() - 1; i++){
+      // Increment line counter
       stats[0]++;
-      
-//      Rcpp::Rcout << svec[i] << "\n";
-      
-      int nrec = stats[0];
-      if( nrec % nreport == 0 & verbose == 1){
-        Rcpp::Rcout << "\rProcessed line: " << stats[0];
+
+      // Count columns in first row past skipped rows.
+      if( stats[0] == skip + 1 ){
+        std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
+        char col_split = sep; // Must be single quotes!
+        vcfRCommon::strsplit(svec[i], column_vec, col_split);
+        stats[2] = column_vec.size();
+//        Rcout << "column_vec is of size: " << column_vec.size() << "\n";
       }
       
-      if( stats[0] > skip){
-        if(nrows >= 0 & stats[1] < nrows){
-          stats[1]++;
-        } else if (nrows < 0){
-          stats[1]++;
+      if( stats[0] > skip ){
+        stats[1]++;
+      }
+
+      if( nrows > 0 & stats[1] > nrows - 1 ){
+        gzclose (file);
+        if( verbose == 1){
+          Rcpp::Rcout << "\nCompleted: " << stats[0] << " lines.\n";
         }
+        return stats;
+      }
+
+      if( stats[0] % nreport == 0 & verbose == 1){
+          Rcpp::Rcout << "\rProcessed line: " << stats[0];
       }
     }
     // Manage the last line.
@@ -95,14 +112,7 @@ Rcpp::NumericVector file_stats( std::string filename,
           return stats;
         }
       }
-    }
-
-  
-  // Count columns in last line.
-  std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
-  char col_split = sep; // Must be single quotes!
-  vcfRCommon::strsplit(svec[svec.size() - 2], column_vec, col_split);
-  stats[2] = column_vec.size();
+    } 
   }
 
   gzclose (file);

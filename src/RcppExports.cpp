@@ -16,7 +16,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // file_stats
-Rcpp::NumericVector file_stats(std::string filename, char sep, int nrows, int skip, int verbose);
+Rcpp::IntegerVector file_stats(std::string filename, char sep, int nrows, int skip, int verbose);
 RcppExport SEXP covR_file_stats(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
