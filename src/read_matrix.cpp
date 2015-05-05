@@ -12,21 +12,15 @@ const int nreport = 1000;
 
 
 // Modified from:
-// http://stackoverflow.com/a/14266139
-//void strsplit(std::string& mystring,
-//              std::vector<std::string>& vec_o_strings,
-//              std::string split){
-/*
-  size_t pos = 0;
-//  std::string token;
-  while ((pos = mystring.find(split)) != std::string::npos) {
-//    token = mystring.substr(0, pos);
-    vec_o_strings.push_back(mystring.substr(0, pos));
-    mystring.erase(0, pos + split.length());
-  }
-  vec_o_strings.push_back(mystring);
-  */
-//}
+// http://stackoverflow.com/a/236803
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+//    return elems;
+}
 
 
 
@@ -41,7 +35,13 @@ const int nreport = 1000;
 //' @param nrows number of rows to read
 //' @param skip number of rows to skip
 //' @param verbose should verbose output be generated
-//'
+//' 
+//' @return \strong{file_stats} returns a three element vector.
+//' 'Total_rows' reports the total number of rows read.
+//'  This is either the number of rows in the file or the number of skipped rows and the number of rows read in.
+//'  'Rows' is the number of rows read in.
+//'  This is either the same as nrows or however many rows were read in after skip and before the end of the file (when less than nrows).
+//' 
 //' @export
 // [[Rcpp::export]]
 Rcpp::IntegerVector file_stats( std::string filename,
@@ -82,29 +82,20 @@ Rcpp::IntegerVector file_stats( std::string filename,
     
     // Initialize vector of strings for parsed buffer.
     // Delimit buffer with newline characters.
-    std::vector < std::string > svec;
+    std::vector < std::string > line_vec;
     char line_split = '\n'; // Must be single quotes!
-    
-    vcfRCommon::strsplit(mystring, svec, line_split);
+    split(mystring, line_split, line_vec);
 
     // Scroll through lines derived from the buffer.
-    for(int i=0; i < svec.size() - 1; i++){
+    for(int i=0; i < line_vec.size() - 1; i++){
       // Increment line counter
       stats[0]++;
 
       // Count columns in first row past skipped rows.
       if( stats[0] == skip + 1 ){
         std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
-        char col_split = sep; // Must be single quotes!
-        vcfRCommon::strsplit(svec[i], column_vec, col_split);
-//        std::string col_split = sep;
-//        strsplit(svec[i], column_vec, sep);
+        split(line_vec[i], sep, column_vec);
         stats[2] = column_vec.size();
-        
-        for(int j=0; j<column_vec.size(); j++){
-          Rcout << j << ": " << column_vec[j] << "\n";
-        }
-//        Rcout << "column_vec is of size: " << column_vec.size() << "\n";
       }
       
       if( stats[0] > skip ){
@@ -124,7 +115,7 @@ Rcpp::IntegerVector file_stats( std::string filename,
       }
     }
     // Manage the last line.
-    lastline = svec[svec.size() - 1];
+    lastline = line_vec[line_vec.size() - 1];
 
     // Check for EOF or errors.
     if (bytes_read < LENGTH - 1) {
@@ -157,6 +148,8 @@ Rcpp::IntegerVector file_stats( std::string filename,
 //' @aliases read_matrix
 //' 
 //' @param ncols number of columns for the matrix
+//' 
+//' @return \strong{read_matrix} returns a matrix of strings of dimension specified by nrows and ncols.
 //' 
 //' @seealso
 //' \href{http://cran.r-project.org/web/packages/readr/index.html}{readr}

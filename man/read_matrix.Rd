@@ -24,6 +24,15 @@ read_matrix(filename, sep = "\\t", nrows = 1L, ncols = 1L, skip = 0L,
 
 \item{ncols}{number of columns for the matrix}
 }
+\value{
+\strong{file_stats} returns a three element vector.
+'Total_rows' reports the total number of rows read.
+ This is either the number of rows in the file or the number of skipped rows and the number of rows read in.
+ 'Rows' is the number of rows read in.
+ This is either the same as nrows or however many rows were read in after skip and before the end of the file (when less than nrows).
+
+\strong{read_matrix} does stuff.
+}
 \description{
 File input/output
 }

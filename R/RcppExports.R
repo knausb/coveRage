@@ -16,7 +16,13 @@ rcpp_hello_world <- function() {
 #' @param nrows number of rows to read
 #' @param skip number of rows to skip
 #' @param verbose should verbose output be generated
-#'
+#' 
+#' @return \strong{file_stats} returns a three element vector.
+#' 'Total_rows' reports the total number of rows read.
+#'  This is either the number of rows in the file or the number of skipped rows and the number of rows read in.
+#'  'Rows' is the number of rows read in.
+#'  This is either the same as nrows or however many rows were read in after skip and before the end of the file (when less than nrows).
+#' 
 #' @export
 file_stats <- function(filename, sep = '\t', nrows = -1L, skip = 0L, verbose = 1L) {
     .Call('covR_file_stats', PACKAGE = 'covR', filename, sep, nrows, skip, verbose)
@@ -26,6 +32,8 @@ file_stats <- function(filename, sep = '\t', nrows = -1L, skip = 0L, verbose = 1
 #' @aliases read_matrix
 #' 
 #' @param ncols number of columns for the matrix
+#' 
+#' @return \strong{read_matrix} returns a matrix of strings of dimension specified by nrows and ncols.
 #' 
 #' @seealso
 #' \href{http://cran.r-project.org/web/packages/readr/index.html}{readr}
