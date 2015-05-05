@@ -10,6 +10,26 @@ const int nreport = 1000;
 // Size of the block of memory to use for reading.
 #define LENGTH 0x1000
 
+
+// Modified from:
+// http://stackoverflow.com/a/14266139
+//void strsplit(std::string& mystring,
+//              std::vector<std::string>& vec_o_strings,
+//              std::string split){
+/*
+  size_t pos = 0;
+//  std::string token;
+  while ((pos = mystring.find(split)) != std::string::npos) {
+//    token = mystring.substr(0, pos);
+    vec_o_strings.push_back(mystring.substr(0, pos));
+    mystring.erase(0, pos + split.length());
+  }
+  vec_o_strings.push_back(mystring);
+  */
+//}
+
+
+
 //' @title File input/output
 //' @name File input/output
 //' 
@@ -64,8 +84,9 @@ Rcpp::IntegerVector file_stats( std::string filename,
     // Delimit buffer with newline characters.
     std::vector < std::string > svec;
     char line_split = '\n'; // Must be single quotes!
-    vcfRCommon::strsplit(mystring, svec, line_split);
     
+    vcfRCommon::strsplit(mystring, svec, line_split);
+
     // Scroll through lines derived from the buffer.
     for(int i=0; i < svec.size() - 1; i++){
       // Increment line counter
@@ -76,7 +97,13 @@ Rcpp::IntegerVector file_stats( std::string filename,
         std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
         char col_split = sep; // Must be single quotes!
         vcfRCommon::strsplit(svec[i], column_vec, col_split);
+//        std::string col_split = sep;
+//        strsplit(svec[i], column_vec, sep);
         stats[2] = column_vec.size();
+        
+        for(int j=0; j<column_vec.size(); j++){
+          Rcout << j << ": " << column_vec[j] << "\n";
+        }
 //        Rcout << "column_vec is of size: " << column_vec.size() << "\n";
       }
       
