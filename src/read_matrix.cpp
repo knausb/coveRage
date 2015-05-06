@@ -19,7 +19,7 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     while (std::getline(ss, item, delim)) {
         elems.push_back(item);
     }
-//    return elems;
+    return elems;
 }
 
 
@@ -199,7 +199,7 @@ Rcpp::StringMatrix read_matrix( std::string filename,
     std::vector < std::string > line_vec;  // Initialize vector of strings for parsed buffer.
     char line_split = '\n'; // Must be single quotes!
 //    vcfRCommon::strsplit(mystring, svec, line_split);
-    split(mystring, line_split, line_vec);
+    line_vec = split(mystring, line_split, line_vec);
   
     // Scroll through lines derived from the buffer.
     for(int i=0; i < line_vec.size() - 1; i++){
