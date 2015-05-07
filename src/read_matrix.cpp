@@ -20,7 +20,7 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     while (std::getline(ss, item, delim)) {
         elems.push_back(item);
     }
-//    return elems;
+    return elems;
 }
 */
 
