@@ -1,6 +1,6 @@
 #include <Rcpp.h>
 #include <zlib.h>
-#include "vcfRCommon.h"
+// #include "vcfRCommon.h"
 
 using namespace Rcpp;
 
@@ -13,6 +13,7 @@ const int nreport = 1000;
 
 // Modified from:
 // http://stackoverflow.com/a/236803
+/*
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);
     std::string item;
@@ -21,6 +22,24 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     }
 //    return elems;
 }
+*/
+
+std::vector< std::string > strsplit(std::string mystring, std::string delimiter){
+    // Modified from:
+    // http://stackoverflow.com/a/14266139
+    size_t pos = 0;
+    std::string token;
+    std::vector< std::string > newvector;
+    
+    while ((pos = mystring.find(delimiter)) != std::string::npos) {
+      token = mystring.substr(0, pos);
+      newvector.push_back(token);
+      mystring.erase(0, pos + delimiter.length());
+    }
+    newvector.push_back(mystring);
+    return newvector;
+}
+
 
 
 
@@ -48,13 +67,12 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
 //' @export
 // [[Rcpp::export]]
 Rcpp::IntegerVector file_stats( std::string filename,
-                                char sep = '\t',
+                                std::string sep = "\t",
                                 int nrows = -1,
                                 int skip = 0,
                                 int verbose = 1) {
 
   // Initialize return datastructure.
-//  Rcpp::NumericVector stats(3);
   Rcpp::IntegerVector stats(3);
   stats.names() = Rcpp::StringVector::create("Total_rows", "Rows", "Columns");
   
@@ -83,11 +101,8 @@ Rcpp::IntegerVector file_stats( std::string filename,
     // Add last line to begining of new input.
     mystring = lastline + mystring;
     
-    // Initialize vector of strings for parsed buffer.
     // Delimit buffer with newline characters.
-    std::vector < std::string > line_vec;
-    char line_split = '\n'; // Must be single quotes!
-    split(mystring, line_split, line_vec);
+    std::vector < std::string > line_vec = strsplit(mystring, "\n");
 
     // Scroll through lines derived from the buffer.
     for(int i=0; i < line_vec.size() - 1; i++){
@@ -96,9 +111,11 @@ Rcpp::IntegerVector file_stats( std::string filename,
 
       // Count columns in first row past skipped rows.
       if( stats[0] == skip + 1 ){
-        std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
-        split(line_vec[i], sep, column_vec);
+        std::vector < std::string > column_vec = strsplit(line_vec[i], sep);
         stats[2] = column_vec.size();
+//        Rcpp::Rcout << "Row for column counting:\n";
+//        Rcpp::Rcout << line_vec[i];
+//        Rcpp::Rcout << "\n";
       }
       
       if( stats[0] > skip ){
@@ -161,7 +178,7 @@ Rcpp::IntegerVector file_stats( std::string filename,
 //' @export
 // [[Rcpp::export]]
 Rcpp::StringMatrix read_matrix( std::string filename,
-                                char sep = '\t',
+                                std::string sep = "\t",
                                 int nrows = 1,
                                 int ncols = 1,
                                 int skip = 0,
@@ -182,8 +199,6 @@ Rcpp::StringMatrix read_matrix( std::string filename,
  
    // Scroll through buffer.
   std::string lastline = "";
-//  int nline = 0;
-//  int rownum = 0;
   while (1) {
     Rcpp::checkUserInterrupt();
     int err;
@@ -196,11 +211,9 @@ Rcpp::StringMatrix read_matrix( std::string filename,
     std::string mystring(reinterpret_cast<char*>(buffer));  // Recast buffer from char to string.
     mystring = lastline + mystring;
 
-    std::vector < std::string > line_vec;  // Initialize vector of strings for parsed buffer.
-    char line_split = '\n'; // Must be single quotes!
-//    vcfRCommon::strsplit(mystring, svec, line_split);
-    split(mystring, line_split, line_vec);
-  
+    // Parse buffer on newline.
+    std::vector < std::string > line_vec = strsplit(mystring, "\n");
+
     // Scroll through lines derived from the buffer.
     for(int i=0; i < line_vec.size() - 1; i++){
       // Increment line counter
@@ -211,11 +224,8 @@ Rcpp::StringMatrix read_matrix( std::string filename,
       }
 
       if( stats[0] >= skip + 1 ){
-        // Load line into matrix.
-        std::vector < std::string > column_vec;  // Initialize vector of strings for parsed buffer.
-        char col_split = sep; // Must be single quotes!
-        vcfRCommon::strsplit(line_vec[i], column_vec, col_split);
-        split(line_vec[i], sep, column_vec);
+        // Parse line base on sep.
+        std::vector < std::string > column_vec = strsplit(line_vec[i], sep);
           
         if(mymatrix.ncol() > column_vec.size()){
           Rcerr << "Warning: more matrix rows than input elements on line: " << stats[0] << "\n";

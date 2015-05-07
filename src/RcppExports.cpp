@@ -16,13 +16,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // file_stats
-Rcpp::IntegerVector file_stats(std::string filename, char sep, int nrows, int skip, int verbose);
+Rcpp::IntegerVector file_stats(std::string filename, std::string sep, int nrows, int skip, int verbose);
 RcppExport SEXP covR_file_stats(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
-    Rcpp::traits::input_parameter< char >::type sep(sepSEXP);
+    Rcpp::traits::input_parameter< std::string >::type sep(sepSEXP);
     Rcpp::traits::input_parameter< int >::type nrows(nrowsSEXP);
     Rcpp::traits::input_parameter< int >::type skip(skipSEXP);
     Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
@@ -31,13 +31,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // read_matrix
-Rcpp::StringMatrix read_matrix(std::string filename, char sep, int nrows, int ncols, int skip, int verbose);
+Rcpp::StringMatrix read_matrix(std::string filename, std::string sep, int nrows, int ncols, int skip, int verbose);
 RcppExport SEXP covR_read_matrix(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP ncolsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
-    Rcpp::traits::input_parameter< char >::type sep(sepSEXP);
+    Rcpp::traits::input_parameter< std::string >::type sep(sepSEXP);
     Rcpp::traits::input_parameter< int >::type nrows(nrowsSEXP);
     Rcpp::traits::input_parameter< int >::type ncols(ncolsSEXP);
     Rcpp::traits::input_parameter< int >::type skip(skipSEXP);

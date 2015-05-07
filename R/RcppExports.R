@@ -27,7 +27,7 @@ rcpp_hello_world <- function() {
 #'  This is either the same as nrows or however many rows were read in after skip and before the end of the file (when less than nrows).
 #' 
 #' @export
-file_stats <- function(filename, sep = '\t', nrows = -1L, skip = 0L, verbose = 1L) {
+file_stats <- function(filename, sep = "\t", nrows = -1L, skip = 0L, verbose = 1L) {
     .Call('covR_file_stats', PACKAGE = 'covR', filename, sep, nrows, skip, verbose)
 }
 
@@ -43,7 +43,7 @@ file_stats <- function(filename, sep = '\t', nrows = -1L, skip = 0L, verbose = 1
 #' \href{http://cran.r-project.org/web/packages/data.table/index.html}{data.table::fread}
 #'
 #' @export
-read_matrix <- function(filename, sep = '\t', nrows = 1L, ncols = 1L, skip = 0L, verbose = 1L) {
+read_matrix <- function(filename, sep = "\t", nrows = 1L, ncols = 1L, skip = 0L, verbose = 1L) {
     .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, ncols, skip, verbose)
 }
 
