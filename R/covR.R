@@ -6,10 +6,16 @@
 #' @section Foo functions:
 #' The foo functions ...
 #'
+#' @section Vignettes:
+#' Vignettes can be listed with: vignette(package='covR').
+#'
+#'
 #' @docType package
 #' @name covR
 #' @useDynLib covR
 #' @importFrom Rcpp sourceCpp
+#' 
+#' 
 #' 
 NULL
 #> NULL

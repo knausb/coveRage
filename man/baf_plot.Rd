@@ -10,12 +10,8 @@ baf_plot()
 BAlleleFreq plot.
 }
 \references{
-Abelson, Hal; Jerry Sussman, and Julie Sussman.
-  Structure and Interpretation of Computer Programs.
-  Cambridge: MIT Press, 1984.
-
 Laurie, Cathy C, Kimberly F Doheny, Daniel B Mirel, Elizabeth W Pugh, Laura J Bierut, Tushar Bhangale, Frederick Boehm, Neil E Caporaso, Marilyn C Cornelis, Howard J Edenberg and others.
   2010. Quality control and quality assurance in genotypic data for genome-wide association studies.
-  Genetic epidemiology 34(6): 591--602.
+  Genetic Epidemiology 34(6): 591--602.
 }
 

@@ -1,0 +1,23 @@
+---
+title: "Introduction to read_matrix"
+author: "Brian J. Knaus"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to read_matrix}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+`read_matrix` is a package designed for fast input of large compressed datasets.
+
+
+## Preliminaries
+
+
+## Workflow
+
+
+## Future directions
+
+
