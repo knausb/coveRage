@@ -7,7 +7,9 @@
 #' The foo functions ...
 #'
 #' @section Vignettes:
-#' Vignettes can be listed with: vignette(package='covR').
+#' Vignettes can be listed with:
+#' 
+#' vignette(package='covR').
 #'
 #'
 #' @docType package

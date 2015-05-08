@@ -46,3 +46,16 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// write_matrix
+void write_matrix(std::string filename, Rcpp::StringMatrix mymatrix, std::string sep, int verbose);
+RcppExport SEXP covR_write_matrix(SEXP filenameSEXP, SEXP mymatrixSEXP, SEXP sepSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type mymatrix(mymatrixSEXP);
+    Rcpp::traits::input_parameter< std::string >::type sep(sepSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    write_matrix(filename, mymatrix, sep, verbose);
+    return R_NilValue;
+END_RCPP
+}

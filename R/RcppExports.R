@@ -47,3 +47,18 @@ read_matrix <- function(filename, sep = "\t", nrows = 1L, ncols = 1L, skip = 0L,
     .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, ncols, skip, verbose)
 }
 
+#' @name write_matrix
+#' @title write_matrix
+#' @rdname write_matrix
+#' 
+#' @param filename filename for output
+#' @param mymatrix matrix to be written to file
+#' @param sep delimiting character
+#' @param verbose should verbose output be generated?
+#'
+#'
+#' @export
+write_matrix <- function(filename, mymatrix, sep = "\t", verbose = 1L) {
+    invisible(.Call('covR_write_matrix', PACKAGE = 'covR', filename, mymatrix, sep, verbose))
+}
+

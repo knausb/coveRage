@@ -14,3 +14,10 @@ foo, bar and baz.
 The foo functions ...
 }
 
+\section{Vignettes}{
+
+Vignettes can be listed with:
+
+vignette(package='covR').
+}
+
