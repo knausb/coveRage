@@ -1,6 +1,9 @@
-#include <Rcpp.h>
-//using namespace Rcpp;
 
+
+#include <Rcpp.h>
+
+//using namespace Rcpp;
+//using namespace RcppParallel;
 
 //' @name baf_stats
 //' @title baf_stats
@@ -18,14 +21,14 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::CharacterVector calls,
                               Rcpp::CharacterVector ref,
                               int minq) {
    Rcpp::IntegerMatrix stats(calls.size(), 11);
+//   Rcpp::IntegerMatrix stats(3, 3);
+//   Rcpp::IntegerMatrix stats(3, 11);
    
-   Rcpp::StringVector colnames(11) ;
-//  colnames(0) = "Primero";
-//  colnames(1) = "Segundo";
-//  colnames(2) = "Tercero";
-//  colnames(3) = "Cuarto";
+//   colnames(stats) = Rcpp::CharacterVector::create("A", "B", "C");
+//   Rcpp::colnames(stats) = Rcpp::CharacterVector::create("A", "B", "C");
+//   Rcpp::StringVector colnames(11) ;
 //   stats.attr("colnames") = Rcpp::CharacterVector::create('A', 'C', 'G', 'T', 'N', '*', 'a', 'c', 'g', 't', 'n');
-   colnames(stats) = Rcpp::CharacterVector::create("A", "C", "G", "T", "N", "D", "a", "c", "g", "t", "n");
+   colnames(stats) = Rcpp::CharacterVector::create("A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");
 
    return stats;
 }
