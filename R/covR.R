@@ -16,6 +16,7 @@
 #' @name covR
 #' @useDynLib covR
 #' @importFrom Rcpp sourceCpp
+#' @importFrom RcppParallel RcppParallelLibs
 #' 
 #' 
 #' 

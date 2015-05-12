@@ -61,6 +61,10 @@ read_matrix <- function(filename, sep = "\t", nrows = 1L, ncols = 1L, skip = 0L,
     .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, ncols, skip, verbose)
 }
 
+parallelVectorSum <- function(x) {
+    .Call('covR_parallelVectorSum', PACKAGE = 'covR', x)
+}
+
 #' @name write_matrix
 #' @title write_matrix
 #' @rdname write_matrix

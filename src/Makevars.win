@@ -1,9 +1,9 @@
 ## We need the compression library
 PKG_LIBS = -lz
-
+PKG_LIBS += $(shell "${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" -e "RcppParallel::RcppParallelLibs()")
 
 ## We want C++11 as it gets us 'long long' as well
 CXX_STD = CXX11
 
-
+PKG_CXXFLAGS += -DRCPP_PARALLEL_USE_TBB=1
 

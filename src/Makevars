@@ -1,5 +1,6 @@
 ## We need the compression library
 PKG_LIBS = -lz
+PKG_LIBS += $(shell ${R_HOME}/bin/Rscript -e "RcppParallel::RcppParallelLibs()")
 
 ## We want C++11 as it gets us 'long long' as well
 CXX_STD = CXX11

@@ -1,9 +1,39 @@
-
-
+// [[Rcpp::depends(RcppParallel)]]
+#include <RcppParallel.h>
 #include <Rcpp.h>
 
+using namespace RcppParallel;
 //using namespace Rcpp;
-//using namespace RcppParallel;
+
+
+// http://gallery.rcpp.org/articles/parallel-distance-matrix/
+// http://gallery.rcpp.org/articles/parallel-vector-sum/
+
+
+struct bafstats_p : public Worker {
+  
+    // Input vector
+    const RVector< std::string > invect;
+//    const RVector< Rcpp::String > invect;
+//    const RVector< double > invect;
+    
+    // Output matrix
+    RMatrix< int > outmat;
+    
+    // initialize from Rcpp input and output matrixes (the RMatrix class
+    // can be automatically converted to from the Rcpp matrix type)
+//    bafstats_p(const Rcpp::CharacterVector invect, Rcpp::IntegerMatrix outmat) : invect(invect), outmat(outmat) {}
+    bafstats_p(const Rcpp::StringVector invect, Rcpp::IntegerMatrix outmat) : invect(invect), outmat(outmat) {}
+//    bafstats_p(const Rcpp::CharacterVector invect) : invect(invect) {}
+//    bafstats_p(Rcpp::IntegerMatrix outmat) : outmat(outmat) {}
+
+
+
+};
+
+
+
+
 
 //' @name baf_stats
 //' @title baf_stats

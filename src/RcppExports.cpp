@@ -60,6 +60,17 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// parallelVectorSum
+double parallelVectorSum(Rcpp::NumericVector x);
+RcppExport SEXP covR_parallelVectorSum(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    __result = Rcpp::wrap(parallelVectorSum(x));
+    return __result;
+END_RCPP
+}
 // write_matrix
 void write_matrix(std::string filename, Rcpp::StringMatrix mymatrix, std::string sep, int verbose);
 RcppExport SEXP covR_write_matrix(SEXP filenameSEXP, SEXP mymatrixSEXP, SEXP sepSEXP, SEXP verboseSEXP) {
