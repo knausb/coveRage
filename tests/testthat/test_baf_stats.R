@@ -9,6 +9,9 @@ library(covR)
 stats <- file_stats(ex_file, verbose=0)
 x1 <- read_matrix(ex_file, nrows=stats[2], ncols=stats[3], verbose=0)
 
+x2 <- x1[1:10,]
+
+
 #RcppParallel::setThreadOptions(numThreads = 1)
 #x2 <- baf_stats(calls=x1[,5], quals=x1[,6], ref=x1[,3], minq=0)
 
@@ -23,8 +26,7 @@ x1 <- read_matrix(ex_file, nrows=stats[2], ncols=stats[3], verbose=0)
 
 
 
-#x2 <- baf_stats_st(calls=x1[,5], quals=x1[,6], ref=x1[,3], minq=0)
-#head(x2)
+x3 <- baf_stats_st(calls=x2[,5], quals=x2[,6], ref=x2[,3], minq=0)
 
-#head(x1[,5])
-#head(x1[,3])
+x3
+x2[,c(3,5)]

@@ -5,6 +5,65 @@
 //using namespace RcppParallel;
 //using namespace Rcpp;
 
+
+void call_pu(Rcpp::IntegerVector counts, char call, std::string ref){
+  
+  if(call == '.'){
+    if(ref == "A"){
+      counts(0)++;
+    } else if(ref == "C"){
+      counts(1)++;
+    } else if(ref == "G"){
+      counts(2)++;
+    } else if(ref == "T"){
+      counts(3)++;
+    } else if(ref == "N"){
+      counts(4)++;
+    }
+
+  } else if (call == ','){
+    if(ref == "A"){
+      counts(6)++;
+    } else if(ref == "C"){
+      counts(7)++;
+    } else if(ref == "G"){
+      counts(8)++;
+    } else if(ref == "T"){
+      counts(9)++;
+    } else if(ref == "N"){
+      counts(10)++;
+    }
+
+  } else if (call == 'A'){
+    counts(0)++;
+  } else if (call == 'C'){
+    counts(1)++;
+  } else if (call == 'G'){
+    counts(2)++;
+  } else if (call == 'T'){
+    counts(3)++;
+  } else if(call == 'N'){
+    counts(4)++;
+  } else if(call == '*'){
+    counts(5)++;
+  } else if(call == 'a'){
+    counts(6)++;
+  } else if(call == 'c'){
+    counts(7)++;
+  } else if(call == 'g'){
+    counts(8)++;
+  } else if(call == 't'){
+    counts(9)++;
+  } else if(call == 'n'){
+    counts(10)++;
+  }
+  
+}
+
+
+
+
+
 // http://gallery.rcpp.org/articles/parallel-distance-matrix/
 // http://gallery.rcpp.org/articles/parallel-vector-sum/
 
@@ -137,11 +196,11 @@ Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringVector calls,
     std::string ref(inmat(i,0));
     std::string calls(inmat(i,1));
     std::string quals(inmat(i,2));
-//    Rcpp::Rcout << calls << "\n";
+    
+    Rcpp::IntegerVector out_row = outmat(i,Rcpp::_);
 
-//    Rcpp::Rcout << calls.size() << ": " <<calls << " " << quals.size() << ": " << quals << "\n";
     for(int j=0; j<calls.size(); j++){
-      
+
       if(calls[j] == '$'){
         // Read ends
         calls.erase(j, 1);
@@ -152,61 +211,20 @@ Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringVector calls,
       }
       
       int qual = static_cast<int>(quals[j]);
-      qual = qual - 33; // Sanger format.
-      if( qual >= minq ){
-
-          if(calls[i] == '.'){
-            if(ref == "A"){
-              outmat(i,0)++;
-            } else if(ref == "C"){
-              outmat(i,1)++;
-            } else if(ref == "G"){
-              outmat(i,2)++;
-            } else if(ref == "T"){
-              outmat(i,3)++;
-            } else if(ref == "N"){
-              outmat(i,4)++;
-            }
-          } else if (calls[i] == ','){
-            if(ref == "A"){
-              outmat(i,6)++;
-            } else if(ref == "C"){
-              outmat(i,7)++;
-            } else if(ref == "G"){
-              outmat(i,8)++;
-            } else if(ref == "T"){
-              outmat(i,9)++;
-            } else if(ref == "N"){
-              outmat(i,10)++;
-            }
-          } else if (calls[i] == 'A'){
-            outmat(i,0)++;
-          } else if (calls[i] == 'C'){
-            outmat(i,1)++;
-          } else if (calls[i] == 'G'){
-            outmat(i,2)++;
-          } else if (calls[i] == 'T'){
-            outmat(i,3)++;
-          } else if(calls[i] == 'N'){
-            outmat(i,4)++;
-          } else if(calls[i] == '*'){
-            outmat(i,5)++;
-          } else if(calls[i] == 'a'){
-            outmat(i,6)++;
-          } else if(calls[i] == 'c'){
-            outmat(i,7)++;
-          } else if(calls[i] == 'g'){
-            outmat(i,8)++;
-          } else if(calls[i] == 't'){
-            outmat(i,9)++;
-          } else if(calls[i] == 'n'){
-            outmat(i,10)++;
-          }
+      qual = qual - 33; // Sanger encoding.
+      if( qual >= minq ){        
+        call_pu(out_row, calls[j], ref);
       }
     }
-
+    
+    // Load counts into output matrix
+    for(int j=0; j<out_row.size(); j++){
+      outmat(i,j) = out_row(j);
+    }
 
   }
-
   return outmat;
 }
+
+
+
