@@ -6,14 +6,14 @@
 using namespace Rcpp;
 
 // baf_stats
-Rcpp::IntegerMatrix baf_stats(Rcpp::CharacterVector calls, Rcpp::CharacterVector quals, Rcpp::CharacterVector ref, int minq);
+Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls, Rcpp::StringVector quals, Rcpp::StringVector ref, int minq);
 RcppExport SEXP covR_baf_stats(SEXP callsSEXP, SEXP qualsSEXP, SEXP refSEXP, SEXP minqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type calls(callsSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type quals(qualsSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type ref(refSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type calls(callsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type quals(qualsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type ref(refSEXP);
     Rcpp::traits::input_parameter< int >::type minq(minqSEXP);
     __result = Rcpp::wrap(baf_stats(calls, quals, ref, minq));
     return __result;

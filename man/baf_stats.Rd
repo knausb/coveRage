@@ -4,7 +4,7 @@
 \alias{baf_stats}
 \title{baf_stats}
 \usage{
-baf_stats(calls, quals, ref, minq)
+baf_stats(calls, quals, ref, minq = 0L)
 }
 \arguments{
 \item{calls}{vector of pileup calls}
@@ -17,5 +17,9 @@ baf_stats(calls, quals, ref, minq)
 }
 \description{
 baf_stats
+}
+\details{
+The reference alleles must be in all upper case.
+See \code{toupper} if they are not.
 }
 

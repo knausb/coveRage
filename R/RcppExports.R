@@ -9,9 +9,13 @@
 #' @param quals vector of pileup calls
 #' @param ref vector of reference alleles
 #' @param minq minimum quality for call to be retained
+#' 
+#' @details
+#' The reference alleles must be in all upper case.
+#' See \code{toupper} if they are not.
 #'
 #' @export
-baf_stats <- function(calls, quals, ref, minq) {
+baf_stats <- function(calls, quals, ref, minq = 0L) {
     .Call('covR_baf_stats', PACKAGE = 'covR', calls, quals, ref, minq)
 }
 

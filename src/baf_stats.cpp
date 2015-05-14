@@ -2,34 +2,60 @@
 #include <RcppParallel.h>
 #include <Rcpp.h>
 
-using namespace RcppParallel;
+//using namespace RcppParallel;
 //using namespace Rcpp;
-
 
 // http://gallery.rcpp.org/articles/parallel-distance-matrix/
 // http://gallery.rcpp.org/articles/parallel-vector-sum/
 
 // http://www.cplusplus.com/doc/tutorial/classes/
 
-struct bafstats_p : public Worker {
+struct bafstats_p : public RcppParallel::Worker {
   
-    // Input vector
-    const RVector< std::string > invect;
-//    const RVector< Rcpp::String > invect;
-//    const RVector< double > invect;
-    
-    // Output matrix
-    RMatrix< int > outmat;
-    
-    // initialize from Rcpp input and output matrixes (the RMatrix class
-    // can be automatically converted to from the Rcpp matrix type)
-//    bafstats_p(const Rcpp::CharacterVector invect, Rcpp::IntegerMatrix outmat) : invect(invect), outmat(outmat) {}
-    bafstats_p(const Rcpp::StringVector invect, Rcpp::IntegerMatrix outmat) : invect(invect.begin(), invect.end()), outmat(outmat) {}
-//    bafstats_p(const Rcpp::CharacterVector invect) : invect(invect) {}
-//    bafstats_p(Rcpp::IntegerMatrix outmat) : outmat(outmat) {}
+  // Input matrix
+  const RcppParallel::RMatrix< Rcpp::String > inmat1;
+//  const RcppParallel::RMatrix< std::string > inmat1;
+  
+  // Output matrix
+  RcppParallel::RMatrix< int > outmat;
+  
+  // Threshold
+  int qmin;
 
+  // initialize from Rcpp input and output matrixes (the RMatrix class
+  // can be automatically converted to from the Rcpp matrix type)
+  bafstats_p(const Rcpp::StringMatrix inmat2, Rcpp::IntegerMatrix outmat, int qmin)
+    : inmat1(inmat1), outmat(outmat), qmin(qmin) {}
 
+  // function call operator that work for the specified range (begin/end)
+  void operator()(std::size_t begin, std::size_t end) {
+    for (std::size_t i = begin; i < end; i++) {
+      
+      
+      RcppParallel::RMatrix< Rcpp::String >::Row row2 = inmat1.row(i);
+//      Rcpp::Rcout << row2[0] << "\n";
+//      outmat(i,0)++;
+//      Rcpp::String calls = inmat1(i,1);
+//      std::string calls = inmat1(i,1);
+//      for(int j=0; j < inmat1(i,1).length(); j++){
+        
+//      }
 
+      // Input data
+//      Rcpp::Rcout << inmat1(i,0) << "\n";
+//      Rcpp::String ref   = inmat1(i,0);
+//      std::string ref   = inmat1(i,0);
+//      std::string calls = inmat1(i,1);
+//      std::string quals = inmat1(i,2);
+      
+      // row we will operate on
+//      RcppParallel::RMatrix< int >::Row row2 = outmat.row(i);
+      
+      
+      
+
+    }
+  }
 };
 
 
@@ -44,22 +70,44 @@ struct bafstats_p : public Worker {
 //' @param quals vector of pileup calls
 //' @param ref vector of reference alleles
 //' @param minq minimum quality for call to be retained
+//' 
+//' @details
+//' The reference alleles must be in all upper case.
+//' See \code{toupper} if they are not.
 //'
 //' @export
 // [[Rcpp::export]]
-Rcpp::IntegerMatrix baf_stats(Rcpp::CharacterVector calls,
-                              Rcpp::CharacterVector quals,
-                              Rcpp::CharacterVector ref,
-                              int minq) {
-   Rcpp::IntegerMatrix stats(calls.size(), 11);
+Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
+                              Rcpp::StringVector quals,
+                              Rcpp::StringVector ref,
+                              int minq = 0) {
+//   Rcpp::IntegerMatrix stats(calls.size(), 11);
 //   Rcpp::IntegerMatrix stats(3, 3);
 //   Rcpp::IntegerMatrix stats(3, 11);
-   
-//   colnames(stats) = Rcpp::CharacterVector::create("A", "B", "C");
-//   Rcpp::colnames(stats) = Rcpp::CharacterVector::create("A", "B", "C");
-//   Rcpp::StringVector colnames(11) ;
-//   stats.attr("colnames") = Rcpp::CharacterVector::create('A', 'C', 'G', 'T', 'N', '*', 'a', 'c', 'g', 't', 'n');
-   colnames(stats) = Rcpp::CharacterVector::create("A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");
 
-   return stats;
+
+    // Agregate the input matrix
+    Rcpp::StringMatrix inmat(calls.size(), 3);
+    inmat(Rcpp::_, 0) = ref;
+    inmat(Rcpp::_, 1) = calls;
+    inmat(Rcpp::_, 2) = quals;
+    
+    // allocate the matrix we will return
+    Rcpp::IntegerMatrix outmat(calls.size(), 11);
+    colnames(outmat) = Rcpp::CharacterVector::create("A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");
+
+   // create the worker
+//   bafstats_p bafstats_p(inmat, outmat);
+   bafstats_p bafstats_p(inmat, outmat, minq);
+     
+   // call it with parallelFor
+   parallelFor(0, inmat.nrow(), bafstats_p);
+
+
+//   return stats;
+   return outmat;
 }
+
+
+
+
