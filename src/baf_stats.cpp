@@ -32,10 +32,13 @@ struct bafstats_p : public RcppParallel::Worker {
     for (std::size_t i = begin; i < end; i++) {
       
       
-      RcppParallel::RMatrix< Rcpp::String >::Row row2 = inmat1.row(i);
+//      RcppParallel::RMatrix< Rcpp::String >::Row row2 = inmat1.row(i);
 //      Rcpp::Rcout << row2[0] << "\n";
 //      outmat(i,0)++;
-//      Rcpp::String calls = inmat1(i,1);
+      Rcpp::String calls = &inmat1(i,1);
+//      for(int j=0; j < calls.length(); j++){
+
+//      }
 //      std::string calls = inmat1(i,1);
 //      for(int j=0; j < inmat1(i,1).length(); j++){
         
