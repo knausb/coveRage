@@ -23,7 +23,8 @@ x1 <- read_matrix(ex_file, nrows=stats[2], ncols=stats[3], verbose=0)
 
 
 
+#x2 <- baf_stats_st(calls=x1[,5], quals=x1[,6], ref=x1[,3], minq=0)
+#head(x2)
 
-
-
-
+#head(x1[,5])
+#head(x1[,3])
