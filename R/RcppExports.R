@@ -19,6 +19,15 @@ baf_stats <- function(calls, quals, ref, minq = 0L) {
     .Call('covR_baf_stats', PACKAGE = 'covR', calls, quals, ref, minq)
 }
 
+#' @name baf_stats_st
+#' @title baf_stats_st
+#' @rdname baf_stats
+#' 
+#' @export
+baf_stats_st <- function(calls, quals, ref, minq = 0L) {
+    .Call('covR_baf_stats_st', PACKAGE = 'covR', calls, quals, ref, minq)
+}
+
 rcpp_hello_world <- function() {
     .Call('covR_rcpp_hello_world', PACKAGE = 'covR')
 }

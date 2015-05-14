@@ -112,5 +112,30 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
 }
 
 
+//' @name baf_stats_st
+//' @title baf_stats_st
+//' @rdname baf_stats
+//' 
+//' @export
+// [[Rcpp::export]]
+Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringVector calls,
+                              Rcpp::StringVector quals,
+                              Rcpp::StringVector ref,
+                              int minq = 0) {
 
+  // allocate the matrix we will return
+  Rcpp::IntegerMatrix outmat(calls.size(), 11);
+  colnames(outmat) = Rcpp::CharacterVector::create("A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");
 
+  // Agregate the input matrix
+  Rcpp::StringMatrix inmat(calls.size(), 3);
+  inmat(Rcpp::_, 0) = ref;
+  inmat(Rcpp::_, 1) = calls;
+  inmat(Rcpp::_, 2) = quals;
+  
+  for(int i=0; i<inmat.ncol(); i++){
+    
+  }
+
+  return outmat;
+}

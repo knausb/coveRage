@@ -2,9 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{baf_stats}
 \alias{baf_stats}
+\alias{baf_stats_st}
 \title{baf_stats}
 \usage{
 baf_stats(calls, quals, ref, minq = 0L)
+
+baf_stats_st(calls, quals, ref, minq = 0L)
 }
 \arguments{
 \item{calls}{vector of pileup calls}
@@ -17,6 +20,8 @@ baf_stats(calls, quals, ref, minq = 0L)
 }
 \description{
 baf_stats
+
+baf_stats_st
 }
 \details{
 The reference alleles must be in all upper case.

@@ -19,6 +19,20 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// baf_stats_st
+Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringVector calls, Rcpp::StringVector quals, Rcpp::StringVector ref, int minq);
+RcppExport SEXP covR_baf_stats_st(SEXP callsSEXP, SEXP qualsSEXP, SEXP refSEXP, SEXP minqSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type calls(callsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type quals(qualsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type ref(refSEXP);
+    Rcpp::traits::input_parameter< int >::type minq(minqSEXP);
+    __result = Rcpp::wrap(baf_stats_st(calls, quals, ref, minq));
+    return __result;
+END_RCPP
+}
 // rcpp_hello_world
 List rcpp_hello_world();
 RcppExport SEXP covR_rcpp_hello_world() {
