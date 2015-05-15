@@ -4,7 +4,10 @@
 \alias{baf_plot}
 \title{baf_plot}
 \usage{
-baf_plot()
+baf_plot(count_df)
+}
+\arguments{
+\item{count_df}{a data.frame containing info}
 }
 \description{
 BAlleleFreq plot.
