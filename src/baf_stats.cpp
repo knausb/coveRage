@@ -165,7 +165,6 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
    // call it with parallelFor
    parallelFor(0, inmat.nrow(), bafstats_p);
 
-
 //   return stats;
    return outmat;
 }
