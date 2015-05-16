@@ -4,10 +4,14 @@
 \alias{baf_plot}
 \title{baf_plot}
 \usage{
-baf_plot(count_df)
+baf_plot(counts, alpha = 255, ...)
 }
 \arguments{
-\item{count_df}{a data.frame containing info}
+\item{counts}{a numeric matrix containing count data}
+
+\item{alpha}{opacity (0-255)}
+
+\item{...}{arguments to be passed to methods}
 }
 \description{
 BAlleleFreq plot.

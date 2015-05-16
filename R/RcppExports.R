@@ -28,6 +28,19 @@ baf_stats_st <- function(calls, quals, ref, minq = 0L) {
     .Call('covR_baf_stats_st', PACKAGE = 'covR', calls, quals, ref, minq)
 }
 
+#' @title Parse data by a bed file
+#' @rdname bedify
+#' 
+#' @description seperate a data matrix by using bed format data.
+#' 
+#' @param bed data.frame
+#' @param mydata StringMatrix to be sorted
+#' 
+#' @export
+bedify <- function(bed, mydata) {
+    .Call('covR_bedify', PACKAGE = 'covR', bed, mydata)
+}
+
 rcpp_hello_world <- function() {
     .Call('covR_rcpp_hello_world', PACKAGE = 'covR')
 }

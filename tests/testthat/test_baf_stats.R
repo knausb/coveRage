@@ -27,21 +27,27 @@ x2 <- x1
 
 
 x3 <- baf_stats_st(calls=x2[,5], quals=x2[,6], ref=x2[,3], minq=0)
+#x3 <- baf_stats_st(calls=x2[,5], quals=x2[,6], ref=x2[,3], minq=30)
 
 #x3
 #x2[,c(3,5)]
 
-x3 <- cbind(as.character(x2[,1]), as.numeric(x2[,2]), as.data.frame(x3))
+#x3 <- cbind(as.character(x2[,1]), as.numeric(x2[,2]), as.data.frame(x3))
 
-names(x3)[1] <- "CHROM"
-names(x3)[2] <- "POS"
 
-x3$POS <- as.numeric(x3$POS)
+#names(x3)[1] <- "CHROM"
+#names(x3)[2] <- "POS"
+#x3$POS <- as.numeric(x3$POS)
+
+x3 <- cbind(as.numeric(x2[,2]), x3)
+colnames(x3)[1] <- "POS"
 
 head(x3)
 
 
 baf_plot(x3)
-count_df <- x3
+baf_plot(x3, xlim=c(0,2000))
+
+#count_df <- x3
 
 

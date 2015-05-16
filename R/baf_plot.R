@@ -6,7 +6,8 @@
 #' 
 #' @description BAlleleFreq plot.
 #' 
-#' @param count_df a data.frame containing info
+#' @param counts a numeric matrix containing count data
+#' @param alpha opacity (0-255)
 #' @param ... arguments to be passed to methods
 #' 
 #' 
@@ -15,14 +16,18 @@
 #'   Genetic Epidemiology 34(6): 591--602.
 #' 
 #' @export
-baf_plot <- function(count_df, alpha=255, ...){
+baf_plot <- function(counts, alpha=255, ...){
   
-  count_df$POS <- as.numeric(count_df$POS)
+#  if(class(counts$POS) != "numeric"){
+#    counts$POS <- as.numeric(counts$POS)
+#  }
   
-  tot_count <- rowSums(count_df[,c('A', 'C', 'G', 'T', 'N', 'a', 'c', 'g', 't', 'n')])
+#  counts$POS <- as.numeric(counts$POS)
   
-  fr_reads <- rowSums(count_df[,c('A', 'C', 'G', 'T', 'N')])
-  fr_reads <- rbind(fr_reads, rowSums(count_df[,c('a', 'c', 'g', 't', 'n')]))
+  tot_count <- rowSums(counts[,c('A', 'C', 'G', 'T', 'N', 'a', 'c', 'g', 't', 'n')])
+  
+  fr_reads <- rowSums(counts[,c('A', 'C', 'G', 'T', 'N')])
+  fr_reads <- rbind(fr_reads, rowSums(counts[,c('a', 'c', 'g', 't', 'n')]))
   fr_reads[2,] <- fr_reads[2,] * -1
 
   bxp_data <- c(fr_reads[1,], fr_reads[2,])
@@ -33,38 +38,35 @@ baf_plot <- function(count_df, alpha=255, ...){
   layout( mat=matrix(1:4, ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
 
   #barplot(fr_reads, space=0, col="#1E90FF", border=NA, axes=FALSE)
-  plot(range(count_df$POS), c( max(fr_reads[1,]), min(fr_reads[2,]) ), type='n', frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
-#  plot(1, type='n', xlim=range(count_df$POS), ylim=c(min(fr_reads[2,]), max(fr_reads[1,])), frame.plot=FALSE, axes=FALSE)
-  points(count_df$POS, fr_reads[1,], type='h', col="#1E90FF")
-  points(count_df$POS, fr_reads[2,], type='h', col="#00008B")
+  plot(range(counts[,'POS']), c( max(fr_reads[1,]), min(fr_reads[2,]) ), type='n', frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
+#  plot(1, type='n', xlim=range(counts$POS), ylim=c(min(fr_reads[2,]), max(fr_reads[1,])), frame.plot=FALSE, axes=FALSE)
+  points(counts[,'POS'], fr_reads[1,], type='h', col="#1E90FF")
+  points(counts[,'POS'], fr_reads[2,], type='h', col="#00008B")
   axis(side=2, las=1)
   
   boxplot(bxp_data ~ bxp_cats, axes=FALSE, col=c("#1E90FF", "#00008B"))
   axis(side=4, las=1)
 
 
-  plot(range(count_df$POS), c(0,1), type="n", frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
-#  plot(1, type="n", xlim=c(min(count_df$POS), max(count_df$POS)), ylim=c(0,1), frame.plot=FALSE, axes=FALSE)
-  
-  points(count_df$POS, unlist(count_df['A'])/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
-  points(count_df$POS, unlist(count_df['a'])/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
-  
-  points(count_df$POS, unlist(count_df['C'])/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
-  points(count_df$POS, unlist(count_df['c'])/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
-  
-  points(count_df$POS, unlist(count_df['G'])/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
-  points(count_df$POS, unlist(count_df['g'])/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
-  
-  points(count_df$POS, unlist(count_df['T'])/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
-  points(count_df$POS, unlist(count_df['t'])/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
-  
+  plot(range(counts[,'POS']), c(0,1), type="n", frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
+#  plot(1, type="n", xlim=c(min(counts$POS), max(counts$POS)), ylim=c(0,1), frame.plot=FALSE, axes=FALSE)
+
+  points(counts[,'POS'], rowSums(counts[,c('A','a')])/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
+  points(counts[,'POS'], rowSums(counts[,c('C','c')])/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
+  points(counts[,'POS'], rowSums(counts[,c('G','g')])/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
+  points(counts[,'POS'], rowSums(counts[,c('T','t')])/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
+
   axis(side=2, at=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), las=1)
   axis(side=1)
   
   abline(h=c(0.25, 0.33, 0.5, 0.66, 0.75), lty=2)
   
-  legend('topright', legend=c('A', 'C', 'G', 'T'), text.col=c(3, 5, 1, 2), bty="n", text.font=2)
+#  legend('topright', legend=c('A', 'C', 'G', 'T'), text.col=c(3, 5, 1, 2), bty="n", text.font=2, cex=2, xjust=0.5)
   
+  plot(1, axes=FALSE, type='n', xlab="", ylab="")
+
+  legend('center', legend=c('A', 'C', 'G', 'T'), text.col=c(3, 5, 1, 2), bty="n", text.font=2, cex=2, xjust=0.5)
+
   par(mar=c(5,4,4,2))
   par(mfrow=c(1,1))
   
