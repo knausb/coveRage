@@ -38,36 +38,47 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData ) {
 //  myList.attr("names") = Rcpp::CharacterVector::create();
 
   for(int i=0; i<myBed.nrow(); i++){
+    Rcpp::Rcout << "Feature: " << i << "\n";
     
     // Count rows
     std::string temp = Rcpp::as< std::string >(myBed(i,1));
     int start = stoi(temp);
     temp = Rcpp::as< std::string >(myBed(i,2));
     int end = stoi(temp);
+    
+    // Manage if on reverse strand
+    if(end < start){
+      int tmp = start;
+      start = end;
+      end = tmp;
+    }
+    
     int nrows = end  - start + 1;
-    Rcpp::Rcout << "nrows: " << nrows << "\n";
+//    Rcpp::Rcout << "nrows: " << nrows << "\n";
     
     Rcpp::IntegerMatrix myMatrix(nrows, myData.ncol());
-    
-    //- Rcpp::as<int>(myBed(i,2));
-//    Rcpp::Rcout << "nrows: " << nrows << "\n";
-//    Rcpp::IntegerMatrix myMatrix(nrows, 8);
-//    Rcpp::IntegerMatrix myMatrix(nrows, myData.nrow());
-//    Rcpp::IntegerMatrix myMatrix(2,2);
-//    std::fill(myMatrix.begin(), myMatrix.end(), 2);
     std::fill(myMatrix.begin(), myMatrix.end(), NA_INTEGER);
+    
+    // Increment to feature beginning.
+    int j=0;
+    while(myData(j,0) <= start){ j++;}
+    
+    // Process feature.
+    while(myData(j,0) <= end + 1){
+//      Rcpp::Rcout << "j is: " << j;
+//      Rcpp::Rcout << ", start is " << start;
+//      Rcpp::Rcout << ", the difference is: " << j - start;
+//      Rcpp::Rcout << "\n";
+      myMatrix( j - start, Rcpp::_ ) = myData( j - 1, Rcpp::_ );
+      j++;
+    }
+    
+    colnames(myMatrix) = Rcpp::CharacterVector::create("POS", "A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");
+
     myList(i) = myMatrix;
     myNames(i) = myBed(i,3);
   }
 
-
-
-//  Rcpp::StringMatrix data1(3,2);
-//  Rcpp::StringMatrix data2(3,2);
-//  Rcpp::List myList = Rcpp::List::create(Rcpp::Named("origDataFrame")=data1, Rcpp::Named("newDataFrame")=data2);
-
-//  Rcpp::StringMatrix::Column myNames = myBed(Rcpp::_, 3);
-//  Rcpp::StringVector myNames = myBed( Rcpp::_ , 2 );
   myList.attr("names") = myNames;
 
   return myList;
