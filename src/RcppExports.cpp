@@ -34,14 +34,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // bedify
-Rcpp::List bedify(Rcpp::DataFrame bed, Rcpp::StringMatrix mydata);
-RcppExport SEXP covR_bedify(SEXP bedSEXP, SEXP mydataSEXP) {
+Rcpp::List bedify(Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData);
+RcppExport SEXP covR_bedify(SEXP myBedSEXP, SEXP myDataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type bed(bedSEXP);
-    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type mydata(mydataSEXP);
-    __result = Rcpp::wrap(bedify(bed, mydata));
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerMatrix >::type myData(myDataSEXP);
+    __result = Rcpp::wrap(bedify(myBed, myData));
     return __result;
 END_RCPP
 }

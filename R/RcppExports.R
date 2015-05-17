@@ -33,12 +33,26 @@ baf_stats_st <- function(calls, quals, ref, minq = 0L) {
 #' 
 #' @description seperate a data matrix by using bed format data.
 #' 
-#' @param bed data.frame
+#' @param bed matrix of bed format data
 #' @param mydata StringMatrix to be sorted
 #' 
+#' @details
+#' 
+#' Bed format data contain at least four columns.
+#' The first column indicates the chromosome (i.e., supercontig, scaffold, contig, etc.).
+#' The second cotains the starting positions.
+#' The third the ending positions.
+#' The fourth are the names of the features.
+#' All subsequent columns are ignored here.
+#' In an attempt to optimize performance the data are expected to be formatted as a character matrix.
+#' The starting and end positions are converted to numerics internally.
+#' 
+#' 
+#' \href{https://genome.ucsc.edu/FAQ/FAQformat.html#format1}{Bed format} at UCSC
+#' 
 #' @export
-bedify <- function(bed, mydata) {
-    .Call('covR_bedify', PACKAGE = 'covR', bed, mydata)
+bedify <- function(myBed, myData) {
+    .Call('covR_bedify', PACKAGE = 'covR', myBed, myData)
 }
 
 rcpp_hello_world <- function() {

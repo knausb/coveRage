@@ -9,7 +9,10 @@ bedify(bed, mydata)
 \arguments{
 \item{bed}{data.frame}
 
-\item{mydata}{StringMatrix to be sorted}
+\item{mydata}{StringMatrix to be sorted
+
+
+\href{https://genome.ucsc.edu/FAQ/FAQformat.html#format1}{Bed format} at UCSC}
 }
 \description{
 seperate a data matrix by using bed format data.

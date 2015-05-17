@@ -51,3 +51,14 @@ baf_plot(x3, xlim=c(0,2000))
 #count_df <- x3
 
 
+myBed <- matrix(ncol=4, nrow=3)
+
+myBed[,1] <- "sc12"
+myBed[,2] <- c(1001, 1011, 9001)
+myBed[,3] <- c(1020, 1030, 9010)
+myBed[,4] <- paste("gene", 1:3, sep="_")
+myBed
+
+
+myGenes <- bedify(myBed, x3)
+myGenes
