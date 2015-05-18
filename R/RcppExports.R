@@ -33,8 +33,8 @@ baf_stats_st <- function(calls, quals, ref, minq = 0L) {
 #' 
 #' @description seperate a data matrix by using bed format data.
 #' 
-#' @param bed matrix of bed format data
-#' @param mydata StringMatrix to be sorted
+#' @param myBed matrix of bed format data
+#' @param myData StringMatrix to be sorted
 #' 
 #' @details
 #' 

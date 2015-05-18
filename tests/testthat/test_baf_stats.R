@@ -48,6 +48,7 @@ head(x3)
 baf_plot(x3)
 baf_plot(x3, xlim=c(0,2000))
 baf_plot(x3, xlim=c(9001,9106))
+baf_plot(x3, xlim=c(9100,9110))
 
 #count_df <- x3
 
@@ -55,8 +56,8 @@ baf_plot(x3, xlim=c(9001,9106))
 myBed <- matrix(ncol=4, nrow=3)
 
 myBed[,1] <- "sc12"
-myBed[,2] <- c(1001, 1011, 9001)
-myBed[,3] <- c(1020, 1030, 9010)
+myBed[,2] <- c(1001, 1011, 9100)
+myBed[,3] <- c(1020, 1030, 9110)
 myBed[,4] <- paste("gene", 1:3, sep="_")
 myBed
 

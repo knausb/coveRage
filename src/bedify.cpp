@@ -7,8 +7,8 @@
 //' 
 //' @description seperate a data matrix by using bed format data.
 //' 
-//' @param bed matrix of bed format data
-//' @param mydata StringMatrix to be sorted
+//' @param myBed matrix of bed format data
+//' @param myData StringMatrix to be sorted
 //' 
 //' @details
 //' 
@@ -31,12 +31,7 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData ) {
   Rcpp::List myList(myBed.nrow());
   Rcpp::StringVector myNames(myBed.nrow());
   
-//  Rcpp::IntegerMatrix::Column starts = Rcpp::as< Rcpp::IntegerMatrix>(myBed(Rcpp::_, 1));
-//  Rcpp::StringMatrix::Column starts = myBed(Rcpp::_, 1);
-//  Rcpp::StringMatrix::Column ends = myBed(Rcpp::_, 2);
-
-//  myList.attr("names") = Rcpp::CharacterVector::create();
-
+  // Scroll over bed rows (features).
   for(int i=0; i<myBed.nrow(); i++){
     Rcpp::Rcout << "Feature: " << i << "\n";
     
@@ -56,25 +51,37 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData ) {
     int nrows = end  - start + 1;
 //    Rcpp::Rcout << "nrows: " << nrows << "\n";
     
+    // Initialize return matrix.
     Rcpp::IntegerMatrix myMatrix(nrows, myData.ncol());
     std::fill(myMatrix.begin(), myMatrix.end(), NA_INTEGER);
     
     // Increment to feature beginning.
-    int j=0;
-    while(myData(j,0) <= start){ j++;}
+    int j=0;  // matrix to bedify row counter
+    int k = 0; // Out matrix row counter.
+    while(myData(j,0) < start){ j++;}
     Rcpp::Rcout << "  Found feature.\n";
     Rcpp::Rcout << "  myData(j, 0): " << myData(j, 0) << ".\n";
     Rcpp::Rcout << "  start: " << start << ".\n";
     Rcpp::Rcout << "  end: " << end << ".\n";
 
     // Process feature.
-    while(myData(j,0) <= end + 1){
+    while(myData(j,0) <= end + 0){
+
       Rcpp::Rcout << "j is: " << j;
+      Rcpp::Rcout << ", k is: " << k;
       Rcpp::Rcout << ", start is " << start;
-      Rcpp::Rcout << ", the difference is: " << j - start;
+//      Rcpp::Rcout << ", the difference is: " << j - start;
       Rcpp::Rcout << "\n";
-      myMatrix( j - start, Rcpp::_ ) = myData( j - 1, Rcpp::_ );
+      
+      // Handle when missing data at begining.
+      while(myData(j,0) > start + k){
+        myMatrix(k, 0) = start + k;
+        k++;
+      }
+//      myMatrix( j - start, Rcpp::_ ) = myData( j - 1, Rcpp::_ );
+      myMatrix( k, Rcpp::_ ) = myData( j - 0, Rcpp::_ );
       j++;
+      k++;
     }
     
     colnames(myMatrix) = Rcpp::CharacterVector::create("POS", "A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");

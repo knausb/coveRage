@@ -4,17 +4,27 @@
 \alias{bedify}
 \title{Parse data by a bed file}
 \usage{
-bedify(bed, mydata)
+bedify(myBed, myData)
 }
 \arguments{
-\item{bed}{data.frame}
+\item{myBed}{matrix of bed format data}
 
-\item{mydata}{StringMatrix to be sorted
-
-
-\href{https://genome.ucsc.edu/FAQ/FAQformat.html#format1}{Bed format} at UCSC}
+\item{myData}{StringMatrix to be sorted}
 }
 \description{
 seperate a data matrix by using bed format data.
+}
+\details{
+Bed format data contain at least four columns.
+The first column indicates the chromosome (i.e., supercontig, scaffold, contig, etc.).
+The second cotains the starting positions.
+The third the ending positions.
+The fourth are the names of the features.
+All subsequent columns are ignored here.
+In an attempt to optimize performance the data are expected to be formatted as a character matrix.
+The starting and end positions are converted to numerics internally.
+
+
+\href{https://genome.ucsc.edu/FAQ/FAQformat.html#format1}{Bed format} at UCSC
 }
 
