@@ -42,31 +42,31 @@ x3 <- baf_stats_st(calls=x2[,5], quals=x2[,6], ref=x2[,3], minq=0)
 x3 <- cbind(as.numeric(x2[,2]), x3)
 colnames(x3)[1] <- "POS"
 
-head(x3)
+#head(x3)
 
 
-baf_plot(x3)
-baf_plot(x3, xlim=c(0,2000))
-baf_plot(x3, xlim=c(9001,9106))
-baf_plot(x3, xlim=c(9100,9110))
+#baf_plot(x3)
+#baf_plot(x3, xlim=c(0,2000))
+#baf_plot(x3, xlim=c(9001,9106))
+#baf_plot(x3, xlim=c(9100,9110))
 
 #count_df <- x3
 
 
-myBed <- matrix(ncol=4, nrow=4)
+myBed <- matrix(ncol=4, nrow=5)
 
 myBed[,1] <- "sc12"
-myBed[,2] <- c(1, 1001, 1011, 9100)
-myBed[,3] <- c(10, 1020, 1030, 9110)
-myBed[,4] <- paste("gene", 1:4, sep="_")
-myBed
+myBed[,2] <- c(1, 1001, 1011, 9100, 10600)
+myBed[,3] <- c(10, 1020, 1030, 9110, 10607)
+myBed[,4] <- paste("gene", 1:5, sep="_")
+#myBed
 
 
-myGenes <- bedify(myBed, x3)
-myGenes
+myGenes <- bedify(myBed[1:5,], x3)
+#myGenes
 
-baf_plot(myGenes[[1]])
+#baf_plot(myGenes[[1]])
 
-baf_plot(myGenes[[4]], na.rm=T)
+#baf_plot(myGenes[[4]], na.rm=T)
 
 
