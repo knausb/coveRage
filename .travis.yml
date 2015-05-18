@@ -22,6 +22,10 @@ env:
   - R_BUILD_ARGS="--no-manual"
   - WARNINGS_ARE_ERRORS=1
 
+os:
+#  - linux
+  - osx
+
 notifications:
   email:
     on_success: change
