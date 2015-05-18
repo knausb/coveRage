@@ -47,6 +47,7 @@ head(x3)
 
 baf_plot(x3)
 baf_plot(x3, xlim=c(0,2000))
+baf_plot(x3, xlim=c(9001,9106))
 
 #count_df <- x3
 
@@ -62,3 +63,6 @@ myBed
 
 myGenes <- bedify(myBed, x3)
 myGenes
+
+baf_plot(myGenes[[1]])
+

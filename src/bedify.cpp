@@ -62,13 +62,17 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData ) {
     // Increment to feature beginning.
     int j=0;
     while(myData(j,0) <= start){ j++;}
-    
+    Rcpp::Rcout << "  Found feature.\n";
+    Rcpp::Rcout << "  myData(j, 0): " << myData(j, 0) << ".\n";
+    Rcpp::Rcout << "  start: " << start << ".\n";
+    Rcpp::Rcout << "  end: " << end << ".\n";
+
     // Process feature.
     while(myData(j,0) <= end + 1){
-//      Rcpp::Rcout << "j is: " << j;
-//      Rcpp::Rcout << ", start is " << start;
-//      Rcpp::Rcout << ", the difference is: " << j - start;
-//      Rcpp::Rcout << "\n";
+      Rcpp::Rcout << "j is: " << j;
+      Rcpp::Rcout << ", start is " << start;
+      Rcpp::Rcout << ", the difference is: " << j - start;
+      Rcpp::Rcout << "\n";
       myMatrix( j - start, Rcpp::_ ) = myData( j - 1, Rcpp::_ );
       j++;
     }
