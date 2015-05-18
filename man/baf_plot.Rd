@@ -4,12 +4,14 @@
 \alias{baf_plot}
 \title{baf_plot}
 \usage{
-baf_plot(counts, alpha = 255, ...)
+baf_plot(counts, alpha = 255, na.rm = FALSE, ...)
 }
 \arguments{
 \item{counts}{a numeric matrix containing count data}
 
 \item{alpha}{opacity (0-255)}
+
+\item{na.rm}{Logical, should sites which contain NAs be removed}
 
 \item{...}{arguments to be passed to methods}
 }

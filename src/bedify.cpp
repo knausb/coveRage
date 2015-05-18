@@ -33,6 +33,7 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData ) {
   
   // Scroll over bed rows (features).
   for(int i=0; i<myBed.nrow(); i++){
+    Rcpp::checkUserInterrupt();
 //    Rcpp::Rcout << "Feature: " << i << "\n";
     
     // Count rows
@@ -55,10 +56,15 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData ) {
     Rcpp::IntegerMatrix myMatrix(nrows, myData.ncol());
     std::fill(myMatrix.begin(), myMatrix.end(), NA_INTEGER);
     
-    // Increment to feature beginning.
+
     int j=0;  // matrix to bedify row counter
     int k = 0; // Out matrix row counter.
-    while(myData(j,0) < start){ j++;}
+    
+    // Increment to feature beginning.
+    while(myData(j,0) < start){
+      Rcpp::checkUserInterrupt();
+      j++;
+    }
 //    Rcpp::Rcout << "  Found feature.\n";
 //    Rcpp::Rcout << "  myData(j, 0): " << myData(j, 0) << ".\n";
 //    Rcpp::Rcout << "  start: " << start << ".\n";
@@ -66,14 +72,14 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData ) {
 
     // Process feature.
     while(myData(j,0) <= end + 0){
-
+      Rcpp::checkUserInterrupt();
 //      Rcpp::Rcout << "j is: " << j;
 //      Rcpp::Rcout << ", k is: " << k;
 //      Rcpp::Rcout << ", start is " << start;
 //      Rcpp::Rcout << "\n";
       
       // Handle when missing data at begining.
-      while(myData(j,0) > start + k){
+      while( myData(j,0) > start + k ){
         myMatrix(k, 0) = start + k;
         k++;
       }

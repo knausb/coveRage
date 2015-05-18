@@ -8,6 +8,7 @@
 #' 
 #' @param counts a numeric matrix containing count data
 #' @param alpha opacity (0-255)
+#' @param na.rm Logical, should sites which contain NAs be removed
 #' @param ... arguments to be passed to methods
 #' 
 #' 
@@ -16,13 +17,17 @@
 #'   Genetic Epidemiology 34(6): 591--602.
 #' 
 #' @export
-baf_plot <- function(counts, alpha=255, ...){
+baf_plot <- function(counts, alpha=255, na.rm=FALSE, ...){
   
 #  if(class(counts$POS) != "numeric"){
 #    counts$POS <- as.numeric(counts$POS)
 #  }
   
 #  counts$POS <- as.numeric(counts$POS)
+  
+  if(na.rm==TRUE){
+    counts <- counts[!colSums(apply(counts, MARGIN=1, is.na))>0,]
+  }
   
   tot_count <- rowSums(counts[,c('A', 'C', 'G', 'T', 'N', 'a', 'c', 'g', 't', 'n')])
   
