@@ -17,6 +17,8 @@ baf_stats_st(inMatrix, minq = 0L)
 \item{ref}{vector of reference alleles}
 
 \item{minq}{minimum quality for call to be retained}
+
+\item{inMatrix}{input matrix}
 }
 \description{
 baf_stats

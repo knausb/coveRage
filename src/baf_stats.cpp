@@ -176,6 +176,8 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
 //' @title baf_stats_st
 //' @rdname baf_stats
 //' 
+//' @param inMatrix input matrix
+//' 
 //' @export
 // [[Rcpp::export]]
 Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringMatrix inMatrix,

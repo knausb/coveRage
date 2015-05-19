@@ -23,6 +23,8 @@ baf_stats <- function(calls, quals, ref, minq = 0L) {
 #' @title baf_stats_st
 #' @rdname baf_stats
 #' 
+#' @param inMatrix input matrix
+#' 
 #' @export
 baf_stats_st <- function(inMatrix, minq = 0L) {
     .Call('covR_baf_stats_st', PACKAGE = 'covR', inMatrix, minq)
