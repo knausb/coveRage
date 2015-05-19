@@ -7,7 +7,7 @@
 \usage{
 baf_stats(calls, quals, ref, minq = 0L)
 
-baf_stats_st(calls, quals, ref, minq = 0L)
+baf_stats_st(inMatrix, minq = 0L)
 }
 \arguments{
 \item{calls}{vector of pileup calls}

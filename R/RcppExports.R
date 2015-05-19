@@ -24,8 +24,8 @@ baf_stats <- function(calls, quals, ref, minq = 0L) {
 #' @rdname baf_stats
 #' 
 #' @export
-baf_stats_st <- function(calls, quals, ref, minq = 0L) {
-    .Call('covR_baf_stats_st', PACKAGE = 'covR', calls, quals, ref, minq)
+baf_stats_st <- function(inMatrix, minq = 0L) {
+    .Call('covR_baf_stats_st', PACKAGE = 'covR', inMatrix, minq)
 }
 
 #' @title Parse data by a bed file

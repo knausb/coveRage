@@ -170,33 +170,36 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
 }
 
 
+
+
 //' @name baf_stats_st
 //' @title baf_stats_st
 //' @rdname baf_stats
 //' 
 //' @export
 // [[Rcpp::export]]
-Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringVector calls,
-                              Rcpp::StringVector quals,
-                              Rcpp::StringVector ref,
+Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringMatrix inMatrix,
                               int minq = 0) {
 
   // allocate the matrix we will return
-  Rcpp::IntegerMatrix outmat(calls.size(), 11);
-  colnames(outmat) = Rcpp::CharacterVector::create("A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");
+  Rcpp::IntegerMatrix outMatrix(inMatrix.nrow(), 12);
+  colnames(outMatrix) = Rcpp::CharacterVector::create("POS", "A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");
 
   // Agregate the input matrix
-  Rcpp::StringMatrix inmat(calls.size(), 3);
-  inmat(Rcpp::_, 0) = ref;
-  inmat(Rcpp::_, 1) = calls;
-  inmat(Rcpp::_, 2) = quals;
+//  Rcpp::StringMatrix inmat(calls.size(), 3);
+//  inmat(Rcpp::_, 0) = ref;
+//  inmat(Rcpp::_, 1) = calls;
+//  inmat(Rcpp::_, 2) = quals;
   
-  for(int i=0; i<inmat.nrow(); i++){
-    std::string ref(inmat(i,0));
-    std::string calls(inmat(i,1));
-    std::string quals(inmat(i,2));
+  // Iterate over rows (sites or POSitions)
+  for(int i=0; i<inMatrix.nrow(); i++){
+
+    std::string ref   = Rcpp::as< std::string >(inMatrix(i,1));
+    std::string calls = Rcpp::as< std::string >(inMatrix(i,2));
+    std::string quals = Rcpp::as< std::string >(inMatrix(i,3));
     
-    Rcpp::IntegerVector out_row = outmat(i,Rcpp::_);
+    Rcpp::IntegerVector out_row = outMatrix(i,Rcpp::_);
+    out_row.erase(0);  // Remove POS
 
     for(int j=0; j<calls.size(); j++){
 
@@ -211,19 +214,19 @@ Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringVector calls,
       
       int qual = static_cast<int>(quals[j]);
       qual = qual - 33; // Sanger encoding.
-      if( qual >= minq ){        
+      if( qual >= minq ){
         call_pu(out_row, calls[j], ref);
       }
     }
     
     // Load counts into output matrix
+    std::string strPOS = Rcpp::as< std::string >(inMatrix(i,0));
+    outMatrix(i,0) = std::stoi( strPOS );
     for(int j=0; j<out_row.size(); j++){
-      outmat(i,j) = out_row(j);
+      outMatrix(i,j+1) = out_row(j);
     }
 
   }
-  return outmat;
+  return outMatrix;
 }
-
-
 
