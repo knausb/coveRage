@@ -1,6 +1,7 @@
 # covR
 Tools to explore sequencing coverage in high-throughput sequencing projects
 
+[![Travis-CI Build Status](https://travis-ci.org/knausb/covR.png?branch=master)](https://travis-ci.org/knausb/covR)
 
 It has come to my attention that several other projects on GitHub share the name [covr](https://github.com/search?utf8=%E2%9C%93&q=covR).
 I plan to respect their priority.
