@@ -55,8 +55,8 @@ baf_plot(x3, xlim=c(9001,9106))
 myBed <- matrix(ncol=4, nrow=3)
 
 myBed[,1] <- "sc12"
-myBed[,2] <- c(1001, 1011, 9001)
-myBed[,3] <- c(1020, 1030, 9010)
+myBed[,2] <- c(1001, 1030, 9001)
+myBed[,3] <- c(1020, 1011, 9010)
 myBed[,4] <- paste("gene", 1:3, sep="_")
 myBed
 
