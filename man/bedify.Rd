@@ -2,9 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{bedify}
 \alias{bedify}
+\alias{bedify_sm}
 \title{Parse data by a bed file}
 \usage{
 bedify(myBed, myData)
+
+bedify_sm(myBed, myData)
 }
 \arguments{
 \item{myBed}{matrix of bed format data}
@@ -13,6 +16,8 @@ bedify(myBed, myData)
 }
 \description{
 seperate a data matrix by using bed format data.
+
+Parse data by a bed file
 }
 \details{
 Bed format data contain at least four columns.
