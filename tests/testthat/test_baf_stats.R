@@ -74,7 +74,6 @@ colnames(x4)[1] <- "CHROM"
 
 myGenes3 <- bedify_nm(myBed, x4)
 
-#
-lapply(myGenes3, function(x){x[,1:13]})
+#lapply(myGenes3, function(x){x[,1:13]})
 
 
