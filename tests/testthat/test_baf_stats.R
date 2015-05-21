@@ -24,8 +24,8 @@ x2 <- x1
 
 #RcppParallel::setThreadOptions(numThreads = 2)
 
-head(x2)
-head(x2[,c(2, 3, 5, 6)])
+#head(x2)
+#head(x2[,c(2, 3, 5, 6)])
 
 
 
@@ -65,6 +65,6 @@ myGenes <- bedify(myBed[1:5,], x3)
 
 myGenes2 <- bedify_sm(myBed, x2)
 
-lapply(myGenes2, function(x){x[,1:4]})
+#lapply(myGenes2, function(x){x[,1:4]})
 
-x2[,2]
+#x2[,2]
