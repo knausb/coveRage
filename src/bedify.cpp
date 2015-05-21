@@ -86,6 +86,21 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData ) {
 
 
 
+
+std::vector< int > get_pos( Rcpp::StringMatrix myData ){
+  std::vector< int > POS(myData.nrow());
+
+  for(int i=0; i<POS.size(); i++){
+    std::string temp = Rcpp::as< std::string >(myData(i,1));
+    POS[i] = stoi(temp);
+  }
+  
+  return(POS);
+}
+
+
+
+
 //' @title Parse data by a bed file
 //' @rdname bedify
 //' 
@@ -97,6 +112,12 @@ Rcpp::List bedify_sm( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData ) {
   // Initialize return datastructure
   Rcpp::List myList(myBed.nrow());
   
+  // Convert POS to ints
+  std::vector< int > POS = get_pos(myData);
+
+//  for(int i=0; i < POS.size(); i++){Rcpp::Rcout << "POS: " << POS[i] << "\t";}
+//  Rcpp::Rcout << "POS size: " << POS.size() << "\t";
+
   // To collect feature names and name list before return
   Rcpp::StringVector myNames(myBed.nrow());
 
@@ -116,11 +137,42 @@ Rcpp::List bedify_sm( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData ) {
       start = end;
       end = tmp;
     }
+
+    int j=0;  // matrix to bedify row counter
+
+
+
+    // Increment to feature beginning.
+    while(POS[j] < start){
+//      Rcpp::Rcout << "POS: " << POS[j] << "\n";
+      Rcpp::checkUserInterrupt();
+      j++;
+    }
+//    Rcpp::Rcout << "Feature begins at: " << j << "\n";
+
+
+
+    // Increment past all records for the feature
+    int k=j;
+    while(POS[k] <= end){
+//      Rcpp::Rcout << "POS: " << POS[k] << "\n";
+      Rcpp::checkUserInterrupt();
+      k++;
+    }
+//    Rcpp::Rcout << "Feature ends at: " << k << "\n";
     
+//    Rcpp::Rcout << "Made it.\n";
     
+    // Declare and populate a return matrix
+    int nrows = k - j + 0;
+    Rcpp::StringMatrix myMatrix(nrows, myData.ncol());
+    for(int l=j; l<k; l++){
+      Rcpp::checkUserInterrupt();
+      myMatrix(l-j, Rcpp::_) = myData(l, Rcpp::_);
+    }
     
-    
-    
+    myList(i) = myMatrix;
+    myNames(i) = myBed(i,3);
   }
 
   myList.attr("names") = myNames;

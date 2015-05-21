@@ -62,3 +62,9 @@ myGenes <- bedify(myBed[1:5,], x3)
 #baf_plot(myGenes[[4]], na.rm=T)
 
 
+
+myGenes2 <- bedify_sm(myBed, x2)
+
+lapply(myGenes2, function(x){x[,1:4]})
+
+x2[,2]
