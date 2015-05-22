@@ -35,7 +35,8 @@ x3 <- baf_stats_st(x2[,c(2, 3, 5, 6)], minq=0)
 #head(x3)
 
 
-#baf_plot(x3)
+#
+baf_plot(x3)
 #baf_plot(x3, xlim=c(0,2000))
 #baf_plot(x3, xlim=c(9001,9106))
 #baf_plot(x3, xlim=c(9100,9110))
