@@ -24,8 +24,8 @@ x2 <- x1
 
 #RcppParallel::setThreadOptions(numThreads = 2)
 
-head(x2)
-head(x2[,c(2, 3, 5, 6)])
+#head(x2)
+#head(x2[,c(2, 3, 5, 6)])
 
 
 
