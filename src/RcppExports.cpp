@@ -43,6 +43,30 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// bedify_sm
+Rcpp::List bedify_sm(Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData);
+RcppExport SEXP covR_bedify_sm(SEXP myBedSEXP, SEXP myDataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myData(myDataSEXP);
+    __result = Rcpp::wrap(bedify_sm(myBed, myData));
+    return __result;
+END_RCPP
+}
+// bedify_nm
+Rcpp::List bedify_nm(Rcpp::StringMatrix myBed, Rcpp::NumericMatrix myData);
+RcppExport SEXP covR_bedify_nm(SEXP myBedSEXP, SEXP myDataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type myData(myDataSEXP);
+    __result = Rcpp::wrap(bedify_nm(myBed, myData));
+    return __result;
+END_RCPP
+}
 // rcpp_hello_world
 List rcpp_hello_world();
 RcppExport SEXP covR_rcpp_hello_world() {

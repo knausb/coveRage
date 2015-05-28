@@ -61,4 +61,19 @@ myGenes <- bedify(myBed[1:5,], x3)
 
 #baf_plot(myGenes[[4]], na.rm=T)
 
+#colnames(x2) <- paste("col", 1:ncol(x2), sep="_")
+
+myGenes2 <- bedify_sm(myBed, x2)
+
+#lapply(myGenes2, function(x){x[,1:4]})
+
+#x2[,2]
+
+x4 <- cbind(10, x3)
+colnames(x4)[1] <- "CHROM"
+
+myGenes3 <- bedify_nm(myBed, x4)
+
+#lapply(myGenes3, function(x){x[,1:13]})
+
 
