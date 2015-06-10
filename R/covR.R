@@ -1,15 +1,35 @@
-#' covR: A package for exploring sequence coverage.
+#' covR: A package for exploring coverage in high throughput sequencing projects.
 #'
-#' The foo package provides three categories of important functions:
-#' foo, bar and baz.
+#' This package provides functions to process mpileup files
+#' created by samtools mpileup.  This information can be
+#' used to explore copy number variants to help determine
+#' whether they are due to biological or technical issues.
+#' These data can then be used to censor genome analyses
+#' to focus on regions of base ploid. 
 #' 
-#' @section Foo functions:
-#' The foo functions ...
+#' 
+#' @section File input and output functions:
+#' file_stats
+#' 
+#' read_matrix
+#' 
+#' write_matrix
 #'
+#' @section Mpileup processing functions:
+#' bedify
+#' 
+#' baf_stats
+#' 
+#' baf_plot
+#' 
+#' 
 #' @section Vignettes:
-#' Vignettes can be listed with:
+#' Package vignettes can be listed with:
 #' 
-#' vignette(package='covR').
+#' vignette(package='covR')
+#' 
+#' @seealso
+#' \href{http://www.htslib.org/doc/#manuals}{samtools documentation} (and others).
 #'
 #'
 #' @docType package

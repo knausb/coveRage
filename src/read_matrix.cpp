@@ -11,19 +11,6 @@ const int nreport = 1000;
 #define LENGTH 0x1000
 
 
-// Modified from:
-// http://stackoverflow.com/a/236803
-/*
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-*/
-
 std::vector< std::string > strsplit(std::string mystring, std::string delimiter){
     // Modified from:
     // http://stackoverflow.com/a/14266139
