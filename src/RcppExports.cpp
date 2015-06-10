@@ -93,18 +93,18 @@ BEGIN_RCPP
 END_RCPP
 }
 // read_matrix
-Rcpp::StringMatrix read_matrix(std::string filename, std::string sep, int nrows, int ncols, int skip, int verbose);
-RcppExport SEXP covR_read_matrix(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP ncolsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
+Rcpp::StringMatrix read_matrix(std::string filename, std::string sep, int nrows, Rcpp::IntegerVector cols, int skip, int verbose);
+RcppExport SEXP covR_read_matrix(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP colsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
     Rcpp::traits::input_parameter< std::string >::type sep(sepSEXP);
     Rcpp::traits::input_parameter< int >::type nrows(nrowsSEXP);
-    Rcpp::traits::input_parameter< int >::type ncols(ncolsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type cols(colsSEXP);
     Rcpp::traits::input_parameter< int >::type skip(skipSEXP);
     Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
-    __result = Rcpp::wrap(read_matrix(filename, sep, nrows, ncols, skip, verbose));
+    __result = Rcpp::wrap(read_matrix(filename, sep, nrows, cols, skip, verbose));
     return __result;
 END_RCPP
 }

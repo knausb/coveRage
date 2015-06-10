@@ -126,7 +126,7 @@ file_stats <- function(filename, sep = "\t", nrows = -1L, skip = 0L, verbose = 1
 #' @rdname read_matrix
 #' @aliases read_matrix
 #' 
-#' @param ncols number of columns for the matrix
+#' @param cols vector of column numbers to include in the matrix
 #' 
 #' @return \strong{read_matrix} returns a matrix of strings of dimension specified by nrows and ncols.
 #' 
@@ -135,8 +135,8 @@ file_stats <- function(filename, sep = "\t", nrows = -1L, skip = 0L, verbose = 1
 #' \href{http://cran.r-project.org/web/packages/data.table/index.html}{data.table::fread}
 #'
 #' @export
-read_matrix <- function(filename, sep = "\t", nrows = 1L, ncols = 1L, skip = 0L, verbose = 1L) {
-    .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, ncols, skip, verbose)
+read_matrix <- function(filename, sep = "\t", nrows = 1L, cols = 0L, skip = 0L, verbose = 1L) {
+    .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, cols, skip, verbose)
 }
 
 parallelVectorSum <- function(x) {

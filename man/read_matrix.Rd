@@ -8,7 +8,7 @@
 \usage{
 file_stats(filename, sep = "\\t", nrows = -1L, skip = 0L, verbose = 1L)
 
-read_matrix(filename, sep = "\\t", nrows = 1L, ncols = 1L, skip = 0L,
+read_matrix(filename, sep = "\\t", nrows = 1L, cols = 0L, skip = 0L,
   verbose = 1L)
 }
 \arguments{
@@ -22,7 +22,7 @@ read_matrix(filename, sep = "\\t", nrows = 1L, ncols = 1L, skip = 0L,
 
 \item{verbose}{should verbose output be generated}
 
-\item{ncols}{number of columns for the matrix}
+\item{cols}{vector of column numbers to include in the matrix}
 }
 \value{
 \strong{file_stats} returns a three element vector.
