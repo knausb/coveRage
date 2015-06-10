@@ -20,16 +20,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // baf_stats_st
-Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringVector calls, Rcpp::StringVector quals, Rcpp::StringVector ref, int minq);
-RcppExport SEXP covR_baf_stats_st(SEXP callsSEXP, SEXP qualsSEXP, SEXP refSEXP, SEXP minqSEXP) {
+Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringMatrix inMatrix, int minq);
+RcppExport SEXP covR_baf_stats_st(SEXP inMatrixSEXP, SEXP minqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< Rcpp::StringVector >::type calls(callsSEXP);
-    Rcpp::traits::input_parameter< Rcpp::StringVector >::type quals(qualsSEXP);
-    Rcpp::traits::input_parameter< Rcpp::StringVector >::type ref(refSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type inMatrix(inMatrixSEXP);
     Rcpp::traits::input_parameter< int >::type minq(minqSEXP);
-    __result = Rcpp::wrap(baf_stats_st(calls, quals, ref, minq));
+    __result = Rcpp::wrap(baf_stats_st(inMatrix, minq));
     return __result;
 END_RCPP
 }
@@ -42,6 +40,30 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerMatrix >::type myData(myDataSEXP);
     __result = Rcpp::wrap(bedify(myBed, myData));
+    return __result;
+END_RCPP
+}
+// bedify_sm
+Rcpp::List bedify_sm(Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData);
+RcppExport SEXP covR_bedify_sm(SEXP myBedSEXP, SEXP myDataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myData(myDataSEXP);
+    __result = Rcpp::wrap(bedify_sm(myBed, myData));
+    return __result;
+END_RCPP
+}
+// bedify_nm
+Rcpp::List bedify_nm(Rcpp::StringMatrix myBed, Rcpp::NumericMatrix myData);
+RcppExport SEXP covR_bedify_nm(SEXP myBedSEXP, SEXP myDataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type myData(myDataSEXP);
+    __result = Rcpp::wrap(bedify_nm(myBed, myData));
     return __result;
 END_RCPP
 }

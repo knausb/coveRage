@@ -23,22 +23,28 @@ baf_stats <- function(calls, quals, ref, minq = 0L) {
 #' @title baf_stats_st
 #' @rdname baf_stats
 #' 
+#' @param inMatrix input matrix
+#' 
+#' @details The character matrix 'inMatrix' should consist of columns for position, reference allele, calls and qualities.
+#' This is expected to come from mpileup output.
+#' Note that while mpileup can include data for multiple samples, here we need to process each sample seperately.
+#' 
 #' @export
-baf_stats_st <- function(calls, quals, ref, minq = 0L) {
-    .Call('covR_baf_stats_st', PACKAGE = 'covR', calls, quals, ref, minq)
+baf_stats_st <- function(inMatrix, minq = 0L) {
+    .Call('covR_baf_stats_st', PACKAGE = 'covR', inMatrix, minq)
 }
 
 #' @title Parse data by a bed file
 #' @rdname bedify
 #' 
-#' @description seperate a data matrix by using bed format data.
+#' @description Seperate a data matrix into list elements based on coordinates from bed format data.
 #' 
 #' @param myBed matrix of bed format data
-#' @param myData StringMatrix to be sorted
+#' @param myData StringMatrix or IntegerMatrix to be sorted
 #' 
 #' @details
 #' 
-#' Bed format data contain at least four columns.
+#' \strong{Bed format} data contain at least four columns.
 #' The first column indicates the chromosome (i.e., supercontig, scaffold, contig, etc.).
 #' The second cotains the starting positions.
 #' The third the ending positions.
@@ -47,12 +53,44 @@ baf_stats_st <- function(calls, quals, ref, minq = 0L) {
 #' In an attempt to optimize performance the data are expected to be formatted as a character matrix.
 #' The starting and end positions are converted to numerics internally.
 #' 
+#' The \strong{matrix format} used here is based on vcf type data.
+#' Typically these data have a chromosome as the first column.
+#' Each chromosome has its own coordinate system which begins at one.
+#' This means that using multiple chromosomes will necessitate some fix to the coordinate systems.
+#' Here I take the perspective that you should simply work on one chromosome at a time, so the chromosome information is ignored.
+#' The first column is the chromosome, which I ignore.
+#' The second column is the position, which is used for sorting.
+#' Subsequent columns are not treated but are brought along with the subset.
+#' 
+#' 
+#' When the matrix is of numeric form the first column, which contains the chromosome identifier (CHROM), must also be numeric.
+#' This is because matrix elements must all be of the same type.
+#' 
+#' 
 #' 
 #' \href{https://genome.ucsc.edu/FAQ/FAQformat.html#format1}{Bed format} at UCSC
 #' 
 #' @export
 bedify <- function(myBed, myData) {
     .Call('covR_bedify', PACKAGE = 'covR', myBed, myData)
+}
+
+#' @title Parse data by a bed file
+#' @rdname bedify
+#' 
+#' 
+#' @export
+bedify_sm <- function(myBed, myData) {
+    .Call('covR_bedify_sm', PACKAGE = 'covR', myBed, myData)
+}
+
+#' @title Parse data by a bed file
+#' @rdname bedify
+#' 
+#' 
+#' @export
+bedify_nm <- function(myBed, myData) {
+    .Call('covR_bedify_nm', PACKAGE = 'covR', myBed, myData)
 }
 
 rcpp_hello_world <- function() {
