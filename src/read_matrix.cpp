@@ -11,19 +11,6 @@ const int nreport = 1000;
 #define LENGTH 0x1000
 
 
-// Modified from:
-// http://stackoverflow.com/a/236803
-/*
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-*/
-
 std::vector< std::string > strsplit(std::string mystring, std::string delimiter){
     // Modified from:
     // http://stackoverflow.com/a/14266139
@@ -38,6 +25,30 @@ std::vector< std::string > strsplit(std::string mystring, std::string delimiter)
     }
     newvector.push_back(mystring);
     return newvector;
+}
+
+
+void proc_line(Rcpp::StringVector mystring,
+               std::string line,
+               std::string sep,
+               Rcpp::IntegerVector cols){
+
+  std::vector < std::string > temp_vec = strsplit(line, sep);
+
+  int i = 0;
+  while( i < cols.size() ){
+//    Rcpp::Rcout << "cols[ cols.size() - 1 ]: " << cols[ cols.size() - 1 ] << "\n";
+//    Rcpp::Rcout << "temp_vec.size: " << temp_vec.size() << "\n";
+    if( cols[ cols.size() - 1 ] > temp_vec.size() - 1 ){
+//      Rcpp::Rcerr << "More column elements selected than exist!\n";
+      mystring[0] = "ERROR";
+      return;
+    } else {    
+      mystring[i] = temp_vec[ cols[i] ];
+      i++;
+    }
+  }
+  
 }
 
 
@@ -168,7 +179,7 @@ Rcpp::IntegerVector file_stats( std::string filename,
 //' @rdname read_matrix
 //' @aliases read_matrix
 //' 
-//' @param ncols number of columns for the matrix
+//' @param cols vector of column numbers to include in the matrix
 //' 
 //' @return \strong{read_matrix} returns a matrix of strings of dimension specified by nrows and ncols.
 //' 
@@ -181,13 +192,28 @@ Rcpp::IntegerVector file_stats( std::string filename,
 Rcpp::StringMatrix read_matrix( std::string filename,
                                 std::string sep = "\t",
                                 int nrows = 1,
-                                int ncols = 1,
+                                Rcpp::IntegerVector cols = 0,
                                 int skip = 0,
                                 int verbose = 1) {
 
+  cols.sort();
+  if(cols[0] == 0){
+    Rcerr << "User must specify which (positive integer) columns to extract from the file.\n";
+    Rcpp::StringMatrix mymatrix(1,1);
+    mymatrix(0,0) = NA_STRING;
+    return mymatrix;
+  }
+  cols = cols - 1; // R is 1-based
+  
   // Initialize return data structure.
-  Rcpp::StringMatrix mymatrix(nrows, ncols);
-  Rcpp::IntegerVector stats(3); // Helper.
+//  Rcpp::StringMatrix mymatrix(nrows, ncols);
+  Rcpp::StringMatrix mymatrix(nrows, cols.size());
+  
+  Rcpp::IntegerVector stats(3); 
+  // stats is a helper where:
+  // the first element is line number,
+  // the second element counts rows included
+  // and the third element isn't actually used here.
   
   // Open the file stream.
   gzFile file;
@@ -198,7 +224,7 @@ Rcpp::StringMatrix read_matrix( std::string filename,
   }
  
  
-   // Scroll through buffer.
+  // Scroll through buffer.
   std::string lastline = "";
   while (1) {
     Rcpp::checkUserInterrupt();
@@ -227,25 +253,16 @@ Rcpp::StringMatrix read_matrix( std::string filename,
 
       if( stats[0] >= skip + 1 ){
         // Parse line base on sep.
-        std::vector < std::string > column_vec = strsplit(line_vec[i], sep);
-          
-        if(mymatrix.ncol() > column_vec.size()){
-          Rcerr << "Warning: more matrix columns than input elements on line: " << stats[0] << "\n";
-          Rcerr << "Using as many input elements that fit.\n";
-          for(int j = 0; j < column_vec.size(); j++){
-            mymatrix(stats[1], j) = column_vec[j];
-          }
-        } else if (mymatrix.ncol() < column_vec.size()){
-          Rcerr << "Warning: more input elements than matrix columns on line: " << stats[0] << "\n";
-          Rcerr << "Using as many input elements that fit.\n";
-          for(int j = 0; j < mymatrix.ncol(); j++){
-            mymatrix(stats[1], j) = column_vec[j];
-          }
-        } else if (mymatrix.ncol() == column_vec.size()){
-          for(int j = 0; j < mymatrix.ncol(); j++){
-            mymatrix(stats[1], j) = column_vec[j];
-          }          
-        }
+        Rcpp::StringVector xx_row = mymatrix(stats[1], Rcpp::_);
+        proc_line(xx_row, line_vec[i], sep, cols);
+        if(xx_row[0] == "ERROR"){
+          Rcpp::Rcerr << "More columns selected than exist!\n";
+          Rcpp::Rcerr << "File row: " << stats[0] << "\n";
+          Rcpp::Rcerr << "Returning matrix up to bad row.\n";
+          return mymatrix;
+        }        
+        mymatrix(stats[1], Rcpp::_) = xx_row;
+
         stats[1]++;
         if( nrows > 0 & stats[1] > nrows - 1 ){
           gzclose (file);
@@ -285,3 +302,27 @@ Rcpp::StringMatrix read_matrix( std::string filename,
 }
 
 
+        /*
+        std::vector < std::string > column_vec = strsplit(line_vec[i], sep);
+          
+        if(mymatrix.ncol() > column_vec.size()){
+          Rcerr << "Warning: more matrix columns than input elements on line: " << stats[0] << "\n";
+          Rcerr << "Using as many input elements that fit.\n";
+          for(int j = 0; j < column_vec.size(); j++){
+            mymatrix(stats[1], j) = column_vec[j];
+          }
+        } else if (mymatrix.ncol() < column_vec.size()){
+          Rcerr << "Warning: more input elements than matrix columns on line: " << stats[0] << "\n";
+          Rcerr << "Using as many input elements that fit.\n";
+          for(int j = 0; j < mymatrix.ncol(); j++){
+            mymatrix(stats[1], j) = column_vec[j];
+          }
+        } else if (mymatrix.ncol() == column_vec.size()){
+          for(int j = 0; j < mymatrix.ncol(); j++){
+            mymatrix(stats[1], j) = column_vec[j];
+          }          
+        }
+        */
+        
+        
+        

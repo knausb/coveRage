@@ -25,7 +25,12 @@ baf_stats <- function(calls, quals, ref, minq = 0L) {
 #' 
 #' @param inMatrix input matrix
 #' 
-#' @details The character matrix 'inMatrix' should consist of columns for position, reference allele, calls and qualities.
+#' @details The character matrix \strong{inMatrix} should consist of columns  5 columns. 
+#' The first column is the chromosome name (and is not presently used).
+#' The second column is the chromosomal position.
+#' The third column is the reference allele.
+#' The fourth column is a string of calls.
+#' The fifth column is a string of qualities.
 #' This is expected to come from mpileup output.
 #' Note that while mpileup can include data for multiple samples, here we need to process each sample seperately.
 #' 
@@ -126,7 +131,7 @@ file_stats <- function(filename, sep = "\t", nrows = -1L, skip = 0L, verbose = 1
 #' @rdname read_matrix
 #' @aliases read_matrix
 #' 
-#' @param ncols number of columns for the matrix
+#' @param cols vector of column numbers to include in the matrix
 #' 
 #' @return \strong{read_matrix} returns a matrix of strings of dimension specified by nrows and ncols.
 #' 
@@ -135,8 +140,8 @@ file_stats <- function(filename, sep = "\t", nrows = -1L, skip = 0L, verbose = 1
 #' \href{http://cran.r-project.org/web/packages/data.table/index.html}{data.table::fread}
 #'
 #' @export
-read_matrix <- function(filename, sep = "\t", nrows = 1L, ncols = 1L, skip = 0L, verbose = 1L) {
-    .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, ncols, skip, verbose)
+read_matrix <- function(filename, sep = "\t", nrows = 1L, cols = 0L, skip = 0L, verbose = 1L) {
+    .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, cols, skip, verbose)
 }
 
 parallelVectorSum <- function(x) {
