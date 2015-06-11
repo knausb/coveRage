@@ -29,7 +29,7 @@ x2 <- x1
 
 
 
-x3 <- baf_stats_st(x2[,c(2, 3, 5, 6)], minq=0)
+x3 <- baf_stats_st(x2[,c(1:3, 5, 6)], minq=0)
 
 
 #head(x3)

@@ -178,31 +178,30 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
 //' 
 //' @param inMatrix input matrix
 //' 
-//' @details The character matrix \strong{inMatrix} should consist of columns for position, reference allele, calls and qualities.
+//' @details The character matrix \strong{inMatrix} should consist of columns  5 columns. 
+//' The first column is the chromosome name (and is not presently used).
+//' The second column is the chromosomal position.
+//' The third column is the reference allele.
+//' The fourth column is a string of calls.
+//' The fifth column is a string of qualities.
 //' This is expected to come from mpileup output.
 //' Note that while mpileup can include data for multiple samples, here we need to process each sample seperately.
 //' 
 //' @export
 // [[Rcpp::export]]
 Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringMatrix inMatrix,
-                              int minq = 0) {
+                                 int minq = 0) {
 
   // allocate the matrix we will return
   Rcpp::IntegerMatrix outMatrix(inMatrix.nrow(), 12);
   colnames(outMatrix) = Rcpp::CharacterVector::create("POS", "A", "C", "G", "T", "N", "*", "a", "c", "g", "t", "n");
-
-  // Agregate the input matrix
-//  Rcpp::StringMatrix inmat(calls.size(), 3);
-//  inmat(Rcpp::_, 0) = ref;
-//  inmat(Rcpp::_, 1) = calls;
-//  inmat(Rcpp::_, 2) = quals;
   
   // Iterate over rows (sites or POSitions)
   for(int i=0; i<inMatrix.nrow(); i++){
 
-    std::string ref   = Rcpp::as< std::string >(inMatrix(i,1));
-    std::string calls = Rcpp::as< std::string >(inMatrix(i,2));
-    std::string quals = Rcpp::as< std::string >(inMatrix(i,3));
+    std::string ref   = Rcpp::as< std::string >(inMatrix(i,2));
+    std::string calls = Rcpp::as< std::string >(inMatrix(i,3));
+    std::string quals = Rcpp::as< std::string >(inMatrix(i,4));
     
     Rcpp::IntegerVector out_row = outMatrix(i,Rcpp::_);
     out_row.erase(0);  // Remove POS
@@ -226,7 +225,7 @@ Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringMatrix inMatrix,
     }
     
     // Load counts into output matrix
-    std::string strPOS = Rcpp::as< std::string >(inMatrix(i,0));
+    std::string strPOS = Rcpp::as< std::string >(inMatrix(i,1));
     outMatrix(i,0) = std::stoi( strPOS );
     for(int j=0; j<out_row.size(); j++){
       outMatrix(i,j+1) = out_row(j);
