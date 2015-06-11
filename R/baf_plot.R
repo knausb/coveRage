@@ -8,8 +8,11 @@
 #' 
 #' @param counts a numeric matrix containing count data
 #' @param alpha opacity (0-255)
+#' @param title for the plot.
 #' @param na.rm Logical, should sites which contain NAs be removed
 #' @param ... arguments to be passed to methods
+#' 
+# @details
 #' 
 #' 
 #' @references Laurie, Cathy C, Kimberly F Doheny, Daniel B Mirel, Elizabeth W Pugh, Laura J Bierut, Tushar Bhangale, Frederick Boehm, Neil E Caporaso, Marilyn C Cornelis, Howard J Edenberg and others.
@@ -17,7 +20,7 @@
 #'   Genetic Epidemiology 34(6): 591--602.
 #' 
 #' @export
-baf_plot <- function(counts, alpha=255, na.rm=FALSE, ...){
+baf_plot <- function(counts, alpha=255, title="Locus", na.rm=FALSE, ...){
   
 #  if(class(counts$POS) != "numeric"){
 #    counts$POS <- as.numeric(counts$POS)
@@ -39,7 +42,8 @@ baf_plot <- function(counts, alpha=255, na.rm=FALSE, ...){
   bxp_cats <- rep(1:2, each=ncol(fr_reads))
 
   par(mar=c(0,0,0,0))
-  par(oma=c(3,4,0.5,3))
+#  par(oma=c(3,4,0.5,3))
+  par(oma=c(3,4,1.5,3))
   layout( mat=matrix(1:4, ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
 
   #barplot(fr_reads, space=0, col="#1E90FF", border=NA, axes=FALSE)
@@ -73,6 +77,8 @@ baf_plot <- function(counts, alpha=255, na.rm=FALSE, ...){
   plot(1, axes=FALSE, type='n', xlab="", ylab="")
 
   legend('center', legend=c('A', 'C', 'G', 'T'), text.col=c(3, 5, 1, 2), bty="n", text.font=2, cex=2, xjust=0.5)
+  title(main=title, outer=T)
+
 
   par(mar=c(5,4,4,2))
   par(mfrow=c(1,1))
