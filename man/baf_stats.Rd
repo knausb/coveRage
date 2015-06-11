@@ -29,7 +29,7 @@ baf_stats_st
 The reference alleles must be in all upper case.
 See \code{toupper} if they are not.
 
-The character matrix 'inMatrix' should consist of columns for position, reference allele, calls and qualities.
+The character matrix \strong{inMatrix} should consist of columns for position, reference allele, calls and qualities.
 This is expected to come from mpileup output.
 Note that while mpileup can include data for multiple samples, here we need to process each sample seperately.
 }

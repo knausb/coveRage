@@ -25,7 +25,7 @@ baf_stats <- function(calls, quals, ref, minq = 0L) {
 #' 
 #' @param inMatrix input matrix
 #' 
-#' @details The character matrix 'inMatrix' should consist of columns for position, reference allele, calls and qualities.
+#' @details The character matrix \strong{inMatrix} should consist of columns for position, reference allele, calls and qualities.
 #' This is expected to come from mpileup output.
 #' Note that while mpileup can include data for multiple samples, here we need to process each sample seperately.
 #' 
