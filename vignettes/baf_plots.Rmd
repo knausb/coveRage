@@ -1,0 +1,77 @@
+---
+title: "Creating BAF plots"
+author: "Brian J. Knaus"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BAF plots}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+Use of B allele plots is intended to find aberrations in sequence depth and allele frequency.
+
+
+## Preliminaries
+
+
+
+## Workflow
+
+
+In `vignette('intro_to_read_matrix')` we discussed the use of `read_matrix`.
+Our first task is to read in the data.
+
+
+```{r}
+library(covR)
+ex_file <- system.file("extdata", "sc10_4k.mpileup.gz", package = "covR")
+```
+
+
+We can now take our first pass through the file to collect information.
+
+```{r}
+stats <- file_stats(ex_file, verbose=0)
+stats
+x1 <- read_matrix(ex_file, nrows=stats['Rows'], cols=c(1:3, 5, 6), verbose=0)
+head(x1)
+```
+
+
+
+This is mpileup format data.
+The first three columns identify the chromosome, position and reference allele.
+Samples occur in subsequent columns where each samples consists of three columns (here I've included the optional depth column).
+Here, I've only read in the first sample and omitted the depth column.
+
+
+We need to convert this data from the mpileup format to a table of counts.
+This is accomplished with the function `baf_stats`.
+
+
+```{r}
+x2 <- baf_stats(x1)
+head(x2)
+```
+
+
+We now have a table of counts for each nucleotide (forward and reverse in capitals and lowercase) as well as an asterix for deletions.
+We can plot this information to visualize it with `baf_plot`.
+
+
+```{r, fig.align='center', fig.height=4, fig.width=6}
+baf_plot(x2)
+```
+
+## Future directions
+
+
+
+The difference in execution time between `file_stats` and `read_matrix` is due to manipulating the data in memory.
+This suggests some improvements may be made in the code.
+One path I'd like to pursue will be to make `read_matrix` parallelized to improve performance.
+I'll have to learn a few new tricks before I accomplish that though.
+
+
