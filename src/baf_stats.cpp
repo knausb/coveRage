@@ -124,22 +124,22 @@ struct bafstats_p : public RcppParallel::Worker {
 
 
 
-//' @name baf_stats
-//' @title baf_stats
-//' @rdname baf_stats
-//' 
-//' @param calls vector of pileup calls
-//' @param quals vector of pileup calls
-//' @param ref vector of reference alleles
-//' @param minq minimum quality for call to be retained
-//' 
-//' @details
-//' The reference alleles must be in all upper case.
-//' See \code{toupper} if they are not.
-//'
-//' @export
+//
+// @export
+
+
+
+// @name baf_stats
+// @title baf_stats
+// @rdname baf_stats
+// 
+// @param calls vector of pileup calls
+// @param quals vector of pileup calls
+// @param ref vector of reference alleles
+
+
 // [[Rcpp::export]]
-Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
+Rcpp::IntegerMatrix baf_stats_v1(Rcpp::StringVector calls,
                               Rcpp::StringVector quals,
                               Rcpp::StringVector ref,
                               int minq = 0) {
@@ -172,11 +172,21 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
 
 
 
-//' @name baf_stats_st
-//' @title baf_stats_st
+
+
+
+
+
+
+
+//' @name baf_stats
+//' @title baf_stats
 //' @rdname baf_stats
 //' 
+//' @description Convert mpileup output to count tables
+//' 
 //' @param inMatrix input matrix
+//' @param minq minimum quality for call to be retained
 //' 
 //' @details The character matrix \strong{inMatrix} should consist of columns  5 columns. 
 //' The first column is the chromosome name (and is not presently used).
@@ -187,9 +197,12 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls,
 //' This is expected to come from mpileup output.
 //' Note that while mpileup can include data for multiple samples, here we need to process each sample seperately.
 //' 
+//' The reference alleles must be in all upper case.
+//' See \code{toupper} if they are not.
+//' 
 //' @export
 // [[Rcpp::export]]
-Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringMatrix inMatrix,
+Rcpp::IntegerMatrix baf_stats(Rcpp::StringMatrix inMatrix,
                                  int minq = 0) {
 
   // allocate the matrix we will return

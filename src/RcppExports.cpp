@@ -5,9 +5,9 @@
 
 using namespace Rcpp;
 
-// baf_stats
-Rcpp::IntegerMatrix baf_stats(Rcpp::StringVector calls, Rcpp::StringVector quals, Rcpp::StringVector ref, int minq);
-RcppExport SEXP covR_baf_stats(SEXP callsSEXP, SEXP qualsSEXP, SEXP refSEXP, SEXP minqSEXP) {
+// baf_stats_v1
+Rcpp::IntegerMatrix baf_stats_v1(Rcpp::StringVector calls, Rcpp::StringVector quals, Rcpp::StringVector ref, int minq);
+RcppExport SEXP covR_baf_stats_v1(SEXP callsSEXP, SEXP qualsSEXP, SEXP refSEXP, SEXP minqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -15,19 +15,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::StringVector >::type quals(qualsSEXP);
     Rcpp::traits::input_parameter< Rcpp::StringVector >::type ref(refSEXP);
     Rcpp::traits::input_parameter< int >::type minq(minqSEXP);
-    __result = Rcpp::wrap(baf_stats(calls, quals, ref, minq));
+    __result = Rcpp::wrap(baf_stats_v1(calls, quals, ref, minq));
     return __result;
 END_RCPP
 }
-// baf_stats_st
-Rcpp::IntegerMatrix baf_stats_st(Rcpp::StringMatrix inMatrix, int minq);
-RcppExport SEXP covR_baf_stats_st(SEXP inMatrixSEXP, SEXP minqSEXP) {
+// baf_stats
+Rcpp::IntegerMatrix baf_stats(Rcpp::StringMatrix inMatrix, int minq);
+RcppExport SEXP covR_baf_stats(SEXP inMatrixSEXP, SEXP minqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type inMatrix(inMatrixSEXP);
     Rcpp::traits::input_parameter< int >::type minq(minqSEXP);
-    __result = Rcpp::wrap(baf_stats_st(inMatrix, minq));
+    __result = Rcpp::wrap(baf_stats(inMatrix, minq));
     return __result;
 END_RCPP
 }
