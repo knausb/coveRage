@@ -54,8 +54,8 @@ void proc_line(Rcpp::StringVector mystring,
 
 
 
-//' @title File input/output
-//' @name File input/output
+//' @title File input
+//' @name File input
 //' 
 //' @description Fast but featureless input of tabular data in either *.txt or *.gz format.
 //' 
@@ -69,11 +69,16 @@ void proc_line(Rcpp::StringVector mystring,
 //' @param skip number of rows to skip
 //' @param verbose should verbose output be generated
 //' 
-//' @return \strong{file_stats} returns a three element vector.
+//' @details \strong{file_stats} returns a three element vector containing a summary of a file's contents.
 //' 'Total_rows' reports the total number of rows read.
 //'  This is either the number of rows in the file or the number of skipped rows and the number of rows read in.
 //'  'Rows' is the number of rows read in.
 //'  This is either the same as nrows or however many rows were read in after skip and before the end of the file (when less than nrows).
+//'  'Columns' is the number of columns resulting after delimiting with sep.
+//'  This information is intended to be used with read_matrix.
+//'  
+//' @return \strong{file_stats} returns a three element vector.
+//'  
 //' 
 //' @export
 // [[Rcpp::export]]
@@ -181,7 +186,11 @@ Rcpp::IntegerVector file_stats( std::string filename,
 //' 
 //' @param cols vector of column numbers to include in the matrix
 //' 
-//' @return \strong{read_matrix} returns a matrix of strings of dimension specified by nrows and ncols.
+//' @details \strong{read_matrix} returns a matrix of strings of dimension specified by nrows and cols.
+//' The cols parameter is a vector of integers specifying which columns to read in.
+//'
+//' @return \strong{read_matrix} returns a matrix of strings
+//'
 //' 
 //' @seealso
 //' \href{http://cran.r-project.org/web/packages/readr/index.html}{readr}

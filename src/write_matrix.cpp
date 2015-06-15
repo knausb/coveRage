@@ -11,11 +11,18 @@ const int nreport = 1000;
 //' @title write_matrix
 //' @rdname write_matrix
 //' 
+//' @description Write matrix data to a gzipped file.
+//' 
 //' @param filename filename for output
 //' @param mymatrix matrix to be written to file
 //' @param sep delimiting character
 //' @param verbose should verbose output be generated?
 //'
+//' @details
+//' Writes matrix data to a gzipped file delimited by sep.
+//' Data is appended to the file.
+//' This is intended to allow header information to be included by other calls.
+//' It should also allow files to grow with incremental processes.
 //'
 //' @export
 // [[Rcpp::export]]

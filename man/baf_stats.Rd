@@ -2,33 +2,19 @@
 % Please edit documentation in R/RcppExports.R
 \name{baf_stats}
 \alias{baf_stats}
-\alias{baf_stats_st}
 \title{baf_stats}
 \usage{
-baf_stats(calls, quals, ref, minq = 0L)
-
-baf_stats_st(inMatrix, minq = 0L)
+baf_stats(inMatrix, minq = 0L)
 }
 \arguments{
-\item{calls}{vector of pileup calls}
-
-\item{quals}{vector of pileup calls}
-
-\item{ref}{vector of reference alleles}
+\item{inMatrix}{input matrix}
 
 \item{minq}{minimum quality for call to be retained}
-
-\item{inMatrix}{input matrix}
 }
 \description{
-baf_stats
-
-baf_stats_st
+Convert mpileup output to count tables
 }
 \details{
-The reference alleles must be in all upper case.
-See \code{toupper} if they are not.
-
 The character matrix \strong{inMatrix} should consist of columns  5 columns.
 The first column is the chromosome name (and is not presently used).
 The second column is the chromosomal position.
@@ -37,5 +23,8 @@ The fourth column is a string of calls.
 The fifth column is a string of qualities.
 This is expected to come from mpileup output.
 Note that while mpileup can include data for multiple samples, here we need to process each sample seperately.
+
+The reference alleles must be in all upper case.
+See \code{toupper} if they are not.
 }
 

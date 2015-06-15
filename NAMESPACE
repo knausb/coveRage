@@ -2,10 +2,8 @@
 
 export(baf_plot)
 export(baf_stats)
-export(baf_stats_st)
 export(bedify)
 export(bedify_nm)
-export(bedify_sm)
 export(file_stats)
 export(read_matrix)
 export(write_matrix)

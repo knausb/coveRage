@@ -4,6 +4,7 @@
 
 //' @title Parse data by a bed file
 //' @rdname bedify
+//' @name bedify
 //' 
 //' @description Seperate a data matrix into list elements based on coordinates from bed format data.
 //' 
@@ -115,12 +116,16 @@ std::vector< int > get_pos( Rcpp::StringMatrix myData ){
 
 
 
-//' @title Parse data by a bed file
-//' @rdname bedify
-//' 
-//' 
-//' @export
+// @title Parse data by a bed file
+// @rdname bedify
+// 
+//
+// @export
 // [[Rcpp::export]]
+
+
+
+
 Rcpp::List bedify_sm( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData ) {
 
   // Initialize return datastructure

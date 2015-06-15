@@ -13,12 +13,17 @@ baf_plot(counts, alpha = 255, title = "Locus", na.rm = FALSE, ...)
 
 \item{title}{for the plot.}
 
-\item{na.rm}{Logical, should sites which contain NAs be removed}
+\item{na.rm}{Logical, should sites which contain NAs (no reported coverage) be removed}
 
 \item{...}{arguments to be passed to methods}
 }
 \description{
-BAlleleFreq plot.
+B allele frequency plot.
+}
+\details{
+Plots coverage and allele frequencies for a chromosomal region.
+The upper pane presents persite sequencing depth while the lower pane presents the frequency of all four alleles.
+These plots can be used to identify technical error (i.e., read alignment issues) and/or biological phenomena such as copy number variation.
 }
 \references{
 Laurie, Cathy C, Kimberly F Doheny, Daniel B Mirel, Elizabeth W Pugh, Laura J Bierut, Tushar Bhangale, Frederick Boehm, Neil E Caporaso, Marilyn C Cornelis, Howard J Edenberg and others.

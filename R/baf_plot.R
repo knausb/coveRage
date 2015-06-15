@@ -4,15 +4,18 @@
 #' @rdname baf_plot
 #' @aliases baf_plot
 #' 
-#' @description BAlleleFreq plot.
+#' @description B allele frequency plot.
 #' 
 #' @param counts a numeric matrix containing count data
 #' @param alpha opacity (0-255)
 #' @param title for the plot.
-#' @param na.rm Logical, should sites which contain NAs be removed
+#' @param na.rm Logical, should sites which contain NAs (no reported coverage) be removed
 #' @param ... arguments to be passed to methods
 #' 
-# @details
+#' @details
+#' Plots coverage and allele frequencies for a chromosomal region.
+#' The upper pane presents persite sequencing depth while the lower pane presents the frequency of all four alleles.
+#' These plots can be used to identify technical error (i.e., read alignment issues) and/or biological phenomena such as copy number variation.
 #' 
 #' 
 #' @references Laurie, Cathy C, Kimberly F Doheny, Daniel B Mirel, Elizabeth W Pugh, Laura J Bierut, Tushar Bhangale, Frederick Boehm, Neil E Caporaso, Marilyn C Cornelis, Howard J Edenberg and others.
