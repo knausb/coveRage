@@ -11,7 +11,9 @@ vignette: >
 
 
 Use of B allele plots is intended to find aberrations in sequence depth and allele frequency.
-Here we explore how to use covR to crete and manipulate BAF plots.
+The B allele plot was originally based on the frequency of the non-reference allele in a biallelic system.
+The BAF plots in covR plot all four possible nucleotide alleles.
+Here we explore how to use covR to create and manipulate BAF plots.
 
 
 ## Basic usage
@@ -98,7 +100,7 @@ This means that columns 2 and 3 (start and end) must be characters.
 
 
 ```{r}
-x3 <- bedify_sm(mybed, x1)
+x3 <- bedify(mybed, x1)
 library(parallel)
 x4 <- mclapply(x3, baf_stats)
 head(x4[[1]])

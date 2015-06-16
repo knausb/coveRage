@@ -2,15 +2,9 @@
 % Please edit documentation in R/RcppExports.R
 \name{bedify}
 \alias{bedify}
-\alias{bedify_nm}
-\alias{bedify_sm}
 \title{Parse data by a bed file}
 \usage{
 bedify(myBed, myData)
-
-bedify_sm(myBed, myData)
-
-bedify_nm(myBed, myData)
 }
 \arguments{
 \item{myBed}{matrix of bed format data}
@@ -19,10 +13,6 @@ bedify_nm(myBed, myData)
 }
 \description{
 Seperate a data matrix into list elements based on coordinates from bed format data.
-
-Parse data by a bed file
-
-Parse data by a bed file
 }
 \details{
 \strong{Bed format} data contain at least four columns.

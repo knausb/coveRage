@@ -53,8 +53,10 @@ myBed[,4] <- paste("gene", 1:5, sep="_")
 #myBed
 
 
+myGenes <- bedify(myBed[1:5,], x2)
+#lapply(myGenes, baf_stats)
 
-myGenes <- bedify(myBed[1:5,], x3)
+#myGenes <- bedify(myBed[1:5,], x3)
 #myGenes
 
 #baf_plot(myGenes[[1]])
@@ -72,10 +74,10 @@ myGenes <- bedify(myBed[1:5,], x3)
 
 #x2[,2]
 
-x4 <- cbind(10, x3)
-colnames(x4)[1] <- "CHROM"
+#x4 <- cbind(10, x3)
+#colnames(x4)[1] <- "CHROM"
 
-myGenes3 <- bedify_nm(myBed, x4)
+#myGenes3 <- bedify_nm(myBed, x4)
 
 #lapply(myGenes3, function(x){x[,1:13]})
 

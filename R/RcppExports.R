@@ -73,24 +73,6 @@ bedify <- function(myBed, myData) {
     .Call('covR_bedify', PACKAGE = 'covR', myBed, myData)
 }
 
-#' @title Parse data by a bed file
-#' @rdname bedify
-#' 
-#'
-#' @export
-bedify_sm <- function(myBed, myData) {
-    .Call('covR_bedify_sm', PACKAGE = 'covR', myBed, myData)
-}
-
-#' @title Parse data by a bed file
-#' @rdname bedify
-#' 
-#' 
-#' @export
-bedify_nm <- function(myBed, myData) {
-    .Call('covR_bedify_nm', PACKAGE = 'covR', myBed, myData)
-}
-
 rcpp_hello_world <- function() {
     .Call('covR_rcpp_hello_world', PACKAGE = 'covR')
 }
