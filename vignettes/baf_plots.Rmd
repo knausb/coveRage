@@ -69,9 +69,26 @@ baf_plot(x2)
 
 
 
-The difference in execution time between `file_stats` and `read_matrix` is due to manipulating the data in memory.
-This suggests some improvements may be made in the code.
-One path I'd like to pursue will be to make `read_matrix` parallelized to improve performance.
-I'll have to learn a few new tricks before I accomplish that though.
+## Resources
+
+There are quite a diversity of softwares available for the analysis of copy number variation.
+Some methods may be specific to a particular technology (e.g., microarrays, Illumina short reads, etc.).
+Some methods may be specific to a particular organism, such as human.
+When shopping for a software for your project, these will be an important consideration.
+Here's a short list of resources I find interesting.
+
+
+* [CopyNumberVariation](http://www.bioconductor.org/packages/release/BiocViews.html#___CopyNumberVariation) BiocView at Bioconductor
+
+* [Coverage](http://www.bioconductor.org/packages/release/BiocViews.html#___Coverage) analyses at Bioconductor
+* [genoCN](http://www.bioconductor.org/packages/release/bioc/html/genoCN.html) at Bioconductor
+* [RDXplorer](http://rdxplorer.sourceforge.net/) - event-wise testing (EWT)
+* [cn.mops](http://www.bioconductor.org/packages/release/bioc/html/cn.mops.html)
+* [readDepth](https://github.com/chrisamiller/readdepth)
+* [VarScan 2](http://varscan.sourceforge.net/)
+* [SegSeq](http://www.broadinstitute.org/cgi-bin/cancer/publications/pub_paper.cgi?mode=view&paper_id=182)
+
+
+[Olshen](http://biostatistics.oxfordjournals.org/content/5/4/557.short?rss=1&ssource=mfc) et al.'s description of circular binary segmentation (originally implemented on microarrays).
 
 
