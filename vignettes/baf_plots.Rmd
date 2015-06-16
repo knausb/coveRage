@@ -11,13 +11,10 @@ vignette: >
 
 
 Use of B allele plots is intended to find aberrations in sequence depth and allele frequency.
+Here we explore how to use covR to crete and manipulate BAF plots.
 
 
-## Preliminaries
-
-
-
-## Workflow
+## Basic usage
 
 
 In `vignette('intro_to_read_matrix')` we discussed the use of `read_matrix`.
@@ -65,7 +62,112 @@ We can plot this information to visualize it with `baf_plot`.
 baf_plot(x2)
 ```
 
-## Future directions
+
+The upper pane displays sequence coverage on forward and reverse strand reads.
+This information is summarized with boxplots at the left of the plot.
+The lower pane shows the frequency of each allele for every position where there is data.
+Many positions are homozygous for one allele.
+This results in a strong line at the frequency of one and zero.
+Diploid heterozygotes are expected to have frequencies near 0.5.
+Genotyping error is expected to occur at low frequency.
+The large gap in the plot is due to an absence of data for this region.
+This may be a deletion in the sequenced sample relative to the reference genotype used for mapping.
+
+
+## Subsetting with *.bed format data.
+
+
+We frequently may want to subset data to regions of interest.
+For example, we may have chromosomal data which we would like to subset to genes.
+We use the function `bedify` to accomplish this.
+First we'll create some [bed format](https://genome.ucsc.edu/FAQ/FAQformat.html#format1) data and use it to subset our example data.
+
+
+```{r}
+mybed <- matrix(nrow=3, ncol=4)
+mybed[,1] <- "Supercontig_1.10"
+mybed[,2] <- c(100, 2000, 9000)
+mybed[,3] <- c(2500, 3000, 11000)
+mybed[,4] <- c('gene 1', 'gene 2', 'gene 3')
+mybed
+```
+
+
+The function `bedify` requires a matrix of characters for its bed data.
+This means that columns 2 and 3 (start and end) must be characters.
+
+
+```{r}
+x3 <- bedify_sm(mybed, x1)
+library(parallel)
+x4 <- mclapply(x3, baf_stats)
+head(x4[[1]])
+```
+
+
+The bedify function returns a list.
+This is nice because we can now use `lapply` or `mclappy`.
+Here I've used `mclapply`, which is a little silly for this small example.
+However, larger dataset which are exectued on computers with a large number of processors may see a performance increase with `mclapply`.
+
+
+We can now visualize our data with a plot.
+
+
+```{r, fig.align='center', fig.height=4, fig.width=6}
+baf_plot(x4[[1]])
+```
+
+
+I've tried to keep `baf_plot` simple by not including many parameters.
+Note that I have included the elipses which allows the possibility to pass other parameters.
+See `?plot.default` for some of these possibilities.
+Here I'll use xlim to zoom in on the plot.
+
+
+```{r, fig.align='center', fig.height=4, fig.width=6}
+baf_plot(x4[[1]], xlim=c(500, 800), title="My gene")
+```
+
+
+
+When we have large quantities of data visualization may not be efficient.
+An alternative may be to collect summary statistics from the loci of interest and focus on those.
+
+
+```{r}
+x5 <- mclapply(x4, function(x){quantile(rowSums(x[,-1]), probs=c(0.025, 0.16, 0.5, 0.84, 0.975))})
+x5 <- matrix(unlist(x5), ncol=5, byrow=TRUE)
+```
+
+
+```{r, fig.align='center', fig.height=4, fig.width=6}
+hist(x5[,3])
+```
+
+
+Histograms are a good way to visualize large quantities of data.
+Because this is a small, example dataset, the histogram is a bit silly.
+But it illustrates use for larger datasets.
+
+
+Its important to note that positions with no data are typically omitted from the mpileup files.
+This save some file space.
+If you are collecting summary statistics this will be important to keep in mind.
+For example, our gene 2 was selected to span into the deletion above.
+When we look at the plot we see it only extends to 2500 bp instead of our specified 400 bp.
+This is because no data exist for the interval from 2500 to 3000.
+This results in a median coverage of 90 for this gene because missing data is effectively ignored.
+If this is an undesired result than missing data should be filled in somehow.
+
+
+
+```{r, fig.align='center', fig.height=4, fig.width=6}
+baf_plot(x4[[2]], title=names(x4)[2])
+```
+
+
+
 
 
 
