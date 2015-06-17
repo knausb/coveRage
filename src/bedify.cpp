@@ -19,7 +19,8 @@ std::vector< int > get_pos( Rcpp::StringMatrix myData ){
 //myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
 Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
                                  std::vector< int > POS,
-                                 Rcpp::StringMatrix myData
+                                 Rcpp::StringMatrix myData,
+                                 int fill_missing
                                  ){
 
   // Convert Rcpp::StringVector elements to int
@@ -39,33 +40,85 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
 
   // Increment to chromosome.
   int i = 0; // Data row counter
-  while ( myData(i,1) != myBed(0) ){
+  while ( myData(i,0) != myBed(0) & i < myData.nrow() ){
     i++;
+  }
+  
+  // If we didn't find the chromosome return NA.
+  if( i == myData.nrow() & fill_missing != 1 ){
+    Rcpp::StringMatrix myMatrix(1);
+    myMatrix(0,0) = NA_STRING;
+    return myMatrix;
   }
 
   // Increment to POS.
-  while( POS[i] < start ){
+  while( POS[i] < start & i < myData.nrow() ){
     i++;
   }
-
+  // If we didn't find the POS return NA.
+  if( i == myData.nrow() & fill_missing != 1 ){
+    Rcpp::StringMatrix myMatrix(1);
+    myMatrix(0,0) = NA_STRING;
+    return myMatrix;
+  }
+  
   // Increment to the end of the feature
   int j=i;
-  while( POS[j] <= end & j < POS.size() ){
+  while( POS[j] <= end & j < myData.nrow() ){
     j++;
   }
 
-  // We now have the information to declare a return matrix
-  int nrows = j - i;
-  Rcpp::StringMatrix myMatrix(nrows, myData.ncol());
-  Rcpp::colnames(myMatrix) = Rcpp::colnames(myData);
+//  for(int q=0; q<myData.nrow();q++){Rcpp::Rcout << myData(q,1)<<"\n";}
 
-  // Populate the return matrix
-  for(int k = 0; k < myMatrix.nrow(); k++){
-    Rcpp::checkUserInterrupt();
-    myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
+  // We now have the information to declare a return matrix
+  if( fill_missing != 1 ){
+    Rcpp::StringMatrix myMatrix( j-i , myData.ncol());
+    Rcpp::colnames(myMatrix) = Rcpp::colnames(myData);
+    // Populate the return matrix
+    for(int k = 0; k < myMatrix.nrow(); k++){
+      Rcpp::checkUserInterrupt();
+      myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
+    }
+    return myMatrix;
+  } else {
+    Rcpp::StringMatrix myMatrix( end - start + 1 , myData.ncol());
+    Rcpp::colnames(myMatrix) = Rcpp::colnames(myData);
+    // Populate the return matrix
+    if( i >= myData.nrow()){
+      // No data
+      for(int k = 0; k < myMatrix.nrow(); k++){
+        Rcpp::checkUserInterrupt();
+        myMatrix(k,0) = myBed(0);
+        myMatrix(k,1) = std::to_string(start + k);
+        for(int m=2; m<myMatrix.ncol(); m++){
+          myMatrix(k,m) = NA_STRING;
+        }
+      }
+    } else {
+      // Data and possibly missing data    
+      int l = 0;
+      for(int k = 0; k < myMatrix.nrow(); k++){
+        Rcpp::checkUserInterrupt();
+//        Rcpp::Rcout << myData( i+l , 1 ) << "\n";
+        temp = Rcpp::as< std::string >( myData( i+l , 1 ) );
+        int myPOS = stoi(temp);
+        if( myPOS == start + k ){
+          myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
+          l++;
+        } else {
+          myMatrix(k,0) = myBed(0);
+          myMatrix(k,1) = std::to_string(myPOS);
+          //myMatrix(k,1) = myBed(1) + k;
+          for(int m=2; m<myMatrix.ncol(); m++){
+            myMatrix(k,m) = NA_STRING;
+          }
+        }
+      }
+    }
+    return myMatrix;
   }
 
-  return myMatrix;
+  Rcpp::Rcerr << "You should never get here, something bad has happened!\n";
 }
 
 
@@ -79,6 +132,7 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
 //' 
 //' @param myBed matrix of bed format data
 //' @param myData StringMatrix or IntegerMatrix to be sorted
+//' @param fill_missing include records for when there is no data.  By default these records are omitted.
 //' 
 //' @details
 //' 
@@ -110,7 +164,7 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
 //' 
 //' @export
 // [[Rcpp::export]]
-Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData ) {
+Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData, int fill_missing = 0 ) {
 
   // Initialize return List
   Rcpp::List myList(myBed.nrow());
@@ -126,7 +180,7 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData ) {
   for( int i=0; i<myBed.nrow(); i++ ){
     Rcpp::checkUserInterrupt();
     
-    myList(i) = proc_feature(myBed(i,Rcpp::_), POS, myData);
+    myList(i) = proc_feature( myBed(i,Rcpp::_), POS, myData, fill_missing );
 //    myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
     
 /*    
