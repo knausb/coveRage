@@ -53,7 +53,8 @@ myBed[,4] <- paste("gene", 1:5, sep="_")
 #myBed
 
 
-myGenes <- bedify(myBed[1:5,], x2)
+myGenes <- bedify(myBed, x2)
+#myGenes <- bedify(myBed[1:5,], x2)
 #lapply(myGenes, baf_stats)
 
 #myGenes <- bedify(myBed[1:5,], x3)

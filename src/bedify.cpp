@@ -16,6 +16,60 @@ std::vector< int > get_pos( Rcpp::StringMatrix myData ){
 
 
 
+//myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
+Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
+                                 std::vector< int > POS,
+                                 Rcpp::StringMatrix myData
+                                 ){
+
+  // Convert Rcpp::StringVector elements to int
+  std::string temp = Rcpp::as< std::string >( myBed(1) );
+  int start = stoi(temp);
+  temp = Rcpp::as< std::string >( myBed(2) );
+  int end = stoi(temp);
+
+//  Rcpp::IntegerVector POSmyData( Rcpp::_, 1 )
+
+  // Manage if feature is on reverse strand
+  if(end < start){
+    int tmp = start;
+    start = end;
+    end = tmp;
+  }
+
+  // Increment to chromosome.
+  int i = 0; // Data row counter
+  while ( myData(i,1) != myBed(0) ){
+    i++;
+  }
+
+  // Increment to POS.
+  while( POS[i] < start ){
+    i++;
+  }
+
+  // Increment to the end of the feature
+  int j=i;
+  while( POS[j] <= end & j < POS.size() ){
+    j++;
+  }
+
+  // We now have the information to declare a return matrix
+  int nrows = j - i;
+  Rcpp::StringMatrix myMatrix(nrows, myData.ncol());
+  Rcpp::colnames(myMatrix) = Rcpp::colnames(myData);
+
+  // Populate the return matrix
+  for(int k = 0; k < myMatrix.nrow(); k++){
+    Rcpp::checkUserInterrupt();
+    myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
+  }
+
+  return myMatrix;
+}
+
+
+
 
 //' @title Parse data by a bed file
 //' @rdname bedify
@@ -72,9 +126,10 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData ) {
   for( int i=0; i<myBed.nrow(); i++ ){
     Rcpp::checkUserInterrupt();
     
-//    myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), myData);
+    myList(i) = proc_feature(myBed(i,Rcpp::_), POS, myData);
+//    myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
     
-    
+/*    
     // Extract StringMatrix elements and convert to int
     std::string temp = Rcpp::as< std::string >(myBed(i,1));
     int start = stoi(temp);
@@ -116,9 +171,11 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData ) {
     
     myList(i) = myMatrix;
 //    myNames(i) = myBed(i,3);
+*/
   }
 
 //  myList.attr("names") = myNames;
+
   return myList;
 }
 
