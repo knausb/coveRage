@@ -103,12 +103,16 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
       int l = 0;
       for(int k = 0; k < myMatrix.nrow(); k++){
         Rcpp::checkUserInterrupt();
+        
         if( i + l < myData.nrow() ){
           // We have not overrun the file yet
           temp = Rcpp::as< std::string >( myData( i+l , 1 ) );
           int myPOS = stoi(temp);
+
           if( myPOS == start + k ){
-            myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
+//            myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
+            myMatrix(k, Rcpp::_) = myData( i + l, Rcpp::_);
+
             l++;
           } else {
             myMatrix(k,0) = myBed(0);
