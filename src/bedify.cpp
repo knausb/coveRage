@@ -132,7 +132,8 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
 //' 
 //' @param myBed matrix of bed format data
 //' @param myData StringMatrix or IntegerMatrix to be sorted
-//' @param fill_missing include records for when there is no data.  By default these records are omitted.
+//' @param fill_missing include records for when there is no data (0, 1).  By default these records are omitted.
+//' @param verbose should verbose output be generated (0, 1)
 //' 
 //' @details
 //' 
@@ -164,8 +165,14 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
 //' 
 //' @export
 // [[Rcpp::export]]
-Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData, int fill_missing = 0 ) {
+Rcpp::List bedify( Rcpp::StringMatrix myBed,
+                   Rcpp::StringMatrix myData, 
+                   int fill_missing = 0, 
+                   int verbose = 0 ) {
 
+  // Start a timer
+  time_t result = time(nullptr);
+  
   // Initialize return List
   Rcpp::List myList(myBed.nrow());
   myList.attr("names") = myBed( Rcpp::_ , 3 );
@@ -179,6 +186,10 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData, int fill
   // Scroll over bed rows (features).
   for( int i=0; i<myBed.nrow(); i++ ){
     Rcpp::checkUserInterrupt();
+    
+    if( verbose == 1){
+      Rcpp::Rcout << "Searching for " << myBed(i,3) << " at " << time(nullptr) - result << " seconds.\n";
+    }
     
     myList(i) = proc_feature( myBed(i,Rcpp::_), POS, myData, fill_missing );
 //    myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);

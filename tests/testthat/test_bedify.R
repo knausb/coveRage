@@ -16,7 +16,8 @@ myBed[,4] <- paste("gene", 1:5, sep="_")
 
 
 # Without fill_missing.
-myGenes <- bedify(myBed, x1)
+myGenes <- bedify(myBed, x1, verbose=0)
+
 
 test_that("myGenes contains the correct number of genes", {
   expect_equal(length(myGenes), 5)
