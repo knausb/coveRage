@@ -71,7 +71,9 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
 //  for(int q=0; q<myData.nrow();q++){Rcpp::Rcout << myData(q,1)<<"\n";}
 
   // We now have the information to declare a return matrix
+  // and populate it.
   if( fill_missing != 1 ){
+    // Do not fill missubg data.
     Rcpp::StringMatrix myMatrix( j-i , myData.ncol());
     Rcpp::colnames(myMatrix) = Rcpp::colnames(myData);
     // Populate the return matrix
@@ -81,8 +83,10 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
     }
     return myMatrix;
   } else {
+    // Fill missing data.
     Rcpp::StringMatrix myMatrix( end - start + 1 , myData.ncol());
     Rcpp::colnames(myMatrix) = Rcpp::colnames(myData);
+
     // Populate the return matrix
     if( i >= myData.nrow()){
       // No data
@@ -99,15 +103,25 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
       int l = 0;
       for(int k = 0; k < myMatrix.nrow(); k++){
         Rcpp::checkUserInterrupt();
-//        Rcpp::Rcout << myData( i+l , 1 ) << "\n";
-        temp = Rcpp::as< std::string >( myData( i+l , 1 ) );
-        int myPOS = stoi(temp);
-        if( myPOS == start + k ){
-          myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
-          l++;
+        if( i + l < myData.nrow() ){
+          // We have not overrun the file yet
+          temp = Rcpp::as< std::string >( myData( i+l , 1 ) );
+          int myPOS = stoi(temp);
+          if( myPOS == start + k ){
+            myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
+            l++;
+          } else {
+            myMatrix(k,0) = myBed(0);
+            myMatrix(k,1) = std::to_string(myPOS);
+            //myMatrix(k,1) = myBed(1) + k;
+            for(int m=2; m<myMatrix.ncol(); m++){
+              myMatrix(k,m) = NA_STRING;
+            }
+          }
         } else {
+          // We've overrun the rows in the file.
           myMatrix(k,0) = myBed(0);
-          myMatrix(k,1) = std::to_string(myPOS);
+          myMatrix(k,1) = std::to_string( start + k );
           //myMatrix(k,1) = myBed(1) + k;
           for(int m=2; m<myMatrix.ncol(); m++){
             myMatrix(k,m) = NA_STRING;
@@ -188,55 +202,15 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
     Rcpp::checkUserInterrupt();
     
     if( verbose == 1){
-      Rcpp::Rcout << "Searching for " << myBed(i,3) << " at " << time(nullptr) - result << " seconds.\n";
+      Rcpp::Rcout << "Searching for feature " << i + 1 << ": " << myBed(i,3);
+      Rcpp::Rcout << " on " << myBed(i,0);
+      Rcpp::Rcout << " at " << time(nullptr) - result << " seconds.\n";
     }
     
     myList(i) = proc_feature( myBed(i,Rcpp::_), POS, myData, fill_missing );
 //    myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
     
-/*    
-    // Extract StringMatrix elements and convert to int
-    std::string temp = Rcpp::as< std::string >(myBed(i,1));
-    int start = stoi(temp);
-    temp = Rcpp::as< std::string >(myBed(i,2));
-    int end = stoi(temp);
-    
-    // Manage if on reverse strand
-    if(end < start){
-      int tmp = start;
-      start = end;
-      end = tmp;
-    }
 
-    int j=0;  // matrix to bedify row counter
-    // Increment to feature beginning.
-    while(POS[j] < start){
-      Rcpp::checkUserInterrupt();
-      j++;
-    }
-
-    // Increment past all records for the feature
-    int k=j;
-    while( POS[k] <= end & k < POS.size() ){
-      k++;
-    }
-
-    // Declare and populate a return matrix
-    int nrows = k - j + 0;
-    Rcpp::StringMatrix myMatrix(nrows, myData.ncol());
-    
-    for(int l = 0; l < myMatrix.nrow(); l++){
-      Rcpp::checkUserInterrupt();
-      myMatrix(l, Rcpp::_) = myData(l+j, Rcpp::_);
-    }
-    
-    if( myColNames.size() > 0){
-      Rcpp::colnames(myMatrix) = myColNames;
-    }
-    
-    myList(i) = myMatrix;
-//    myNames(i) = myBed(i,3);
-*/
   }
 
 //  myList.attr("names") = myNames;

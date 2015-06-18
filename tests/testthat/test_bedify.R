@@ -11,7 +11,7 @@ myBed <- matrix(ncol=4, nrow=5)
 #myBed[,1] <- "sc12"
 myBed[,1] <- "Supercontig_1.10"
 myBed[,2] <- c(1, 1001, 1011, 9100, 10600)
-myBed[,3] <- c(10, 1020, 1030, 9110, 10607)
+myBed[,3] <- c(10, 1020, 1030, 9110, 10610)
 myBed[,4] <- paste("gene", 1:5, sep="_")
 
 
@@ -46,7 +46,7 @@ test_that("myGenes contains the correct number of rows", {
   expect_equal(nrow(myGenes[[2]]), 20)
   expect_equal(nrow(myGenes[[3]]), 20)
   expect_equal(nrow(myGenes[[4]]), 11)
-  expect_equal(nrow(myGenes[[5]]), 8)
+  expect_equal(nrow(myGenes[[5]]), 11)
 #  lapply(myGenes, nrow)
 })
 
