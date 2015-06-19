@@ -9,77 +9,55 @@ ex_file <- system.file("extdata", "sc10_4k.mpileup.gz", package = "covR")
 stats <- file_stats(ex_file, verbose=0)
 x1 <- read_matrix(ex_file, nrows=stats[2], cols=1:stats[3], verbose=0)
 
-#x2 <- x1[1:10,]
-x2 <- x1
 
-#RcppParallel::setThreadOptions(numThreads = 1)
-#x2 <- baf_stats(calls=x1[,5], quals=x1[,6], ref=x1[,3], minq=0)
+x2 <- baf_stats(x1[,c(1:3, 5, 6)], minq=0)
 
-
-#test_that("baf_stats works",{
-#  x2 <- baf_stats(calls=x1[,5], quals=x1[,6], ref=x1[,3], minq=0)
-#  head(x2)
-#})
+test_that("baf_stats returns a matrix of appropriate dimensions", {
+  expect_equal(class(x2), "matrix")
+  expect_equal(ncol(x2), 12)
+  expect_equal(nrow(x2), 4000)  
+})
 
 
-#RcppParallel::setThreadOptions(numThreads = 2)
+x3 <- baf_summary(x2)
 
-#head(x2)
-#head(x2[,c(2, 3, 5, 6)])
-
-
-
-#x3 <- baf_stats_st(x2[,c(1:3, 5, 6)], minq=0)
-x3 <- baf_stats(x2[,c(1:3, 5, 6)], minq=0)
-
-#head(x3)
-
-
-#baf_plot(x3)
-#baf_plot(x3, xlim=c(0,2000))
-#baf_plot(x3, xlim=c(9001,9106))
-#baf_plot(x3, xlim=c(9100,9110))
-
-#count_df <- x3
+test_that("baf_summary returns a vector of appropriate dimension", {
+  expect_equal(class(x3), "numeric")
+  expect_equal(length(x3), 7)
+})
 
 
 myBed <- matrix(ncol=4, nrow=5)
-
-myBed[,1] <- "sc12"
-
+myBed[,1] <- "Supercontig_1.10"
+#myBed[,1] <- "sc12"
 myBed[,2] <- c(1, 1001, 1011, 9100, 10600)
 myBed[,3] <- c(10, 1020, 1030, 9110, 10607)
 myBed[,4] <- paste("gene", 1:5, sep="_")
 #myBed
 
 
-myGenes <- bedify(myBed, x2)
-#myGenes <- bedify(myBed[1:5,], x2)
-#lapply(myGenes, baf_stats)
+myGenes <- bedify(myBed, x1)
 
-#myGenes <- bedify(myBed[1:5,], x3)
-#myGenes
-
-#baf_plot(myGenes[[1]])
-
-#baf_plot(myGenes[[4]], na.rm=T)
-
-#colnames(x2) <- paste("col", 1:ncol(x2), sep="_")
-
-#myGenes2 <- bedify_sm(myBed, x2)
-#myGenes2 <- bedify_sm(myBed, x2)
+test_that("bedify returns a list of appropriate dimension", {
+  expect_equal(class(myGenes), "list")
+  expect_equal(length(myGenes), 5)
+})
 
 
+myGenes_stat <- lapply(myGenes, baf_stats)
 
-#lapply(myGenes2, function(x){x[,1:4]})
+test_that("baf_stats works with lapply", {
+  expect_equal(class(myGenes_stat), "list")
+  expect_equal(length(myGenes_stat), 5)  
+})
 
-#x2[,2]
 
-#x4 <- cbind(10, x3)
-#colnames(x4)[1] <- "CHROM"
+myGenes_sum <- lapply(myGenes_stat, baf_summary)
 
-#myGenes3 <- bedify_nm(myBed, x4)
-
-#lapply(myGenes3, function(x){x[,1:13]})
-
+test_that("baf_sum works with lapply", {
+  expect_equal(class(myGenes_sum), "list")
+  expect_equal(length(myGenes_sum), 5)
+  expect_equal(class(myGenes_sum[[1]]), "numeric")
+  expect_equal(length(myGenes_sum[[1]]), 7)
+})
 

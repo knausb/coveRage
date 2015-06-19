@@ -2,6 +2,7 @@
 
 export(baf_plot)
 export(baf_stats)
+export(baf_summary)
 export(bedify)
 export(file_stats)
 export(read_matrix)
