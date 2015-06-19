@@ -5,7 +5,7 @@
 
 std::vector< int > get_pos( Rcpp::StringMatrix myData ){
   std::vector< int > POS(myData.nrow());
-
+  
   for(int i=0; i<POS.size(); i++){
     std::string temp = Rcpp::as< std::string >(myData(i,1));
     POS[i] = stoi(temp);
