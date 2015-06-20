@@ -194,9 +194,12 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
   // Initialize return List
   Rcpp::List myList(myBed.nrow());
 
-  myList.attr("names") = Rcpp::StringVector::create(myBed[ 3 ]);
-  //myList.attr("names") = myBed( Rcpp::_ , 3 );
-
+  Rcpp::StringVector myListNames( myBed.nrow() );
+  for(int i = 0; i < myBed.nrow(); i++){
+    myListNames(i) = myBed( i, 3 );
+  }
+  myList.attr( "names" ) = myListNames;
+  
   // Col names for each return matrix
   Rcpp::StringVector myColNames = Rcpp::colnames(myData);
 

@@ -29,13 +29,21 @@ test_that("myGenes contains the correct number of rows", {
   expect_equal(nrow(myGenes[[3]]), 20)
   expect_equal(nrow(myGenes[[4]]), 5)
   expect_equal(nrow(myGenes[[5]]), 8)
-  lapply(myGenes, nrow)
+#  lapply(myGenes, nrow)
 })
 
 
 
-# Without fill_missing.
-myGenes <- bedify(myBed, x1, fill_missing=1)
+# With fill_missing.
+myGenes <- bedify(myBed, x1[,c(1:3, 5, 6)], fill_missing=1)
+
+#names(myGenes)
+
+
+test_that("bedify return list names are correct", {
+  expect_equal(sum(names(myGenes) == myBed[,4]), nrow(myBed))
+})
+
 
 test_that("myGenes contains the correct number of genes", {
   expect_equal(length(myGenes), 5)
@@ -50,7 +58,11 @@ test_that("myGenes contains the correct number of rows", {
 #  lapply(myGenes, nrow)
 })
 
-test_that("myGenes contains NAs", {
-  expect_equal(sum(is.na(myGenes[[4]][1:6,3:54])), 312)
-})
+#test_that("myGenes contains NAs", {
+#  expect_equal(sum(is.na(myGenes[[4]][1:6,3:54])), 312)
+#})
+
+#myGenes[[5]][9:11,]
+
+#lapply(myGenes, baf_stats)
 
