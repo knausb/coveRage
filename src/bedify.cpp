@@ -190,11 +190,13 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
 
   // Start a timer
   time_t result = time(nullptr);
-  
+
   // Initialize return List
   Rcpp::List myList(myBed.nrow());
-  myList.attr("names") = myBed( Rcpp::_ , 3 );
-  
+
+  myList.attr("names") = Rcpp::StringVector::create(myBed[ 3 ]);
+  //myList.attr("names") = myBed( Rcpp::_ , 3 );
+
   // Col names for each return matrix
   Rcpp::StringVector myColNames = Rcpp::colnames(myData);
 
@@ -204,7 +206,7 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
   // Scroll over bed rows (features).
   for( int i=0; i<myBed.nrow(); i++ ){
     Rcpp::checkUserInterrupt();
-    
+
     if( verbose == 1){
       Rcpp::Rcout << "Searching for feature " << i + 1 << ": " << myBed(i,3);
       Rcpp::Rcout << " on " << myBed(i,0);
