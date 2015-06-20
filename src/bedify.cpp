@@ -94,9 +94,10 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
         Rcpp::checkUserInterrupt();
         myMatrix(k,0) = myBed(0);
         myMatrix(k,1) = std::to_string(start + k);
-        for(int m=2; m<myMatrix.ncol(); m++){
-          myMatrix(k,m) = NA_STRING;
-        }
+        myMatrix(k,2) = NA_STRING;
+//        for(int m=2; m<myMatrix.ncol(); m++){
+//          myMatrix(k,m) = NA_STRING;
+//        }
       }
     } else {
       // Data and possibly missing data    
@@ -117,19 +118,21 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
           } else {
             myMatrix(k,0) = myBed(0);
             myMatrix(k,1) = std::to_string(myPOS);
+            myMatrix(k,2) = NA_STRING;
             //myMatrix(k,1) = myBed(1) + k;
-            for(int m=2; m<myMatrix.ncol(); m++){
-              myMatrix(k,m) = NA_STRING;
-            }
+            //for(int m=2; m<myMatrix.ncol(); m++){
+            //  myMatrix(k,m) = NA_STRING;
+            //}
           }
         } else {
           // We've overrun the rows in the file.
           myMatrix(k,0) = myBed(0);
           myMatrix(k,1) = std::to_string( start + k );
+          myMatrix(k,2) = NA_STRING;
           //myMatrix(k,1) = myBed(1) + k;
-          for(int m=2; m<myMatrix.ncol(); m++){
-            myMatrix(k,m) = NA_STRING;
-          }
+          //for(int m=2; m<myMatrix.ncol(); m++){
+          //  myMatrix(k,m) = NA_STRING;
+          //}
         }
       }
     }

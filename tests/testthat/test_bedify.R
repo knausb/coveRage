@@ -64,5 +64,10 @@ test_that("myGenes contains the correct number of rows", {
 
 #myGenes[[5]][9:11,]
 
-#lapply(myGenes, baf_stats)
+#myGenes_bf <- lapply(myGenes, baf_stats)
+
+#lapply(myGenes_bf, baf_summary)
+
+
+
 
