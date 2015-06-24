@@ -19,6 +19,20 @@ test_that("baf_stats returns a matrix of appropriate dimensions", {
 })
 
 
+test_that("baf_stats minq filters calls", {
+  x2 <- baf_stats(x1[,c(1:3, 5, 6)], minq=0)
+  expect_match(sum(rowSums(x2[,-1])), "^1833[[:digit:]]{2}")
+  x2 <- baf_stats(x1[,c(1:3, 5, 6)], minq=20)
+  expect_match(sum(rowSums(x2[,-1])), "^1823[[:digit:]]{2}")
+  x2 <- baf_stats(x1[,c(1:3, 5, 6)], minq=30)
+  expect_match(sum(rowSums(x2[,-1])), "^1765[[:digit:]]{2}")
+  x2 <- baf_stats(x1[,c(1:3, 5, 6)], minq=40)
+  expect_match(sum(rowSums(x2[,-1])), "^841[[:digit:]]{2}")
+  
+# sum(rowSums(x2[,-1]))
+# baf_plot(x2)
+})
+
 x3 <- baf_summary(x2)
 
 test_that("baf_summary returns a vector of appropriate dimension", {
