@@ -39,6 +39,8 @@ baf_stats <- function(inMatrix, minq = 0L) {
 #' 
 #' @param myBed matrix of bed format data
 #' @param myData StringMatrix or IntegerMatrix to be sorted
+#' @param fill_missing include records for when there is no data (0, 1).  By default these records are omitted.
+#' @param verbose should verbose output be generated (0, 1)
 #' 
 #' @details
 #' 
@@ -69,21 +71,8 @@ baf_stats <- function(inMatrix, minq = 0L) {
 #' \href{https://genome.ucsc.edu/FAQ/FAQformat.html#format1}{Bed format} at UCSC
 #' 
 #' @export
-bedify <- function(myBed, myData) {
-    .Call('coveRage_bedify', PACKAGE = 'coveRage', myBed, myData)
-}
-
-bedify_sm <- function(myBed, myData) {
-    .Call('coveRage_bedify_sm', PACKAGE = 'coveRage', myBed, myData)
-}
-
-#' @title Parse data by a bed file
-#' @rdname bedify
-#' 
-#' 
-#' @export
-bedify_nm <- function(myBed, myData) {
-    .Call('coveRage_bedify_nm', PACKAGE = 'coveRage', myBed, myData)
+bedify <- function(myBed, myData, fill_missing = 0L, verbose = 0L) {
+    .Call('coveRage_bedify', PACKAGE = 'coveRage', myBed, myData, fill_missing, verbose)
 }
 
 rcpp_hello_world <- function() {

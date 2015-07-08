@@ -2,22 +2,21 @@
 % Please edit documentation in R/RcppExports.R
 \name{bedify}
 \alias{bedify}
-\alias{bedify_nm}
 \title{Parse data by a bed file}
 \usage{
-bedify(myBed, myData)
-
-bedify_nm(myBed, myData)
+bedify(myBed, myData, fill_missing = 0L, verbose = 0L)
 }
 \arguments{
 \item{myBed}{matrix of bed format data}
 
 \item{myData}{StringMatrix or IntegerMatrix to be sorted}
+
+\item{fill_missing}{include records for when there is no data (0, 1).  By default these records are omitted.}
+
+\item{verbose}{should verbose output be generated (0, 1)}
 }
 \description{
 Seperate a data matrix into list elements based on coordinates from bed format data.
-
-Parse data by a bed file
 }
 \details{
 \strong{Bed format} data contain at least four columns.

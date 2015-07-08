@@ -32,38 +32,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // bedify
-Rcpp::List bedify(Rcpp::StringMatrix myBed, Rcpp::IntegerMatrix myData);
-RcppExport SEXP coveRage_bedify(SEXP myBedSEXP, SEXP myDataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerMatrix >::type myData(myDataSEXP);
-    __result = Rcpp::wrap(bedify(myBed, myData));
-    return __result;
-END_RCPP
-}
-// bedify_sm
-Rcpp::List bedify_sm(Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData);
-RcppExport SEXP coveRage_bedify_sm(SEXP myBedSEXP, SEXP myDataSEXP) {
+Rcpp::List bedify(Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData, int fill_missing, int verbose);
+RcppExport SEXP coveRage_bedify(SEXP myBedSEXP, SEXP myDataSEXP, SEXP fill_missingSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
     Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myData(myDataSEXP);
-    __result = Rcpp::wrap(bedify_sm(myBed, myData));
-    return __result;
-END_RCPP
-}
-// bedify_nm
-Rcpp::List bedify_nm(Rcpp::StringMatrix myBed, Rcpp::NumericMatrix myData);
-RcppExport SEXP coveRage_bedify_nm(SEXP myBedSEXP, SEXP myDataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< Rcpp::StringMatrix >::type myBed(myBedSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type myData(myDataSEXP);
-    __result = Rcpp::wrap(bedify_nm(myBed, myData));
+    Rcpp::traits::input_parameter< int >::type fill_missing(fill_missingSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    __result = Rcpp::wrap(bedify(myBed, myData, fill_missing, verbose));
     return __result;
 END_RCPP
 }

@@ -31,7 +31,8 @@ void write_matrix( std::string filename,
                    std::string sep = "\t",
                    int verbose = 1) {
 
-  gzFile *fi = (gzFile *)gzopen(filename.c_str(),"ab");
+  gzFile fi = gzopen( filename.c_str(), "ab" );
+//  gzFile *fi = (gzFile *)gzopen(filename.c_str(),"ab");
 
   int i = 0;
   for( i = 0; i<mymatrix.nrow(); i++){

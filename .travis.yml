@@ -1,4 +1,8 @@
 # Sample .travis.yml for R projects from https://github.com/craigcitro/r-travis
+#
+# See README.md for instructions, or for more configuration options,
+# see the wiki:
+#   https://github.com/craigcitro/r-travis/wiki
 
 sudo: required
 
@@ -11,7 +15,6 @@ before_install:
 
 install:
   - ./travis-tool.sh install_deps
-
 script: ./travis-tool.sh run_tests
 
 after_failure:
