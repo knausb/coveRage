@@ -19,10 +19,10 @@ A major bottleneck in bioinformatics projects is reading large quantities of dat
 The tools provided by R were not really intended for the large file sizes encountered in bioinformatics.
 For example, `read.table` can be frustratingly slow.
 There are a few alternatives existing.
-The fastest option is probably [data.table::fread](http://cran.r-project.org/web/packages/data.table/index.html).
+The fastest option is probably [data.table::fread](http://cran.r-project.org/package=data.table).
 It's one shortcoming is that it doesn't currently read in compressed files.
 In Unix environments this can be addressed with `zcat` or `gzcat` inside the fread call.
-Another option is [readr](http://cran.r-project.org/web/packages/readr/index.html).
+Another option is [readr](http://cran.r-project.org/package=readr).
 
 
 I've also decided to make my own attempt at making a fast read function with the hope it may provide flexibility not available in the above examples.
