@@ -8,7 +8,8 @@ std::vector< int > get_pos( Rcpp::StringMatrix myData ){
   
   for(int i=0; i<POS.size(); i++){
     std::string temp = Rcpp::as< std::string >(myData(i,1));
-    POS[i] = stoi(temp);
+    POS[i] = atoi(temp.c_str());
+//    POS[i] = stoi(temp);
   }
   
   return(POS);
@@ -25,10 +26,12 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
 
   // Convert Rcpp::StringVector elements to int
   std::string temp = Rcpp::as< std::string >( myBed(1) );
-  int start = stoi(temp);
+  int start = atoi(temp.c_str());
+//  int start = stoi(temp);
   temp = Rcpp::as< std::string >( myBed(2) );
-  int end = stoi(temp);
-
+  int end = atoi(temp.c_str());
+//  int end = stoi(temp);
+  
 //  Rcpp::IntegerVector POSmyData( Rcpp::_, 1 )
 
   // Manage if feature is on reverse strand
@@ -93,7 +96,11 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
       for(int k = 0; k < myMatrix.nrow(); k++){
         Rcpp::checkUserInterrupt();
         myMatrix(k,0) = myBed(0);
-        myMatrix(k,1) = std::to_string(start + k);
+//        myMatrix(k,1) = std::to_string(start + k);
+        std::ostringstream stm;
+        stm << start + k;
+        myMatrix(k,1) = stm.str();
+        
         myMatrix(k,2) = NA_STRING;
 //        for(int m=2; m<myMatrix.ncol(); m++){
 //          myMatrix(k,m) = NA_STRING;
@@ -108,7 +115,8 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
         if( i + l < myData.nrow() ){
           // We have not overrun the file yet
           temp = Rcpp::as< std::string >( myData( i+l , 1 ) );
-          int myPOS = stoi(temp);
+          int myPOS = atoi(temp.c_str());
+//          int myPOS = stoi(temp);
 
           if( myPOS == start + k ){
 //            myMatrix(k, Rcpp::_) = myData(k+i, Rcpp::_);
@@ -117,7 +125,11 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
             l++;
           } else {
             myMatrix(k,0) = myBed(0);
-            myMatrix(k,1) = std::to_string(myPOS);
+//            myMatrix(k,1) = std::to_string(myPOS);
+            std::ostringstream stm;
+            stm << myPOS;
+            myMatrix(k,1) = stm.str();
+            
             myMatrix(k,2) = NA_STRING;
             //myMatrix(k,1) = myBed(1) + k;
             //for(int m=2; m<myMatrix.ncol(); m++){
@@ -127,7 +139,11 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
         } else {
           // We've overrun the rows in the file.
           myMatrix(k,0) = myBed(0);
-          myMatrix(k,1) = std::to_string( start + k );
+//          myMatrix(k,1) = std::to_string( start + k );
+          std::ostringstream stm;
+          stm << start + k;
+          myMatrix(k,1) = stm.str();
+
           myMatrix(k,2) = NA_STRING;
           //myMatrix(k,1) = myBed(1) + k;
           //for(int m=2; m<myMatrix.ncol(); m++){
