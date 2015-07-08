@@ -2,7 +2,7 @@
 library(coveRage)
 context("Bedify")
 
-ex_file <- system.file("extdata", "sc10_4k.mpileup.gz", package = "covR")
+ex_file <- system.file("extdata", "sc10_4k.mpileup.gz", package = "coveRage")
 stats <- file_stats(ex_file, verbose=0)
 x1 <- read_matrix(ex_file, nrows=stats[2], cols=1:stats[3], verbose=0)
 
