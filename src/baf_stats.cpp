@@ -239,7 +239,8 @@ Rcpp::IntegerMatrix baf_stats(Rcpp::StringMatrix inMatrix,
     
     // Load counts into output matrix
     std::string strPOS = Rcpp::as< std::string >(inMatrix(i,1));
-    outMatrix(i,0) = std::stoi( strPOS );
+//    outMatrix(i,0) = std::stoi( strPOS );
+    outMatrix(i,0) = atoi( strPOS.c_str() );
     for(int j=0; j<out_row.size(); j++){
       outMatrix(i,j+1) = out_row(j);
     }

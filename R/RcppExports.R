@@ -2,7 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 baf_stats_v1 <- function(calls, quals, ref, minq = 0L) {
-    .Call('covR_baf_stats_v1', PACKAGE = 'covR', calls, quals, ref, minq)
+    .Call('coveRage_baf_stats_v1', PACKAGE = 'coveRage', calls, quals, ref, minq)
 }
 
 #' @name baf_stats
@@ -28,7 +28,7 @@ baf_stats_v1 <- function(calls, quals, ref, minq = 0L) {
 #' 
 #' @export
 baf_stats <- function(inMatrix, minq = 0L) {
-    .Call('covR_baf_stats', PACKAGE = 'covR', inMatrix, minq)
+    .Call('coveRage_baf_stats', PACKAGE = 'coveRage', inMatrix, minq)
 }
 
 #' @title Parse data by a bed file
@@ -70,11 +70,11 @@ baf_stats <- function(inMatrix, minq = 0L) {
 #' 
 #' @export
 bedify <- function(myBed, myData) {
-    .Call('covR_bedify', PACKAGE = 'covR', myBed, myData)
+    .Call('coveRage_bedify', PACKAGE = 'coveRage', myBed, myData)
 }
 
 bedify_sm <- function(myBed, myData) {
-    .Call('covR_bedify_sm', PACKAGE = 'covR', myBed, myData)
+    .Call('coveRage_bedify_sm', PACKAGE = 'coveRage', myBed, myData)
 }
 
 #' @title Parse data by a bed file
@@ -83,11 +83,11 @@ bedify_sm <- function(myBed, myData) {
 #' 
 #' @export
 bedify_nm <- function(myBed, myData) {
-    .Call('covR_bedify_nm', PACKAGE = 'covR', myBed, myData)
+    .Call('coveRage_bedify_nm', PACKAGE = 'coveRage', myBed, myData)
 }
 
 rcpp_hello_world <- function() {
-    .Call('covR_rcpp_hello_world', PACKAGE = 'covR')
+    .Call('coveRage_rcpp_hello_world', PACKAGE = 'coveRage')
 }
 
 #' @title File input
@@ -118,7 +118,7 @@ rcpp_hello_world <- function() {
 #' 
 #' @export
 file_stats <- function(filename, sep = "\t", nrows = -1L, skip = 0L, verbose = 1L) {
-    .Call('covR_file_stats', PACKAGE = 'covR', filename, sep, nrows, skip, verbose)
+    .Call('coveRage_file_stats', PACKAGE = 'coveRage', filename, sep, nrows, skip, verbose)
 }
 
 #' @rdname read_matrix
@@ -133,16 +133,16 @@ file_stats <- function(filename, sep = "\t", nrows = -1L, skip = 0L, verbose = 1
 #'
 #' 
 #' @seealso
-#' \href{http://cran.r-project.org/web/packages/readr/index.html}{readr}
-#' \href{http://cran.r-project.org/web/packages/data.table/index.html}{data.table::fread}
+#' \href{http://cran.r-project.org/package=readr}{readr}
+#' \href{http://cran.r-project.org/package=data.table}{data.table::fread}
 #'
 #' @export
 read_matrix <- function(filename, sep = "\t", nrows = 1L, cols = 0L, skip = 0L, verbose = 1L) {
-    .Call('covR_read_matrix', PACKAGE = 'covR', filename, sep, nrows, cols, skip, verbose)
+    .Call('coveRage_read_matrix', PACKAGE = 'coveRage', filename, sep, nrows, cols, skip, verbose)
 }
 
 parallelVectorSum <- function(x) {
-    .Call('covR_parallelVectorSum', PACKAGE = 'covR', x)
+    .Call('coveRage_parallelVectorSum', PACKAGE = 'coveRage', x)
 }
 
 #' @name write_matrix
@@ -164,6 +164,6 @@ parallelVectorSum <- function(x) {
 #'
 #' @export
 write_matrix <- function(filename, mymatrix, sep = "\t", verbose = 1L) {
-    invisible(.Call('covR_write_matrix', PACKAGE = 'covR', filename, mymatrix, sep, verbose))
+    invisible(.Call('coveRage_write_matrix', PACKAGE = 'coveRage', filename, mymatrix, sep, verbose))
 }
 

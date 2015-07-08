@@ -193,8 +193,8 @@ Rcpp::IntegerVector file_stats( std::string filename,
 //'
 //' 
 //' @seealso
-//' \href{http://cran.r-project.org/web/packages/readr/index.html}{readr}
-//' \href{http://cran.r-project.org/web/packages/data.table/index.html}{data.table::fread}
+//' \href{http://cran.r-project.org/package=readr}{readr}
+//' \href{http://cran.r-project.org/package=data.table}{data.table::fread}
 //'
 //' @export
 // [[Rcpp::export]]

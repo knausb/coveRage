@@ -45,7 +45,7 @@ Fast but featureless input of tabular data in either *.txt or *.gz format.
 The cols parameter is a vector of integers specifying which columns to read in.
 }
 \seealso{
-\href{http://cran.r-project.org/web/packages/readr/index.html}{readr}
-\href{http://cran.r-project.org/web/packages/data.table/index.html}{data.table::fread}
+\href{http://cran.r-project.org/package=readr}{readr}
+\href{http://cran.r-project.org/package=data.table}{data.table::fread}
 }
 

@@ -1,2 +1,2 @@
 library(testthat)
-test_check("covR")
+test_check("coveRage")

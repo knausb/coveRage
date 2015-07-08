@@ -1,6 +1,6 @@
-Package: covR
+Package: coveRage
 Type: Package
-Title: Tools to explore sequencing coverage in high-throughput sequencing projects
+Title: Tools to Explore Sequencing Coverage in High-Throughput Sequencing Projects
 Version: 0.1
 Date: 2015-05-04
 Author: Brian J. Knaus
