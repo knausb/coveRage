@@ -1,11 +1,10 @@
 # coveRage
 Tools to explore sequencing coverage in high-throughput sequencing projects
 
-[![Travis-CI Build Status](https://travis-ci.org/knausb/covR.png?branch=master)](https://travis-ci.org/knausb/covR)
+[![Travis-CI Build Status](https://travis-ci.org/knausb/coveRage.png?branch=master)](https://travis-ci.org/knausb/coveRage)
 
 This package was called `covR` for a brief time.
-Due to a name conflict with a package already at CRAN I've renamed it to coveRage.
-[covr](https://github.com/search?utf8=%E2%9C%93&q=covR).
+Due to a name conflict with a package already at CRAN ([covr](https://github.com/search?utf8=%E2%9C%93&q=covR)) I've renamed it to coveRage.
 
 While this project is in development it can be installed through github:
 
