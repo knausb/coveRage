@@ -1,5 +1,5 @@
 
-library(covR)
+library(coveRage)
 context("Bedify")
 
 ex_file <- system.file("extdata", "sc10_4k.mpileup.gz", package = "covR")
@@ -66,7 +66,7 @@ test_that("myGenes contains the correct number of rows", {
 
 myGenes_bf <- lapply(myGenes, baf_stats)
 
-baf_plot(myGenes_bf[[5]])
+#baf_plot(myGenes_bf[[5]])
 
 #lapply(myGenes_bf, baf_summary)
 
