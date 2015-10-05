@@ -175,11 +175,12 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
 //' 
 //' @details
 //' 
-//' \strong{Bed format} data contain at least four columns.
+//' \strong{Bed format} data contain at least three columns.
 //' The first column indicates the chromosome (i.e., supercontig, scaffold, contig, etc.).
 //' The second cotains the starting positions.
 //' The third the ending positions.
-//' The fourth are the names of the features.
+//' Optional columns are in columns four through nine.
+//' For example, the fourth column may contain the names of features.
 //' All subsequent columns are ignored here.
 //' In an attempt to optimize performance the data are expected to be formatted as a character matrix.
 //' The starting and end positions are converted to numerics internally.
@@ -214,14 +215,15 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
   // Initialize return List
   Rcpp::List myList(myBed.nrow());
 
+  // Col names for each return matrix
+  Rcpp::StringVector myColNames = Rcpp::colnames(myData);
+  
   Rcpp::StringVector myListNames( myBed.nrow() );
   for(int i = 0; i < myBed.nrow(); i++){
     myListNames(i) = myBed( i, 3 );
   }
   myList.attr( "names" ) = myListNames;
-  
-  // Col names for each return matrix
-  Rcpp::StringVector myColNames = Rcpp::colnames(myData);
+
 
   // Convert POS to ints
   std::vector< int > POS = get_pos(myData);
@@ -238,7 +240,7 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
     
     myList(i) = proc_feature( myBed(i,Rcpp::_), POS, myData, fill_missing );
 //    myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
-    
+    Rcpp::colnames(myList(i)) = myColNames;
 
   }
 

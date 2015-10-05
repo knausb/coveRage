@@ -19,11 +19,12 @@ bedify(myBed, myData, fill_missing = 0L, verbose = 0L)
 Seperate a data matrix into list elements based on coordinates from bed format data.
 }
 \details{
-\strong{Bed format} data contain at least four columns.
+\strong{Bed format} data contain at least three columns.
 The first column indicates the chromosome (i.e., supercontig, scaffold, contig, etc.).
 The second cotains the starting positions.
 The third the ending positions.
-The fourth are the names of the features.
+Optional columns are in columns four through nine.
+For example, the fourth column may contain the names of features.
 All subsequent columns are ignored here.
 In an attempt to optimize performance the data are expected to be formatted as a character matrix.
 The starting and end positions are converted to numerics internally.
