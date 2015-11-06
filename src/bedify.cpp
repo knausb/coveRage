@@ -28,12 +28,8 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
   // Convert Rcpp::StringVector elements to int
   std::string temp = Rcpp::as< std::string >( myBed(1) );
   int start = atoi(temp.c_str());
-//  int start = stoi(temp);
   temp = Rcpp::as< std::string >( myBed(2) );
   int end = atoi(temp.c_str());
-//  int end = stoi(temp);
-  
-//  Rcpp::IntegerVector POSmyData( Rcpp::_, 1 )
 
   // Manage if feature is on reverse strand
   if(end < start){
@@ -48,10 +44,12 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
     i++;
   }
   
-  // If we didn't find the chromosome return NA.
+  // If we didn't find the chromosome return an empty matrix.
   if( i == myData.nrow() & fill_missing != 1 ){
-    Rcpp::StringMatrix myMatrix(1);
-    myMatrix(0,0) = NA_STRING;
+    Rcpp::StringMatrix myMatrix(0, myData.ncol());
+//    Rcpp::StringMatrix myMatrix(1);
+//    myMatrix(0,0) = NA_STRING;
+//    myMatrix( 0, myData.ncol() );
     return myMatrix;
   }
 
@@ -59,10 +57,10 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
   while( POS[i] < start & i < myData.nrow() ){
     i++;
   }
-  // If we didn't find the POS return NA.
+  // If we didn't find the POS return an empty matrix.
   if( i == myData.nrow() & fill_missing != 1 ){
-    Rcpp::StringMatrix myMatrix(1);
-    myMatrix(0,0) = NA_STRING;
+    Rcpp::StringMatrix myMatrix(0, myData.ncol());
+//    myMatrix(0,0) = NA_STRING;
     return myMatrix;
   }
   
@@ -240,6 +238,8 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
     
     myList(i) = proc_feature( myBed(i,Rcpp::_), POS, myData, fill_missing );
 //    myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
+
+    
     Rcpp::colnames(myList(i)) = myColNames;
 
   }

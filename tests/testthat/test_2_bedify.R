@@ -37,7 +37,20 @@ test_that("myGenes contains the correct number of rows", {
 # With fill_missing.
 myGenes <- bedify(myBed, x1[,c(1:3, 5, 6)], fill_missing=1)
 
+
+
 #names(myGenes)
+
+#test_that("works when bed specified range contains no variants", {
+#  myGenes <- bedify(rbind(myBed, c("Supercontig_1.10","11000","11100","gene_6")), x1[,c(1:3, 5, 6)], fill_missing=0)
+#})
+
+
+test_that("works when bed specified range exceeds data coordinates", {
+  myGenes <- bedify(rbind(myBed, c("Supercontig_1.10","11000","11100","gene_6")), x1[,c(1:3, 5, 6)], fill_missing=0)
+  expect_equal(nrow(myGenes[[6]]), 0)
+})
+
 
 
 test_that("bedify return list names are correct", {
