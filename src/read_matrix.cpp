@@ -28,6 +28,14 @@ std::vector< std::string > strsplit(std::string mystring, std::string delimiter)
 }
 
 
+
+
+/* Process a line from the input.
+mystring is is the destination vector to be returned.
+line is is a line from a buffer to be processed.
+sep is the column delimiter.
+cols is a vector indicating which columns to keep.
+*/
 void proc_line(Rcpp::StringVector mystring,
                std::string line,
                std::string sep,
@@ -248,6 +256,7 @@ Rcpp::StringMatrix read_matrix( std::string filename,
     mystring = lastline + mystring;
 
     // Parse buffer on newline.
+    // line_vec is a vector of lines from the buffer.
     std::vector < std::string > line_vec = strsplit(mystring, "\n");
 
     // Scroll through lines derived from the buffer.
