@@ -24,7 +24,7 @@ Our first task is to read in the data.
 
 
 ```{r}
-library(covR)
+library(coveRage)
 ex_file <- system.file("extdata", "sc10_4k.mpileup.gz", package = "covR")
 ```
 

@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // baf_stats_v1
 Rcpp::IntegerMatrix baf_stats_v1(Rcpp::StringVector calls, Rcpp::StringVector quals, Rcpp::StringVector ref, int minq);
-RcppExport SEXP covR_baf_stats_v1(SEXP callsSEXP, SEXP qualsSEXP, SEXP refSEXP, SEXP minqSEXP) {
+RcppExport SEXP coveRage_baf_stats_v1(SEXP callsSEXP, SEXP qualsSEXP, SEXP refSEXP, SEXP minqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -21,7 +21,7 @@ END_RCPP
 }
 // baf_stats
 Rcpp::IntegerMatrix baf_stats(Rcpp::StringMatrix inMatrix, int minq);
-RcppExport SEXP covR_baf_stats(SEXP inMatrixSEXP, SEXP minqSEXP) {
+RcppExport SEXP coveRage_baf_stats(SEXP inMatrixSEXP, SEXP minqSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -33,7 +33,7 @@ END_RCPP
 }
 // bedify
 Rcpp::List bedify(Rcpp::StringMatrix myBed, Rcpp::StringMatrix myData, int fill_missing, int verbose);
-RcppExport SEXP covR_bedify(SEXP myBedSEXP, SEXP myDataSEXP, SEXP fill_missingSEXP, SEXP verboseSEXP) {
+RcppExport SEXP coveRage_bedify(SEXP myBedSEXP, SEXP myDataSEXP, SEXP fill_missingSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // rcpp_hello_world
 List rcpp_hello_world();
-RcppExport SEXP covR_rcpp_hello_world() {
+RcppExport SEXP coveRage_rcpp_hello_world() {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -57,7 +57,7 @@ END_RCPP
 }
 // file_stats
 Rcpp::IntegerVector file_stats(std::string filename, std::string sep, int nrows, int skip, int verbose);
-RcppExport SEXP covR_file_stats(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
+RcppExport SEXP coveRage_file_stats(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -72,7 +72,7 @@ END_RCPP
 }
 // read_matrix
 Rcpp::StringMatrix read_matrix(std::string filename, std::string sep, int nrows, Rcpp::IntegerVector cols, int skip, int verbose);
-RcppExport SEXP covR_read_matrix(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP colsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
+RcppExport SEXP coveRage_read_matrix(SEXP filenameSEXP, SEXP sepSEXP, SEXP nrowsSEXP, SEXP colsSEXP, SEXP skipSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -88,7 +88,7 @@ END_RCPP
 }
 // parallelVectorSum
 double parallelVectorSum(Rcpp::NumericVector x);
-RcppExport SEXP covR_parallelVectorSum(SEXP xSEXP) {
+RcppExport SEXP coveRage_parallelVectorSum(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -99,7 +99,7 @@ END_RCPP
 }
 // write_matrix
 void write_matrix(std::string filename, Rcpp::StringMatrix mymatrix, std::string sep, int verbose);
-RcppExport SEXP covR_write_matrix(SEXP filenameSEXP, SEXP mymatrixSEXP, SEXP sepSEXP, SEXP verboseSEXP) {
+RcppExport SEXP coveRage_write_matrix(SEXP filenameSEXP, SEXP mymatrixSEXP, SEXP sepSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
