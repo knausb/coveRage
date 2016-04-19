@@ -69,16 +69,16 @@ baf_plot <- function(counts, alpha=255, title="Locus", na.rm=FALSE, ...){
 #  plot(1, type="n", xlim=c(min(counts$POS), max(counts$POS)), ylim=c(0,1), frame.plot=FALSE, axes=FALSE)
 
   # Sum over forward and reverse reads.
-#  points(counts[,'POS'], rowSums(counts[,c('A','a')])/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
-#  points(counts[,'POS'], rowSums(counts[,c('C','c')])/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
-#  points(counts[,'POS'], rowSums(counts[,c('G','g')])/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
-#  points(counts[,'POS'], rowSums(counts[,c('T','t')])/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
+  points(counts[,'POS'], rowSums(counts[,c('A','a')])/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
+  points(counts[,'POS'], rowSums(counts[,c('C','c')])/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
+  points(counts[,'POS'], rowSums(counts[,c('G','g')])/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
+  points(counts[,'POS'], rowSums(counts[,c('T','t')])/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
 
   # Use only forward reads.
-  points(counts[,'POS'], counts[ ,c('A') ]/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
-  points(counts[,'POS'], counts[ ,c('C') ]/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
-  points(counts[,'POS'], counts[ ,c('G') ]/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
-  points(counts[,'POS'], counts[ ,c('T') ]/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
+#  points(counts[,'POS'], counts[ ,c('A') ]/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
+#  points(counts[,'POS'], counts[ ,c('C') ]/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
+#  points(counts[,'POS'], counts[ ,c('G') ]/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
+#  points(counts[,'POS'], counts[ ,c('T') ]/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
 
     
   axis(side=2, at=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), las=1)
