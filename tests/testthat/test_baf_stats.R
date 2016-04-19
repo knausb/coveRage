@@ -1,5 +1,6 @@
 
 library(coveRage)
+#library(testthat)
 context("baf_stats functions")
 
 ex_file <- system.file("extdata", "sc10_4k.mpileup.gz", package = "coveRage")
@@ -32,6 +33,55 @@ test_that("baf_stats minq filters calls", {
 # sum(rowSums(x2[,-1]))
 # baf_plot(x2)
 })
+
+##### ##### ##### ##### #####
+# Test that counts are accurate.
+
+
+ex_file <- system.file("extdata", "example_variants.mpileup.gz", package = "coveRage")
+stats <- file_stats(ex_file, verbose=0)
+pile <- read_matrix(ex_file, nrows=stats[2], cols=1:stats[3], verbose=0)
+
+baf <- baf_stats(pile)
+
+test_that("baf_stats counts correctly", {
+  # A
+  expect_equal(as.numeric(baf[1,2]), 5)
+  expect_equal(sum(as.numeric(baf[1,-c(1,2)])), 0)
+  # C
+  expect_equal(as.numeric(baf[2,3]), 5)
+  expect_equal(sum(as.numeric(baf[2,-c(1,3)])), 0)
+  # G
+  expect_equal(as.numeric(baf[3,4]), 6)
+  expect_equal(sum(as.numeric(baf[3,-c(1,4)])), 0)
+  # T
+  expect_equal(as.numeric(baf[4,5]), 7)
+  expect_equal(sum(as.numeric(baf[4,-c(1,5)])), 0)
+
+  # Aa
+  expect_equal(as.numeric(baf[5,2]), 9)
+  expect_equal(as.numeric(baf[5,8]), 2)
+  expect_equal(sum(as.numeric(baf[5,-c(1,2,8)])), 0)
+  # Cc
+  expect_equal(as.numeric(baf[6,3]), 9)
+  expect_equal(as.numeric(baf[6,9]), 2)
+  expect_equal(sum(as.numeric(baf[6,-c(1,3,9)])), 0)
+  # Gg
+  expect_equal(as.numeric(baf[7,4]), 9)
+  expect_equal(as.numeric(baf[7,10]), 2)
+  expect_equal(sum(as.numeric(baf[7,-c(1,4,10)])), 0)
+  # Tt
+  expect_equal(as.numeric(baf[8,5]), 9)
+  expect_equal(as.numeric(baf[8,11]), 2)
+  expect_equal(sum(as.numeric(baf[8,-c(1,5,11)])), 0)
+  
+  # C^!
+  expect_equal(as.numeric(baf[9,3]), 3)
+  expect_equal(sum(as.numeric(baf[9,-c(1,3)])), 0)
+})
+
+
+##### ##### ##### ##### #####
 
 x3 <- baf_summary(x2)
 

@@ -1,20 +1,23 @@
 Package: coveRage
 Type: Package
-Title: Tools to Explore Sequencing Coverage in High-Throughput Sequencing Projects
+Title: Tools to Explore Sequencing Coverage in High-Throughput Sequencing
+    Projects
 Version: 0.1
 Date: 2015-07-08
 Author: Brian J. Knaus
 Maintainer: Brian J. Knaus <briank.lists@gmail.com>
-Description: Fast input of tabular data in text and gzip format.  Visualization of allele frequencies and coverage.
+Description: Fast input of tabular data in text and gzip format. Visualization
+    of allele frequencies and coverage.
 License: GPL (>= 2)
-Imports: 
+Imports:
     Rcpp (>= 0.11.5),
     RcppParallel
-LinkingTo: 
-    Rcpp,
+LinkingTo: Rcpp,
     RcppParallel
-Suggests: knitr,
-          rmarkdown,
-          testthat
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 SystemRequirements: GNU make
+RoxygenNote: 5.0.1

@@ -14,9 +14,12 @@
 #' 
 #' @details
 #' Plots coverage and allele frequencies for a chromosomal region.
-#' The upper pane presents persite sequencing depth while the lower pane presents the frequency of all four alleles.
+#' The upper pane presents per site sequencing depth while the lower pane presents the frequency of all four alleles.
 #' These plots can be used to identify technical error (i.e., read alignment issues) and/or biological phenomena such as copy number variation.
 #' 
+#' The matrix of count data can be generated from mpileup data with the function \code{\link{baf_stats}}
+#' 
+#' @seealso \code{\link{baf_stats}}
 #' 
 #' @references Laurie, Cathy C, Kimberly F Doheny, Daniel B Mirel, Elizabeth W Pugh, Laura J Bierut, Tushar Bhangale, Frederick Boehm, Neil E Caporaso, Marilyn C Cornelis, Howard J Edenberg and others.
 #'   2010. Quality control and quality assurance in genotypic data for genome-wide association studies.
@@ -65,11 +68,19 @@ baf_plot <- function(counts, alpha=255, title="Locus", na.rm=FALSE, ...){
   plot(range(counts[,'POS']), c(0,1), type="n", frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
 #  plot(1, type="n", xlim=c(min(counts$POS), max(counts$POS)), ylim=c(0,1), frame.plot=FALSE, axes=FALSE)
 
-  points(counts[,'POS'], rowSums(counts[,c('A','a')])/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
-  points(counts[,'POS'], rowSums(counts[,c('C','c')])/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
-  points(counts[,'POS'], rowSums(counts[,c('G','g')])/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
-  points(counts[,'POS'], rowSums(counts[,c('T','t')])/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
+  # Sum over forward and reverse reads.
+#  points(counts[,'POS'], rowSums(counts[,c('A','a')])/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
+#  points(counts[,'POS'], rowSums(counts[,c('C','c')])/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
+#  points(counts[,'POS'], rowSums(counts[,c('G','g')])/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
+#  points(counts[,'POS'], rowSums(counts[,c('T','t')])/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
 
+  # Use only forward reads.
+  points(counts[,'POS'], counts[ ,c('A') ]/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
+  points(counts[,'POS'], counts[ ,c('C') ]/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
+  points(counts[,'POS'], counts[ ,c('G') ]/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
+  points(counts[,'POS'], counts[ ,c('T') ]/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
+
+    
   axis(side=2, at=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), las=1)
   axis(side=1)
   
