@@ -4,7 +4,9 @@
 \alias{baf_plot}
 \title{baf_plot}
 \usage{
-baf_plot(counts, alpha = 255, title = "Locus", na.rm = FALSE, ...)
+baf_plot(counts, alpha = 255, title = "Locus", na.rm = FALSE,
+  aline = c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), hline = c(0.25, 0.33, 0.5,
+  0.66, 0.75), halpha = 255, vline = NULL, valpha = 255, ...)
 }
 \arguments{
 \item{counts}{a numeric matrix containing count data}
@@ -14,6 +16,16 @@ baf_plot(counts, alpha = 255, title = "Locus", na.rm = FALSE, ...)
 \item{title}{for the plot.}
 
 \item{na.rm}{Logical, should sites which contain NAs (no reported coverage) be removed}
+
+\item{aline}{coordinates at which to draw tick marks on the y axis}
+
+\item{hline}{coordinates at which to draw horizontal lines where NULL omits lines}
+
+\item{halpha}{opacity (0-255) for horizontal lines}
+
+\item{vline}{coordinates at which to draw vertical lines where NULL omits lines}
+
+\item{valpha}{opacity (0-255) for vertical lines}
 
 \item{...}{arguments to be passed to methods}
 }

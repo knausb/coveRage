@@ -10,6 +10,11 @@
 #' @param alpha opacity (0-255)
 #' @param title for the plot.
 #' @param na.rm Logical, should sites which contain NAs (no reported coverage) be removed
+#' @param aline coordinates at which to draw tick marks on the y axis
+#' @param hline coordinates at which to draw horizontal lines where NULL omits lines
+#' @param halpha opacity (0-255) for horizontal lines
+#' @param vline coordinates at which to draw vertical lines where NULL omits lines
+#' @param valpha opacity (0-255) for vertical lines
 #' @param ... arguments to be passed to methods
 #' 
 #' @details
@@ -26,7 +31,16 @@
 #'   Genetic Epidemiology 34(6): 591--602.
 #' 
 #' @export
-baf_plot <- function(counts, alpha=255, title="Locus", na.rm=FALSE, ...){
+baf_plot <- function(counts, 
+                     alpha=255, 
+                     title="Locus", 
+                     na.rm=FALSE,
+                     aline=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1),
+                     hline=c(0.25, 0.33, 0.5, 0.66, 0.75),
+                     halpha=255,
+                     vline=NULL,
+                     valpha=255,
+                     ...){
   
 #  if(class(counts$POS) != "numeric"){
 #    counts$POS <- as.numeric(counts$POS)
@@ -50,8 +64,10 @@ baf_plot <- function(counts, alpha=255, title="Locus", na.rm=FALSE, ...){
   par(mar=c(0,0,0,0))
 #  par(oma=c(3,4,0.5,3))
   par(oma=c(3,4,1.5,3))
-  layout( mat=matrix(1:4, ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
-
+#  layout( mat=matrix(1:4, ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
+  layout( mat=matrix(c(1,2,4,3), ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
+  
+  # Depth plot.
   #barplot(fr_reads, space=0, col="#1E90FF", border=NA, axes=FALSE)
   plot(range(counts[,'POS']), c( max(fr_reads[1,]), min(fr_reads[2,]) ), type='n', frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
 #  plot(1, type='n', xlim=range(counts$POS), ylim=c(min(fr_reads[2,]), max(fr_reads[1,])), frame.plot=FALSE, axes=FALSE)
@@ -61,10 +77,16 @@ baf_plot <- function(counts, alpha=255, title="Locus", na.rm=FALSE, ...){
   axis(side=2, las=1)
   mtext(text="F/R coverage", side=2, line=3)
 
+  # Marginal boxplots.
   boxplot(bxp_data ~ bxp_cats, axes=FALSE, col=c("#1E90FF", "#00008B"))
   axis(side=4, las=1)
 
-
+  # Legend.
+  plot(1, axes=FALSE, type='n', xlab="", ylab="")
+  legend('center', legend=c('A', 'C', 'G', 'T'), text.col=c(3, 5, 1, 2), bty="n", text.font=2, cex=2, xjust=0.5)
+  title(main=title, outer=T)
+  
+  # BAF plot.
   plot(range(counts[,'POS']), c(0,1), type="n", frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
 #  plot(1, type="n", xlim=c(min(counts$POS), max(counts$POS)), ylim=c(0,1), frame.plot=FALSE, axes=FALSE)
 
@@ -80,18 +102,14 @@ baf_plot <- function(counts, alpha=255, title="Locus", na.rm=FALSE, ...){
 #  points(counts[,'POS'], counts[ ,c('G') ]/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
 #  points(counts[,'POS'], counts[ ,c('T') ]/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
 
-    
-  axis(side=2, at=c(0, 0.25, 0.33, 0.5, 0.66, 0.75, 1), las=1)
+
+  axis(side=2, at=aline, las=1)
   axis(side=1)
+  abline(h=hline, lty=2, col=rgb(0, 0, 0, halpha, maxColorValue = 255))
+  abline(v=vline, lty=2, col=rgb(0, 0, 0, valpha, maxColorValue = 255))
   
-  abline(h=c(0.25, 0.33, 0.5, 0.66, 0.75), lty=2)
   mtext(text="Allele frequency", side=2, line=3)
   mtext(text="Position", side=1, line=2)
-
-  plot(1, axes=FALSE, type='n', xlab="", ylab="")
-
-  legend('center', legend=c('A', 'C', 'G', 'T'), text.col=c(3, 5, 1, 2), bty="n", text.font=2, cex=2, xjust=0.5)
-  title(main=title, outer=T)
 
 
   par(mar=c(5,4,4,2))
