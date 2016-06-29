@@ -18,12 +18,24 @@ std::vector< int > get_pos( Rcpp::StringMatrix myData ){
 
 
 
-//myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
 Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
-                                 std::vector< int > POS,
+//                                 std::vector< int > POS,
                                  Rcpp::StringMatrix myData,
                                  int fill_missing
                                  ){
+  
+  // myBed is a StringVector:
+  //  myBed(0) = chrom
+  //  myBed(1) = chromStart
+  //  myBed(2) = chromEnd
+  //  myBed(3) = name
+  
+  // myData is a StringMatrix
+  // column 0 = CHROM
+  // column 1 = POS
+  
+  // Convert POS to ints
+  std::vector< int > POS = get_pos(myData);
   
   // Create an empty matrix to return in exceptions.
   Rcpp::StringMatrix MT_matrix(0, myData.ncol());
@@ -51,13 +63,9 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
   
   // If we didn't find the chromosome return an empty matrix.
   if( i == myData.nrow() & fill_missing != 1 ){
-//    Rcpp::StringMatrix myMatrix(0, myData.ncol());
-//    Rcpp::StringMatrix myMatrix(1);
-//    myMatrix(0,0) = NA_STRING;
-//    myMatrix( 0, myData.ncol() );
-//    return myMatrix;
     return MT_matrix;
   }
+//  Rcpp::Rcout << "  Found CHROM " << myBed(0) << " in myData CHROM:" << myData(i,0) << " POS:" << myData(i,1) << "\n";
 
   // We should now have i at the correct chromosome in myData.
   // POS is the integer recast of POS in myData.
@@ -70,19 +78,18 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
   }
   // If we didn't find the POS return an empty matrix.
   if( i == myData.nrow() & fill_missing != 1 ){
-//    Rcpp::StringMatrix myMatrix(0, myData.ncol());
-//    myMatrix(0,0) = NA_STRING;
-//    return myMatrix;
     return MT_matrix;
   }
+//  Rcpp::Rcout << "  Found CHROM " << myBed(0) << " in myData POS:" << POS[i] << "\n";
+  
   
   // Increment to the end of the feature
   int j=i;
-  while( myData(i,0) == myBed(0) && POS[j] <= end && j < myData.nrow() ){
+  while( myData(j,0) == myBed(0) && POS[j] <= end && j < myData.nrow() ){
     j++;
   }
+//  Rcpp::Rcout << "  Found end of feature at: " << POS[j-1] << "\n";
 
-//  for(int q=0; q<myData.nrow();q++){Rcpp::Rcout << myData(q,1)<<"\n";}
 
   // We now have the information to declare a return matrix
   // and populate it.
@@ -280,15 +287,14 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
     Rcpp::checkUserInterrupt();
 
     if( verbose == 1){
-      Rcpp::Rcout << "Searching for feature " << i + 1 << ": " << myBed(i,3);
-      Rcpp::Rcout << " on " << myBed(i,0);
+      Rcpp::Rcout << "Searching for annotation " << i + 1 << ": " << myBed(i,3);
+      Rcpp::Rcout << " on CHROM " << myBed(i,0) << ":" << myBed(i,1) << "," << myBed(i,2) ;
       Rcpp::Rcout << " at " << time(nullptr) - result << " seconds.\n";
     }
     
     // Send one annotation (bed row) to proc_feature.
-    myList(i) = proc_feature( myBed(i,Rcpp::_), POS, myData, fill_missing );
-//    myList(i) = proc_feature(myBed(i,0), myBed(i,1), myBed(i,2), POS, myData);
-
+    myList(i) = proc_feature( myBed(i,Rcpp::_), myData, fill_missing );
+//    myList(i) = proc_feature( myBed(i,Rcpp::_), POS, myData, fill_missing );
     
     Rcpp::colnames(myList(i)) = myColNames;
 

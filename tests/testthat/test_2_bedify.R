@@ -14,14 +14,14 @@ myBed[,1] <- "Supercontig_1.10"
 myBed[,2] <- c(1, 1001, 1011, 9100, 10600)
 myBed[,3] <- c(10, 1020, 1030, 9110, 10610)
 myBed[,4] <- paste("gene", 1:5, sep="_")
-
+myBed <- rbind(myBed, c("Supercontig_1.20", "1001", "1020", "gene_6") )
 
 # Without fill_missing.
 myGenes <- bedify(myBed, x1, verbose=0)
 
 
 test_that("myGenes contains the correct number of genes", {
-  expect_equal(length(myGenes), 5)
+  expect_equal(length(myGenes), nrow(myBed))
 })
 
 test_that("myGenes contains the correct number of rows", {
@@ -60,7 +60,7 @@ test_that("bedify return list names are correct", {
 
 
 test_that("myGenes contains the correct number of genes", {
-  expect_equal(length(myGenes), 5)
+  expect_equal(length(myGenes), nrow(myBed))
 })
 
 test_that("myGenes contains the correct number of rows", {
