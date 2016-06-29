@@ -47,14 +47,15 @@ This is because matrix elements must all be of the same type.
 }
 \examples{
 
-bed <- structure(c("126921", "126921", "126921", "126921", "125157", 
-"125157", "125157", "125157", "126888", "126888", "47", "11106", 
-"4344", "1", "3712", "6025", "2269", "1779", "7930", "4637", 
-"1741", "13370", "4967", "9066", "6566", "6450", "2933", "2226", 
-"11939", "7913", "gene_1", "gene_2", "gene_3", "gene_4", "gene_5", 
-"gene_6", "gene_7", "gene_8", "gene_9", "gene_10"), .Dim = c(10L, 
-4L), .Dimnames = list(NULL, c("chrom", "chromStart", "chromEnd", 
-"name")))
+bed <- structure(c("chr_290", "chr_4176", "chr_126921", "chr_126921", 
+"chr_125157", "chr_125157", "chr_125157", "chr_125157", "chr_126888", 
+"chr_126888", "47", "400", "4344", "1", "3712", "6025", "2269", 
+"1779", "7930", "4637", "80", "500", "4967", "9066", "6566", 
+"6450", "2933", "2226", "11939", "7913", "gene_1", "gene_2", 
+"gene_3", "gene_4", "gene_5", "gene_6", "gene_7", "gene_8", "gene_9", 
+"gene_10"), .Dim = c(10L, 4L), .Dimnames = list(NULL, c("chrom", 
+"chromStart", "chromEnd", "name")))
+
 
 vcf.matrix <- structure(c("chr_290", "chr_290", "chr_4176", "chr_4176", "chr_50514", 
 "chr_64513", "chr_107521", "chr_121987", "chr_122006", "chr_122006", 

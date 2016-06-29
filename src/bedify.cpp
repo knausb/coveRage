@@ -24,6 +24,9 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
                                  Rcpp::StringMatrix myData,
                                  int fill_missing
                                  ){
+  
+  // Create an empty matrix to return in exceptions.
+  Rcpp::StringMatrix MT_matrix(0, myData.ncol());
 
   // Rcpp::StringVector myBed includes start and stop integer coordinates.
   // Convert Rcpp::StringVector elements to int
@@ -39,35 +42,43 @@ Rcpp::StringMatrix proc_feature( Rcpp::StringVector myBed,
     end = tmp;
   }
 
-  // Increment to chromosome.
+  // Increment i so that chromosome in myData
+  // matches the chromosome in the single BED record.
   int i = 0; // Data row counter
-  while ( myData(i,0) != myBed(0) & i < myData.nrow() ){
+  while ( myData(i,0) != myBed(0) && i < myData.nrow() ){
     i++;
   }
   
   // If we didn't find the chromosome return an empty matrix.
   if( i == myData.nrow() & fill_missing != 1 ){
-    Rcpp::StringMatrix myMatrix(0, myData.ncol());
+//    Rcpp::StringMatrix myMatrix(0, myData.ncol());
 //    Rcpp::StringMatrix myMatrix(1);
 //    myMatrix(0,0) = NA_STRING;
 //    myMatrix( 0, myData.ncol() );
-    return myMatrix;
+//    return myMatrix;
+    return MT_matrix;
   }
 
+  // We should now have i at the correct chromosome in myData.
+  // POS is the integer recast of POS in myData.
+  // We can now increment to the correct position in the chromosome
+  // by incrementing to the start of teh annotation.
+  //
   // Increment to POS.
-  while( POS[i] < start & i < myData.nrow() ){
+  while( myData(i,0) == myBed(0) && POS[i] < start && i < myData.nrow() ){
     i++;
   }
   // If we didn't find the POS return an empty matrix.
   if( i == myData.nrow() & fill_missing != 1 ){
-    Rcpp::StringMatrix myMatrix(0, myData.ncol());
+//    Rcpp::StringMatrix myMatrix(0, myData.ncol());
 //    myMatrix(0,0) = NA_STRING;
-    return myMatrix;
+//    return myMatrix;
+    return MT_matrix;
   }
   
   // Increment to the end of the feature
   int j=i;
-  while( POS[j] <= end & j < myData.nrow() ){
+  while( myData(i,0) == myBed(0) && POS[j] <= end && j < myData.nrow() ){
     j++;
   }
 
@@ -289,9 +300,4 @@ Rcpp::List bedify( Rcpp::StringMatrix myBed,
 }
 
 
-
-
-
-
-
-
+// EOF.
