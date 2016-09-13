@@ -61,59 +61,59 @@ baf_plot <- function(counts,
   bxp_data <- c(fr_reads[1,], fr_reads[2,])
   bxp_cats <- rep(1:2, each=ncol(fr_reads))
 
-  par(mar=c(0,0,0,0))
-#  par(oma=c(3,4,0.5,3))
-  par(oma=c(3,4,1.5,3))
-#  layout( mat=matrix(1:4, ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
-  layout( mat=matrix(c(1,2,4,3), ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
+  graphics::par(mar=c(0,0,0,0))
+#  graphics::par(oma=c(3,4,0.5,3))
+  graphics::par(oma=c(3,4,1.5,3))
+#  graphics::layout( mat=matrix(1:4, ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
+  graphics::layout( mat=matrix(c(1,2,4,3), ncol=2, nrow=2, byrow=TRUE), widths= c(8, 1), heights=c(1, 3))
   
   # Depth plot.
   #barplot(fr_reads, space=0, col="#1E90FF", border=NA, axes=FALSE)
-  plot(range(counts[,'POS']), c( max(fr_reads[1,]), min(fr_reads[2,]) ), type='n', frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
+  graphics::plot(range(counts[,'POS']), c( max(fr_reads[1,]), min(fr_reads[2,]) ), type='n', frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
 #  plot(1, type='n', xlim=range(counts$POS), ylim=c(min(fr_reads[2,]), max(fr_reads[1,])), frame.plot=FALSE, axes=FALSE)
-  abline(h=0)
-  points(counts[,'POS'], fr_reads[1,], type='h', col="#1E90FF")
-  points(counts[,'POS'], fr_reads[2,], type='h', col="#00008B")
-  axis(side=2, las=1)
-  mtext(text="F/R coverage", side=2, line=3)
+  graphics::abline(h=0)
+  graphics::points(counts[,'POS'], fr_reads[1,], type='h', col="#1E90FF")
+  graphics::points(counts[,'POS'], fr_reads[2,], type='h', col="#00008B")
+  graphics::axis(side=2, las=1)
+  graphics::mtext(text="F/R coverage", side=2, line=3)
 
   # Marginal boxplots.
-  boxplot(bxp_data ~ bxp_cats, axes=FALSE, col=c("#1E90FF", "#00008B"))
-  axis(side=4, las=1)
+  graphics::boxplot(bxp_data ~ bxp_cats, axes=FALSE, col=c("#1E90FF", "#00008B"))
+  graphics::axis(side=4, las=1)
 
   # Legend.
-  plot(1, axes=FALSE, type='n', xlab="", ylab="")
-  legend('center', legend=c('A', 'C', 'G', 'T'), text.col=c(3, 5, 1, 2), bty="n", text.font=2, cex=2, xjust=0.5)
+  graphics::plot(1, axes=FALSE, type='n', xlab="", ylab="")
+  graphics:: legend('center', legend=c('A', 'C', 'G', 'T'), text.col=c(3, 5, 1, 2), bty="n", text.font=2, cex=2, xjust=0.5)
   title(main=title, outer=T)
   
   # BAF plot.
-  plot(range(counts[,'POS']), c(0,1), type="n", frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
+  graphics::plot(range(counts[,'POS']), c(0,1), type="n", frame.plot=FALSE, axes=FALSE, ylab="", xlab="", ...)
 #  plot(1, type="n", xlim=c(min(counts$POS), max(counts$POS)), ylim=c(0,1), frame.plot=FALSE, axes=FALSE)
 
   # Sum over forward and reverse reads.
-  points(counts[,'POS'], rowSums(counts[,c('A','a')])/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
-  points(counts[,'POS'], rowSums(counts[,c('C','c')])/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
-  points(counts[,'POS'], rowSums(counts[,c('G','g')])/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
-  points(counts[,'POS'], rowSums(counts[,c('T','t')])/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
+  graphics::points(counts[,'POS'], rowSums(counts[,c('A','a')])/tot_count, pch=20, col=grDevices::rgb(0, 205, 0, alpha, maxColorValue=255))
+  graphics::points(counts[,'POS'], rowSums(counts[,c('C','c')])/tot_count, pch=20, col=grDevices::rgb(0, 255, 255, alpha, maxColorValue=255))
+  graphics::points(counts[,'POS'], rowSums(counts[,c('G','g')])/tot_count, pch=20, col=grDevices::rgb(0, 0, 0, alpha, maxColorValue=255))
+  graphics::points(counts[,'POS'], rowSums(counts[,c('T','t')])/tot_count, pch=20, col=grDevices::rgb(255, 0, 0, alpha, maxColorValue=255))
 
   # Use only forward reads.
-#  points(counts[,'POS'], counts[ ,c('A') ]/tot_count, pch=20, col=rgb(0, 205, 0, alpha, maxColorValue=255))
-#  points(counts[,'POS'], counts[ ,c('C') ]/tot_count, pch=20, col=rgb(0, 255, 255, alpha, maxColorValue=255))
-#  points(counts[,'POS'], counts[ ,c('G') ]/tot_count, pch=20, col=rgb(0, 0, 0, alpha, maxColorValue=255))
-#  points(counts[,'POS'], counts[ ,c('T') ]/tot_count, pch=20, col=rgb(255, 0, 0, alpha, maxColorValue=255))
+#  graphics::points(counts[,'POS'], counts[ ,c('A') ]/tot_count, pch=20, col=grDevices::rgb(0, 205, 0, alpha, maxColorValue=255))
+#  graphics::points(counts[,'POS'], counts[ ,c('C') ]/tot_count, pch=20, col=grDevices::rgb(0, 255, 255, alpha, maxColorValue=255))
+#  graphics::points(counts[,'POS'], counts[ ,c('G') ]/tot_count, pch=20, col=grDevices::rgb(0, 0, 0, alpha, maxColorValue=255))
+#  graphics::points(counts[,'POS'], counts[ ,c('T') ]/tot_count, pch=20, col=grDevices::rgb(255, 0, 0, alpha, maxColorValue=255))
 
 
-  axis(side=2, at=aline, las=1)
-  axis(side=1)
-  abline(h=hline, lty=2, col=rgb(0, 0, 0, halpha, maxColorValue = 255))
-  abline(v=vline, lty=2, col=rgb(0, 0, 0, valpha, maxColorValue = 255))
+  graphics::axis(side=2, at=aline, las=1)
+  graphics::axis(side=1)
+  graphics::abline(h=hline, lty=2, col=grDevices::rgb(0, 0, 0, halpha, maxColorValue = 255))
+  graphics::abline(v=vline, lty=2, col=grDevices::rgb(0, 0, 0, valpha, maxColorValue = 255))
   
-  mtext(text="Allele frequency", side=2, line=3)
-  mtext(text="Position", side=1, line=2)
+  graphics::mtext(text="Allele frequency", side=2, line=3)
+  graphics::mtext(text="Position", side=1, line=2)
 
 
-  par(mar=c(5,4,4,2))
-  par(mfrow=c(1,1))
+  graphics::par(mar=c(5,4,4,2))
+  graphics::par(mfrow=c(1,1))
   
 }
 

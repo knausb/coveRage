@@ -25,9 +25,9 @@
 baf_summary <- function(counts, probs=c(0.025, 0.16, 0.5, 0.84, 0.975)){
   x <- vector(mode="numeric", length=length(probs)+2)
   x[1] <- mean(rowSums(counts[,-1]))
-  x[2] <- var(rowSums(counts[,-1]))
+  x[2] <- stats:: var(rowSums(counts[,-1]))
   names(x)[1:2] <- c("mean", "variance")
-  quants <- quantile(rowSums(counts[,-1]), probs=probs)
+  quants <- stats::quantile(rowSums(counts[,-1]), probs=probs)
   x[-c(1,2)] <- quants
   names(x)[-c(1,2)] <- names(quants)
   x
